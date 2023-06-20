@@ -83,8 +83,12 @@ def SMA2(p, window_LT=200, window_ST=50, signal_type='buy'):
 
 ''' sample code: test EMA (1-min/5-min data) '''
 
-dat = pd.read_csv('EURUSD.csv', index_col='Datetime', parse_dates=['Datetime'],
-                  date_parser=lambda x: pd.to_datetime(x, utc=True))
+dat = pd.read_csv('C:/Users/St Potrock/Desktop/EURUSD2.csv', index_col=False, parse_dates={'Datetime': ['date', 'time']}, date_format='%Y.%m.%d %H:%M')
+dat = dat.set_index('Datetime')
+
+#
+# dat = pd.read_csv('C:/Users/St Potrock/Desktop/EURUSD2.csv')
+# print(dat.iloc[0])
 dates = get_dates(dat.index)
 
 # create a summary table
