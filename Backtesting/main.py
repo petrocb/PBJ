@@ -101,24 +101,24 @@ for d in dates:
     # find the number of observations in date d
     summary_table.loc[d]['Num. Obs.'] = this_dat.shape[0]
     # get trading (i.e. position holding) signals
-    signals = EMA2(this_dat['Close'], window_LT=20, window_ST=9, signal_type='buy')
+    signals = EMA2(this_dat['close'], window_LT=20, window_ST=9, signal_type='buy')
 
     # find the number of trades in date d
     summary_table.loc[d]['Num. Trade'] = np.sum(np.diff(signals) == 1)
     # find PnLs for lot size 5000
     lot_size = 10000
     signals_padded = np.concatenate(([0], signals))
-    summary_table.loc[d]['PnL'] = np.sum(-lot_size * this_dat['Close'] * np.diff(signals_padded))
+    summary_table.loc[d]['PnL'] = np.sum(-lot_size * this_dat['close'] * np.diff(signals_padded))
     # find the win ratio NEED TO RECONFIG FOR FOREX
     ind_in = np.where(np.diff(signals) == 1)[0] + 1
     ind_out = np.where(np.diff(signals) == -1)[0] + 1
-    num_win = np.sum((this_dat['Close'].values[ind_out] - this_dat['Close'].values[ind_in]) > 0)
+    num_win = np.sum((this_dat['close'].values[ind_out] - this_dat['close'].values[ind_in]) > 0)
     if summary_table.loc[d]['Num. Trade'] != 0:
         summary_table.loc[d]['Win. Ratio'] = 1. * num_win / summary_table.loc[d]['Num. Trade']
 
     # HOLDING WINDOW
-    colums = ['signals', 'shift', 'Count']
-    window_count = pd.DataFrame(columns=colums)
+    columns = ['signals', 'shift', 'Count']
+    window_count = pd.DataFrame(columns=columns)
     window_count['signals'] = signals
     window_count['shift'] = window_count['signals'].shift()
     empt = []
@@ -128,7 +128,7 @@ for d in dates:
             cnt += 1
         else:
             cnt = 1
-    empt.append(cnt)
+        empt.append(cnt)
     empt.append(1)
     window_count['Count'] = empt
 
