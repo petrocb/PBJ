@@ -82,8 +82,8 @@ while x:
             sellOpen = False
 
 
-    print(time.asctime(), "bid:", bid, " ask:", ask, " trailingAsk:", trailingAsk, " trailingBid:", trailingBid,
-          " buyOpen:", buyOpen, " sellOpen:", sellOpen, " in:", round(time.perf_counter()-startTime, 2), "seconds")
+    print(time.asctime(), "bid:", bid, " ask:", ask, " trailingBuy:", trailingAsk, " trailingSell:", trailingBid,
+          " buyOpen:", buyOpen, " sellOpen:", sellOpen, " spread:", round(ask - bid, 5), " in:", round(time.perf_counter()-startTime, 2), "seconds")
 
 
 
