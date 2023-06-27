@@ -26,7 +26,7 @@ def get_dates(ts):
     return np.unique(ts)
 
 
-def EMA2(p, window_LT=200, window_ST=50, signal_type='buy'):
+def EMA2(p, window_LT=200, window_ST=50, signal_type='buy',):
     alpha_LT = 2 / (window_LT + 1)
     beta_LT = 1 - alpha_LT
     alpha_ST = 2 / (window_ST + 1)
@@ -35,12 +35,13 @@ def EMA2(p, window_LT=200, window_ST=50, signal_type='buy'):
     sl = np.zeros(len(p))
     ent = np.zeros(len(p))
 
-    if len(p) < window_LT:
-        return pd.DataFrame({'signals': signals,'Price':p,'Entry':ent,Stop Loss':sl})
-
-
     ema_LT = np.zeros(len(p))
     ema_ST = np.zeros(len(p))
+
+
+    if len(p) < window_LT:
+        return pd.DataFrame({'signals': signals, 'Price':p,'Entry':ent,'Stop Loss':sl})
+
     ema_LT[window_LT] = np.average(p[:window_LT])
     ema_ST[window_ST] = np.average(p[:window_ST])
 
@@ -52,46 +53,40 @@ def EMA2(p, window_LT=200, window_ST=50, signal_type='buy'):
     for i in range(window_ST + 1, len(p)):
         ema_ST[i] = (alpha_ST * p[i]) + (ema_ST[i - 1] * beta_ST)
 
-    #Defining Entry Price
-
+    # Defining Stop Loss
     for i in range(window_LT, len(p) - 1):
-        if ema_ST[i - 1] < ema_LT[i - 1] and ema_ST[i] > ema_LT[i]:
-           ent[i] = p[i]
-        elif ema_ST[i] > ema_LT[i] and ema_ST[i - 1] > ema_LT[i - 1]:
-            ent[i]=  sl[i-1]
-        else:
-            ent[i]=0
-
-    #Defining Stop Loss
-    for i in range(window_LT, len(p) - 1):
-        if ema_ST[i - 1] < ema_LT[i - 1] and ema_ST[i] > ema_LT[i]:
-           sl[i] = p[i]-0.0010
+        if (ema_ST[i - 1] < ema_LT[i - 1] or ema_LT[i - 1] == 0) and ema_ST[i] > ema_LT[i]:
+           sl[i] = p[i]-0.0020
         elif ema_ST[i] > ema_LT[i] and ema_ST[i - 1] > ema_LT[i - 1] and p[i]<=p[i-1]:
             sl[i]=  sl[i-1]
         elif ema_ST[i] > ema_LT[i] and ema_ST[i - 1] > ema_LT[i - 1] and p[i]>p[i-1]:
-            sl[i]=  p[i]-0.0010
+            sl[i]=  p[i]-0.0020
         else:
-            sl[i]=0
+            sl[i] = 0
 
 
 
+    #Define trade entry and exit
     for i in range(window_LT, len(p) - 1):
 
-        if ema_ST[i] > ema_LT[i] and ema_ST[i-1] < ema_LT[i-1] and signal_type == 'buy':
+        if ema_ST[i] > ema_LT[i] and ema_ST[i-1] < ema_LT[i-1] and signal_type =='buy':
             signals[i] = 1
-        elif signals[i-1]==1 and p[i]>sl[i]:
+        elif ema_ST[i] > ema_LT[i] and  ema_ST[i-1] > ema_LT[i-1] and p[i]>sl[i]:
             signals[i] = 1
 
 
-        elif ema_ST[i] < ema_LT[i] and p[i]<sl[i] and signal_type == 'sell':
-            signals[i] = -1
+        # elif ema_ST[i] < ema_LT[i] and p[i]<sl[i] and signal_type == 'sell':
+        #     signals[i] = -1
 
+    #Defining Entry Price
 
+    for i in range(window_LT, len(p) - 1):
+        if ema_ST[i - 1] < ema_LT[i - 1] and ema_ST[i] > ema_LT[i] and signal_type =='buy':
+           ent[i] = p[i]
+        elif signals[i-1]==1 and signals[i]==1:
+            ent[i] = ent[i-1]
 
-
-
-
-    return pd.DataFrame({'signals': signals,'Price':p,'Entry':ent,Stop Loss':sl})
+    return pd.DataFrame({'signals': signals, 'ema_LT': ema_LT, 'ema_st': ema_ST, 'Price': p, 'Entry': ent, 'Stop Loss': sl})
 
 
 def SMA2(p, window_LT=200, window_ST=50, signal_type='buy'):
@@ -114,22 +109,47 @@ def SMA2(p, window_LT=200, window_ST=50, signal_type='buy'):
 
     return signals
 
-def trail(p,t,m):
-    signals = np.zeros(len(p))
-    if len(p) < t:
-        return signals
 
+def trail(p,t,m):
+#p= price data, t=time periods used to take volitility, m=multiple can chose this
+    signals = np.zeros(len(p))
     diff = np.zeros(len(p))
+    sl = np.zeros(len(p))
+    ent = np.zeros(len(p))
+    if len(p) < t:
+        return pd.DataFrame({'signals': signals, 'Price': p, 'Diff':diff, 'Entry': ent, 'Stop Loss': sl})
+
+
 
     for i in range(t, len(p) ):
       diff[i] = np.std(p[i-t:i]) * np.sqrt(t) * m
 
+
+
+    # Defining Stop Loss
     for i in range(t, len(p) - 1):
-        if p[i] > p[i-1] + (diff[i-1]):
+        if p[i] > p[i-1] + (diff[i-1]) and diff[i-1]>0:
+           sl[i] = p[i]-0.0020
+        elif p[i] > sl[i-1] and sl[i-1]>0:
+            sl[i]= max((p[i]-p[i-1]+sl[i-1]),sl[i-1])
+        else:
+            sl[i] = 0
+
+    for i in range(t, len(p) - 1):
+        if p[i] > (p[i-1] + (diff[i-1])) and diff[i-1]>0:
             signals[i] = 1
-        if signals[i-1]==1 and p[i] > p[i-1] - diff[i-1] and  (p[i-1] - p[i])*10000 < 500*0.01 :
-            signals[i] =  1
-    return signals
+        elif p[i]>sl[i-1] and sl[i-1]>0:
+            signals[i]=1
+
+    # Defining Entry Price
+
+    for i in range(t, len(p) - 1):
+         if signals[i]==1 and signals[i-1]==0:
+                ent[i] = p[i]
+         elif signals[i - 1] == 1 and signals[i] == 1:
+                ent[i] = ent[i - 1]
+
+    return pd.DataFrame({'signals': signals, 'Price': p, 'Diff':diff, 'Entry': ent, 'Stop Loss': sl})
 
 
 
@@ -159,8 +179,10 @@ for d in dates:
 # find the number of observations in date d
   summary_table.loc[d]['Num. Obs.'] = this_dat.shape[0]
     # get trading (i.e. position holding) signals
-  trade_entry = EMA2(this_dat['Close'], window_LT=50, window_ST=10, signal_type='buy')
-  #signals= trail(this_dat['Close'],20,10)
+  trade_entry= trail(this_dat['Close'],5,0.25)
+  # trade_entry = EMA2(this_dat['Open'], window_LT=1000, window_ST=500, signal_type='buy')
+  trade_entry['Time'] = this_dat['Time']
+
   signals = trade_entry['signals']
 
 
@@ -168,7 +190,7 @@ for d in dates:
   # find the number of trades in date d
   summary_table.loc[d]['Num. Trade'] = np.sum(np.diff(signals) == 1)
     # find PnLs for lot size 5000
-  lot_size = 10000
+  lot_size = 5000
   signals_padded = np.concatenate(([0], signals))
   summary_table.loc[d]['PnL'] = np.sum(-lot_size * this_dat['Close'] * np.diff(signals_padded))
   # find the win ratio NEED TO RECONFIG FOR FOREX
