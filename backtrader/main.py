@@ -1,6 +1,6 @@
 import backtrader as bt
 import numpy as np
-
+import pandas as pd
 
 def diffCalc(pastPrices):
     #diff = 0.002
@@ -20,6 +20,7 @@ class Strategy(bt.Strategy):
         self.sellOpen = False
         self.spread = 0.00011#sp #0.00011 #0.00011
         #print('spread:',self.spread)
+        self.data = []
 
     def next(self):
 
@@ -53,7 +54,7 @@ class Strategy(bt.Strategy):
             self.trailingSell = self.newBid
 
         # opening trade
-        if self.trailingBuy > self.price and self.buyOpen and self.sellOpen:
+        if self.trailingBuy > self.ask and self.buyOpen and self.sellOpen:
             # Open sell order
             # print(self.data.close[0])
             self.sell(size= 1000000)
@@ -63,7 +64,7 @@ class Strategy(bt.Strategy):
             # 'tralingBid', self.trailingSell, 'buyOpen:', self.buyOpen, 'sellOpen:', self.sellOpen)
             #print(cerebro.broker.getvalue())
 
-        if self.trailingSell < self.price and self.buyOpen and self.sellOpen:
+        if self.trailingSell < self.bid and self.buyOpen and self.sellOpen:
             # Open buy order
             # print(self.data.close[0])
             self.buy(size= 1000000)
@@ -73,7 +74,7 @@ class Strategy(bt.Strategy):
             #       'tralingBid', self.trailingSell, 'buyOpen:', self.buyOpen, 'sellOpen:', self.sellOpen)
             #print(cerebro.broker.getvalue())
 
-        if self.trailingBuy > self.price and self.buyOpen :
+        if self.trailingBuy > self.ask and self.buyOpen :
             # Close buy order
             # print(self.data.close[0])
             self.close()
@@ -83,7 +84,7 @@ class Strategy(bt.Strategy):
             #       'tralingBid', self.trailingSell, 'buyOpen:', self.buyOpen, 'sellOpen:', self.sellOpen)
             #print(cerebro.broker.getvalue())
 
-        if self.trailingSell < self.price and self.sellOpen:
+        if self.trailingSell < self.bid and self.sellOpen:
             # Close sell order
             # print(self.data.close[0])
             self.close()
