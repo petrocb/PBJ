@@ -1,0 +1,2 @@
+def summary (data):
+    pass
