@@ -6,7 +6,7 @@ link to data: https://drive.google.com/drive/folders/102zj3t7cxEiH1rAkVY_Qx5ehUc
 getting the last pieces of takes prices from the bottom initially instead of at the top. a better solution would be to start running from the 20th price.
 
 
-
+# Links
 https://pypi.org/project/oandapyV20/
 https://pypi.org/project/backtrader/
 https://pypi.org/project/stock-indicators/
