@@ -1,2 +1,2 @@
-def summary (data):
-    pass
+def summary ():
+    return ("Hello World")
