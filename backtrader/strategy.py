@@ -30,7 +30,7 @@ class Strategy(bt.Strategy):
         pastPrices = []
         for x in range(20):
             pastPrices.append(self.data.close[-x])
-             #print(self.data.close[-x])
+            print(self.data.close[-x])
         self.diff = diffCalc(pastPrices)
         if not self.buyOpen and not self.sellOpen:
             # pastPrices = []
