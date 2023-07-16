@@ -14,8 +14,7 @@ def main():
     cerebro = bt.Cerebro()
     cerebro.addstrategy(Strategy, arr=arr)
     data = bt.feeds.MT4CSVData(dataname='EURUSD2.csv',
-                                   timeframe=bt.TimeFrame.Minutes,
-                                   compression=1)
+                                   timeframe=bt.TimeFrame.Minutes, compression=1)
     cerebro.adddata(data)
     cerebro.run()
 

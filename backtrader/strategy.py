@@ -55,7 +55,7 @@ class Strategy(bt.Strategy):
             # print(self.data.close[0])
             self.sell(size= 1)
             self.buyOpen = False
-            self.arr.append(['s', self.ask, self.bid, self.broker.getvalue(), self.data.datetime.date()])
+            self.arr.append(['s', self.ask, self.bid, self.broker.getvalue(), self.data.datetime.datetime()])
             # print(self.data.datetime.date().isoformat(), 'SELL!!!!!!!!!!''price:', self.price, 'newAsk:', self.newAsk, 'newBid:', self.newBid,
             # 'startingAsk:', self.startingAsk, 'startingBid:', self.startingBid, 'trailingBuy:', self.trailingBuy,
             # 'tralingBid', self.trailingSell, 'buyOpen:', self.buyOpen, 'sellOpen:', self.sellOpen)
@@ -70,7 +70,7 @@ class Strategy(bt.Strategy):
             #       'startingAsk:', self.startingAsk, 'startingBid:', self.startingBid, 'trailingBuy:', self.trailingBuy,
             #       'tralingBid', self.trailingSell, 'buyOpen:', self.buyOpen, 'sellOpen:', self.sellOpen)
             #print(cerebro.broker.getvalue())
-            self.arr.append(['b', self.ask, self.bid, self.broker.getvalue(), self.data.datetime.date()])
+            self.arr.append(['b', self.ask, self.bid, self.broker.getvalue(), self.data.datetime.datetime()])
 
         if self.trailingBuy > self.ask and self.buyOpen :
             # Close buy order
@@ -81,7 +81,7 @@ class Strategy(bt.Strategy):
             #       'startingAsk:', self.startingAsk, 'startingBid:', self.startingBid, 'trailingBuy:', self.trailingBuy,
             #       'tralingBid', self.trailingSell, 'buyOpen:', self.buyOpen, 'sellOpen:', self.sellOpen)
             #print(cerebro.broker.getvalue())
-            self.arr.append(['cb', self.ask, self.bid, self.broker.getvalue(), self.data.datetime.date()])
+            self.arr.append(['cb', self.ask, self.bid, self.broker.getvalue(), self.data.datetime.datetime()])
         if self.trailingSell < self.bid and self.sellOpen:
             # Close sell order
             # print(self.data.close[0])
@@ -91,9 +91,9 @@ class Strategy(bt.Strategy):
             #       'startingAsk:', self.startingAsk, 'startingBid:', self.startingBid, 'trailingBuy:', self.trailingBuy,
             #       'tralingBid', self.trailingSell, 'buyOpen:', self.buyOpen, 'sellOpen:', self.sellOpen)
             #print(cerebro.broker.getvalue())
-            self.arr.append(['cs', self.ask, self.bid, self.broker.getvalue(), self.data.datetime.date()])
+            self.arr.append(['cs', self.ask, self.bid, self.broker.getvalue(), self.data.datetime.datetime()])
 
         '''print('price:', self.price, 'newAsk:', self.newAsk, 'newBid:', self.newBid,
               'startingAsk:', self.startingAsk, 'startingBid:', self.startingBid, 'trailingBuy:', self.trailingBuy,
               'tralingBid', self.trailingSell, 'buyOpen:', self.buyOpen, 'sellOpen:', self.sellOpen)'''
-        print(self.arr)
+        #print(self.arr)
