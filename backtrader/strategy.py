@@ -8,7 +8,7 @@ def diffCalc(pastPrices):
     return vol * 10
     #return 0.01
 class Strategy(bt.Strategy):
-    def __init__(self):
+    def __init__(self, arr):
         pastPrices = []
         for x in range(20):
             pastPrices.append(self.data.close[-x])
@@ -18,7 +18,7 @@ class Strategy(bt.Strategy):
         self.sellOpen = False
         self.spread = 0.00011#sp #0.00011 #0.00011
         #print('spread:',self.spread)
-        #self.data = []
+        self.arr = arr
 
     def next(self):
         self.price = self.data.close[0]  # Assuming you're using the close price as data
@@ -55,6 +55,7 @@ class Strategy(bt.Strategy):
             # print(self.data.close[0])
             self.sell(size= 1000000)
             self.buyOpen = False
+            self.arr.append(['s', self.ask, self.bid])
             # print(self.data.datetime.date().isoformat(), 'SELL!!!!!!!!!!''price:', self.price, 'newAsk:', self.newAsk, 'newBid:', self.newBid,
             # 'startingAsk:', self.startingAsk, 'startingBid:', self.startingBid, 'trailingBuy:', self.trailingBuy,
             # 'tralingBid', self.trailingSell, 'buyOpen:', self.buyOpen, 'sellOpen:', self.sellOpen)
@@ -69,6 +70,7 @@ class Strategy(bt.Strategy):
             #       'startingAsk:', self.startingAsk, 'startingBid:', self.startingBid, 'trailingBuy:', self.trailingBuy,
             #       'tralingBid', self.trailingSell, 'buyOpen:', self.buyOpen, 'sellOpen:', self.sellOpen)
             #print(cerebro.broker.getvalue())
+            self.arr.append(['b', self.ask, self.bid])
 
         if self.trailingBuy > self.ask and self.buyOpen :
             # Close buy order
@@ -79,7 +81,7 @@ class Strategy(bt.Strategy):
             #       'startingAsk:', self.startingAsk, 'startingBid:', self.startingBid, 'trailingBuy:', self.trailingBuy,
             #       'tralingBid', self.trailingSell, 'buyOpen:', self.buyOpen, 'sellOpen:', self.sellOpen)
             #print(cerebro.broker.getvalue())
-
+            self.arr.append(['cb', self.ask, self.bid])
         if self.trailingSell < self.bid and self.sellOpen:
             # Close sell order
             # print(self.data.close[0])
@@ -89,7 +91,9 @@ class Strategy(bt.Strategy):
             #       'startingAsk:', self.startingAsk, 'startingBid:', self.startingBid, 'trailingBuy:', self.trailingBuy,
             #       'tralingBid', self.trailingSell, 'buyOpen:', self.buyOpen, 'sellOpen:', self.sellOpen)
             #print(cerebro.broker.getvalue())
+            self.arr.append(['cs', self.ask, self.bid])
 
         '''print('price:', self.price, 'newAsk:', self.newAsk, 'newBid:', self.newBid,
               'startingAsk:', self.startingAsk, 'startingBid:', self.startingBid, 'trailingBuy:', self.trailingBuy,
               'tralingBid', self.trailingSell, 'buyOpen:', self.buyOpen, 'sellOpen:', self.sellOpen)'''
+        #print(self.arr)

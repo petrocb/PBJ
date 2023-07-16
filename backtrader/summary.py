@@ -1,23 +1,21 @@
-def summary ():
-    return ("Hello World")
+def summary(arr):
+    data = {
+        'numObs': 0,
+        'numTrades': 0,
+        'PnL': 0,
+        'winRatio': 0,
+        'aveHoldingWindow': 0,
+        'maxHoldingWindow': 0,
+        'minHoldingWindow': 0
+    }
 
-def numObs(): #????????????????????
-    pass
+    for entry in arr:
+        # numTrades
+        if entry[0] == 'cb' or entry[0] == 'cs':
+            data['numTrades'] += 1
 
-def numTrades():
-    pass
 
-def PnL():
-    pass
 
-def winRatio():
-    pass
 
-def aveHoldingWindow():
-    pass
 
-def maxHoldingWindow():
-    pass
-
-def minHoldingWindow():
-    pass
+    return data
