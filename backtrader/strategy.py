@@ -21,7 +21,6 @@ class Strategy(bt.Strategy):
         #self.data = []
 
     def next(self):
-        print(self.data)
         self.price = self.data.close[0]  # Assuming you're using the close price as data
         self.bid = self.price - self.spread
         self.ask = self.price + self.spread
@@ -30,7 +29,6 @@ class Strategy(bt.Strategy):
         pastPrices = []
         for x in range(20):
             pastPrices.append(self.data.close[-x])
-            print(self.data.close[-x])
         self.diff = diffCalc(pastPrices)
         if not self.buyOpen and not self.sellOpen:
             # pastPrices = []
