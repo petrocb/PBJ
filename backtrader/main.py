@@ -1,6 +1,6 @@
 import backtrader as bt
 import numpy as np
-from strategy import Strategy
+from diffClacEveryTickStrat import Strategy
 import summary
 #import pandas as pd
 #from summary import summary

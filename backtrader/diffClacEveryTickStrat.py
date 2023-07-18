@@ -10,7 +10,7 @@ class Strategy(bt.Strategy):
         pastPrices = []
         for x in range(20):
             pastPrices.append(self.data.close[-x])
-            # print(self.data.close[-x])
+            print(self.data.close[-x])
         self.diff = diffCalc(pastPrices)
         self.buyOpen = False
         self.sellOpen = False
@@ -76,6 +76,6 @@ class Strategy(bt.Strategy):
               'tralingBid', self.trailingSell, 'buyOpen:', self.buyOpen, 'sellOpen:', self.sellOpen)'''
         #print(self.arr)
         self.count += 1
-        if self.count == 100000:
+        if self.count == 1000000:
             print(self.data.datetime.date())
             self.count = 0
