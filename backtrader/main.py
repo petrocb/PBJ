@@ -19,7 +19,7 @@ def main():
     cerebro.run()
 
     #print(cerebro.broker.getvalue())
-    print(summary.summary(arr))
+    print(summary.summary(arr, data))
     #cerebro.plot()
 
 if __name__ == "__main__":

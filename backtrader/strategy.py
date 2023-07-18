@@ -2,11 +2,8 @@ import backtrader as bt
 import numpy as np
 
 def diffCalc(pastPrices):
-    #diff = 0.002
     vol = np.std(pastPrices) * np.sqrt(20)
-    #print('vol:',vol)
-    return vol * 10
-    #return 0.01
+    return vol * 100
 class Strategy(bt.Strategy):
     def __init__(self, arr):
         pastPrices = []
@@ -16,8 +13,7 @@ class Strategy(bt.Strategy):
         self.diff = diffCalc(pastPrices)
         self.buyOpen = False
         self.sellOpen = False
-        self.spread = 0.00011#sp #0.00011 #0.00011
-        #print('spread:',self.spread)
+        self.spread = 0.00011
         self.arr = arr
 
     def next(self):
@@ -52,45 +48,25 @@ class Strategy(bt.Strategy):
         # opening trade
         if self.trailingBuy > self.ask and self.buyOpen and self.sellOpen:
             # Open sell order
-            # print(self.data.close[0])
             self.sell(size= 1)
             self.buyOpen = False
             self.arr.append(['s', self.ask, self.bid, self.broker.getvalue(), self.data.datetime.datetime()])
-            # print(self.data.datetime.date().isoformat(), 'SELL!!!!!!!!!!''price:', self.price, 'newAsk:', self.newAsk, 'newBid:', self.newBid,
-            # 'startingAsk:', self.startingAsk, 'startingBid:', self.startingBid, 'trailingBuy:', self.trailingBuy,
-            # 'tralingBid', self.trailingSell, 'buyOpen:', self.buyOpen, 'sellOpen:', self.sellOpen)
-            #print(cerebro.broker.getvalue())
 
         if self.trailingSell < self.bid and self.buyOpen and self.sellOpen:
             # Open buy order
-            # print(self.data.close[0])
             self.buy(size= 1)
             self.sellOpen = False
-            # print(self.data.datetime.date().isoformat(), 'BUY!!!!!!!!!!''price:',self.price, 'newAsk:', self.newAsk, 'newBid:', self.newBid,
-            #       'startingAsk:', self.startingAsk, 'startingBid:', self.startingBid, 'trailingBuy:', self.trailingBuy,
-            #       'tralingBid', self.trailingSell, 'buyOpen:', self.buyOpen, 'sellOpen:', self.sellOpen)
-            #print(cerebro.broker.getvalue())
             self.arr.append(['b', self.ask, self.bid, self.broker.getvalue(), self.data.datetime.datetime()])
 
         if self.trailingBuy > self.ask and self.buyOpen :
             # Close buy order
-            # print(self.data.close[0])
             self.close()
             self.buyOpen = False
-            # print(self.data.datetime.date().isoformat(), 'CLOSE!!!!!!!!!!''price:', self.price, 'newAsk:', self.newAsk, 'newBid:', self.newBid,
-            #       'startingAsk:', self.startingAsk, 'startingBid:', self.startingBid, 'trailingBuy:', self.trailingBuy,
-            #       'tralingBid', self.trailingSell, 'buyOpen:', self.buyOpen, 'sellOpen:', self.sellOpen)
-            #print(cerebro.broker.getvalue())
             self.arr.append(['cb', self.ask, self.bid, self.broker.getvalue(), self.data.datetime.datetime()])
         if self.trailingSell < self.bid and self.sellOpen:
             # Close sell order
-            # print(self.data.close[0])
             self.close()
             self.sellOpen = False
-            # print(self.data.datetime.date().isoformat(), 'CLOSE!!!!!!!!!!''price:', self.price, 'newAsk:', self.newAsk, 'newBid:', self.newBid,
-            #       'startingAsk:', self.startingAsk, 'startingBid:', self.startingBid, 'trailingBuy:', self.trailingBuy,
-            #       'tralingBid', self.trailingSell, 'buyOpen:', self.buyOpen, 'sellOpen:', self.sellOpen)
-            #print(cerebro.broker.getvalue())
             self.arr.append(['cs', self.ask, self.bid, self.broker.getvalue(), self.data.datetime.datetime()])
 
         '''print('price:', self.price, 'newAsk:', self.newAsk, 'newBid:', self.newBid,
