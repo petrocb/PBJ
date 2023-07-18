@@ -13,9 +13,10 @@ def main():
     arr = []
     cerebro = bt.Cerebro()
     cerebro.addstrategy(Strategy, arr=arr)
-    data = bt.feeds.MT4CSVData(dataname='EURUSD2.csv',
-                                   timeframe=bt.TimeFrame.Minutes, compression=1)
+    print("Loading data")
+    data = bt.feeds.MT4CSVData(dataname='EURUSD.csv', timeframe=bt.TimeFrame.Minutes, compression=1)
     cerebro.adddata(data)
+    print("Loading data finished")
     cerebro.run()
 
     #print(cerebro.broker.getvalue())
@@ -24,4 +25,6 @@ def main():
 
 if __name__ == "__main__":
     print("pea head")
+    print("Starting")
     main()
+    print("Finished")

@@ -3,9 +3,10 @@ import numpy as np
 
 def diffCalc(pastPrices):
     vol = np.std(pastPrices) * np.sqrt(20)
-    return vol * 100
+    return vol * 10
 class Strategy(bt.Strategy):
     def __init__(self, arr):
+        print("Starting strategy")
         pastPrices = []
         for x in range(20):
             pastPrices.append(self.data.close[-x])
@@ -15,9 +16,10 @@ class Strategy(bt.Strategy):
         self.sellOpen = False
         self.spread = 0.00011
         self.arr = arr
+        self.count = 0
 
     def next(self):
-        self.price = self.data.close[0]  # Assuming you're using the close price as data
+        self.price = self.data.close[0]
         self.bid = self.price - self.spread
         self.ask = self.price + self.spread
         self.newAsk = self.ask - self.diff
@@ -73,3 +75,7 @@ class Strategy(bt.Strategy):
               'startingAsk:', self.startingAsk, 'startingBid:', self.startingBid, 'trailingBuy:', self.trailingBuy,
               'tralingBid', self.trailingSell, 'buyOpen:', self.buyOpen, 'sellOpen:', self.sellOpen)'''
         #print(self.arr)
+        self.count += 1
+        if self.count == 100000:
+            print(self.data.datetime.date())
+            self.count = 0
