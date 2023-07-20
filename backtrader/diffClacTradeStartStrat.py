@@ -4,7 +4,7 @@ import numpy as np
 def diffCalc(pastPrices):
     vol = np.std(pastPrices) * np.sqrt(20)
     return vol * 10
-class diffClacEveryTickStrat(bt.Strategy):
+class diffClacTradeStartStrat(bt.Strategy):
     def __init__(self, arr):
         print("Starting strategy")
         pastPrices = []
@@ -24,15 +24,11 @@ class diffClacEveryTickStrat(bt.Strategy):
         self.ask = self.price + self.spread
         self.newAsk = self.ask - self.diff
         self.newBid = self.bid + self.diff
-        pastPrices = []
-        for x in range(20):
-            pastPrices.append(self.data.close[-x])
-        self.diff = diffCalc(pastPrices)
         if not self.buyOpen and not self.sellOpen:
-            # pastPrices = []
-            # for x in range(20):
-            #     pastPrices.append(self.data.close[-x])
-            #     self.diff = diffCalc(pastPrices)
+            pastPrices = []
+            for x in range(20):
+                 pastPrices.append(self.data.close[-x])
+                 self.diff = diffCalc(pastPrices)
             self.startingAsk = self.ask
             self.startingBid = self.bid
             self.trailingBuy = self.ask - self.diff
