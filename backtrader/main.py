@@ -2,13 +2,14 @@ import backtrader as bt
 import numpy as np
 from diffClacEveryTickStrat import diffClacEveryTickStrat
 from diffClacTradeStartStrat import diffClacTradeStartStrat
+from staticDiffStrat import staticDiffStrat
 import summary
 #import pandas as pd
 #from summary import summary
 
 def main():
     cerebro = bt.Cerebro()
-    strats = [diffClacEveryTickStrat, diffClacTradeStartStrat]
+    strats = [diffClacEveryTickStrat, diffClacTradeStartStrat, staticDiffStrat]
     fxData = ['EURUSD2.csv']
     conditions = [0]
     for o in strats:
@@ -23,11 +24,17 @@ def main():
                 cerebro.run()
 
                 #print(cerebro.broker.getvalue())
-                print(summary.summary(arr, data))
+                #print(summary.summary(arr, data))
                 #cerebro.plot()
+                output_text = summary.summary(arr, data)
+
+                with open("output.txt", "a") as file:
+                    file.write(str(output_text))
+                    file.write('\n')
 
 if __name__ == "__main__":
     print("pea head")
     print("Starting")
     main()
     print("Finished")
+    exit(69)
