@@ -8,6 +8,7 @@ import summary
 #from summary import summary
 
 def main():
+    #erghdghdft
     cerebro = bt.Cerebro()
     strats = [diffClacTradeStartStrat, staticDiffStrat]
     fxData = ['EURUSD2.csv']
