@@ -60,7 +60,7 @@ class diffClacEveryTickStrat(bt.Strategy):
             self.sellOpen = False
             self.arr.append(['b', self.ask, self.bid, self.broker.getvalue(), self.data.datetime.datetime()])
 
-        if self.trailingBuy > self.ask and self.buyOpen :
+        if self.trailingBuy > self.ask and self.buyOpen:
             # Close buy order
             self.close()
             self.buyOpen = False

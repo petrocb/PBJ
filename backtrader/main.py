@@ -9,7 +9,7 @@ import summary
 
 def main():
     cerebro = bt.Cerebro()
-    strats = [diffClacEveryTickStrat, diffClacTradeStartStrat, staticDiffStrat]
+    strats = [diffClacTradeStartStrat, staticDiffStrat]
     fxData = ['EURUSD2.csv']
     conditions = [0]
     for o in strats:
