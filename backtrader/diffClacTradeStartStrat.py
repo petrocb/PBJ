@@ -1,9 +1,7 @@
 import backtrader as bt
 import numpy as np
+import functions
 
-def diffCalc(pastPrices):
-    vol = np.std(pastPrices) * np.sqrt(20)
-    return vol * 10
 class diffClacTradeStartStrat(bt.Strategy):
     def __init__(self, arr):
         print("Starting strategy")
@@ -11,7 +9,7 @@ class diffClacTradeStartStrat(bt.Strategy):
         for x in range(20):
             pastPrices.append(self.data.close[-x])
             #print(self.data.close[-x])
-        self.diff = diffCalc(pastPrices)
+        self.diff = functions.diffCalc(pastPrices)
         self.buyOpen = False
         self.sellOpen = False
         self.spread = 0.00011
@@ -28,7 +26,7 @@ class diffClacTradeStartStrat(bt.Strategy):
             pastPrices = []
             for x in range(20):
                  pastPrices.append(self.data.close[-x])
-                 self.diff = diffCalc(pastPrices)
+                 self.diff = functions.diffCalc(pastPrices)
             self.startingAsk = self.ask
             self.startingBid = self.bid
             self.trailingBuy = self.ask - self.diff
