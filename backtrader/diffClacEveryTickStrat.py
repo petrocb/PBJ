@@ -1,5 +1,4 @@
 import backtrader as bt
-import numpy as np
 import functions
 class diffClacEveryTickStrat(bt.Strategy):
     def __init__(self, arr):
