@@ -7,7 +7,7 @@ class diffClacEveryTickStrat(bt.Strategy):
         for x in range(20):
             pastPrices.append(self.data.close[-x])
             #print(self.data.close[-x])
-        self.diff = functions.diffCalc(pastPrices)
+        self.diff = functions.volatility(pastPrices, 20)
         self.buyOpen = False
         self.sellOpen = False
         self.spread = 0.00011
@@ -23,7 +23,7 @@ class diffClacEveryTickStrat(bt.Strategy):
         pastPrices = []
         for x in range(20):
             pastPrices.append(self.data.close[-x])
-        self.diff = functions.diffCalc(pastPrices)
+        self.diff = functions.volatility(pastPrices, 20)
         if not self.buyOpen and not self.sellOpen:
             # pastPrices = []
             # for x in range(20):

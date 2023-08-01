@@ -8,7 +8,7 @@ class diffClacTradeStartStrat(bt.Strategy):
         for x in range(20):
             pastPrices.append(self.data.close[-x])
             #print(self.data.close[-x])
-        self.diff = functions.diffCalc(pastPrices)
+        self.diff = functions.volatility(pastPrices, 20)
         self.buyOpen = False
         self.sellOpen = False
         self.spread = 0.00011
@@ -25,7 +25,7 @@ class diffClacTradeStartStrat(bt.Strategy):
             pastPrices = []
             for x in range(20):
                  pastPrices.append(self.data.close[-x])
-                 self.diff = functions.diffCalc(pastPrices)
+                 self.diff = functions.volatility(pastPrices, 20)
             self.startingAsk = self.ask
             self.startingBid = self.bid
             self.trailingBuy = self.ask - self.diff
