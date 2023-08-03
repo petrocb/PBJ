@@ -1,0 +1,2 @@
+{'numObs': 65000, 'numTrades': 1, 'PnL': -0.0070299999988492345, 'winRatio': 0.0, 'wins': 0, 'losses': 1, 'aveHoldingWindow': '119:57 hours', 'maxHoldingWindow': '119:57 hours', 'minHoldingWindow': '119:57 hours'}
+{'numObs': 65000, 'numTrades': 51, 'PnL': -0.005510000002686866, 'winRatio': 0.35294117647058826, 'wins': 18, 'losses': 33, 'aveHoldingWindow': '18:10 hours', 'maxHoldingWindow': '73:4 hours', 'minHoldingWindow': '0:34 hours'}
