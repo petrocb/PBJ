@@ -1,9 +1,5 @@
 import backtrader as bt
-import numpy as np
-
-def diffCalc(pastPrices):
-    vol = np.std(pastPrices) * np.sqrt(20)
-    return vol * 10
+import functions
 class diffClacEveryTickStrat(bt.Strategy):
     def __init__(self, arr):
         print("Starting strategy")
@@ -11,7 +7,7 @@ class diffClacEveryTickStrat(bt.Strategy):
         for x in range(20):
             pastPrices.append(self.data.close[-x])
             #print(self.data.close[-x])
-        self.diff = diffCalc(pastPrices)
+        self.diff = functions.volatility(pastPrices, 20)
         self.buyOpen = False
         self.sellOpen = False
         self.spread = 0.00011
@@ -27,7 +23,7 @@ class diffClacEveryTickStrat(bt.Strategy):
         pastPrices = []
         for x in range(20):
             pastPrices.append(self.data.close[-x])
-        self.diff = diffCalc(pastPrices)
+        self.diff = functions.volatility(pastPrices, 20)
         if not self.buyOpen and not self.sellOpen:
             # pastPrices = []
             # for x in range(20):
@@ -60,7 +56,7 @@ class diffClacEveryTickStrat(bt.Strategy):
             self.sellOpen = False
             self.arr.append(['b', self.ask, self.bid, self.broker.getvalue(), self.data.datetime.datetime()])
 
-        if self.trailingBuy > self.ask and self.buyOpen :
+        if self.trailingBuy > self.ask and self.buyOpen:
             # Close buy order
             self.close()
             self.buyOpen = False

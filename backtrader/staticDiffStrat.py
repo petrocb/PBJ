@@ -1,5 +1,4 @@
 import backtrader as bt
-import numpy as np
 
 
 class staticDiffStrat(bt.Strategy):

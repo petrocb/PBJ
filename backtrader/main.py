@@ -3,14 +3,13 @@ import numpy as np
 from diffClacEveryTickStrat import diffClacEveryTickStrat
 from diffClacTradeStartStrat import diffClacTradeStartStrat
 from staticDiffStrat import staticDiffStrat
-from EMACrossoverStrategy import EMACrossoverStrategy
 import summary
 #import pandas as pd
 #from summary import summary
 
 def main():
     cerebro = bt.Cerebro()
-    strats = [EMACrossoverStrategy]
+    strats = [diffClacEveryTickStrat, diffClacTradeStartStrat, staticDiffStrat]
     fxData = ['EURUSD2.csv']
     conditions = [0]
     for o in strats:
