@@ -1,10 +1,11 @@
 from datetime import timedelta
 def summary(arr, data):
     print("Starting summary")
+    initial_value = 10000
     data = {
         'numObs': len(data),
         'numTrades': 0,
-        'PnL': arr[len(arr)-1][3] - 10000,
+        'pnl': arr[-1][3] - initial_value,
         'winRatio': 0,
         'wins': 0,
         'losses': 0,

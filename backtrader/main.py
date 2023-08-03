@@ -3,6 +3,7 @@ import numpy as np
 from diffClacEveryTickStrat import diffClacEveryTickStrat
 from diffClacTradeStartStrat import diffClacTradeStartStrat
 from staticDiffStrat import staticDiffStrat
+from EMACrossoverStrategy import EMACrossoverStrategy
 import summary
 #import pandas as pd
 #from summary import summary
