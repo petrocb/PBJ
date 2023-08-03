@@ -35,11 +35,19 @@ def summary(arr, data):
             else:
                 data['losses'] += 1
 
-    data['winRatio'] = data['wins'] / data['numTrades']
-    data['aveHoldingWindow'] = str(round(sum(dates) / len(dates) // 60 // 60)) + ':' + str(
-        round(sum(dates) / len(dates) / 60 % 60)) + ' hours'
-    data['minHoldingWindow'] = str(round(min(dates) // 60 // 60)) + ':' + str(round(min(dates) / 60 % 60)) + ' hours'
-    data['maxHoldingWindow'] = str(round(max(dates) // 60 // 60)) + ':' + str(round(max(dates) / 60 % 60)) + ' hours'
-
+    try:
+        data['winRatio'] = data['wins'] / data['numTrades']
+    except:
+        pass
+    try:
+        data['aveHoldingWindow'] = str(round(sum(dates) / len(dates) // 60 // 60)) + ':' + str(
+            round(sum(dates) / len(dates) / 60 % 60)) + ' hours'
+    except:
+        pass
+    try:
+        data['minHoldingWindow'] = str(round(min(dates) // 60 // 60)) + ':' + str(round(min(dates) / 60 % 60)) + ' hours'
+        data['maxHoldingWindow'] = str(round(max(dates) // 60 // 60)) + ':' + str(round(max(dates) / 60 % 60)) + ' hours'
+    except:
+        pass
 
     return data

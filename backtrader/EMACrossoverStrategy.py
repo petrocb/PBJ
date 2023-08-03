@@ -15,7 +15,7 @@ class EMACrossoverStrategy(bt.Strategy):
             if not self.position:
                 self.buy(size=1)
                 self.buy_signal = True
-                self.arr.append(['b', self.data.close[0], self.broker.getvalue(), self.data.datetime.datetime()])
+                self.arr.append(['b', self.data.close[0], 0,  self.broker.getvalue(), self.data.datetime.datetime()])
 
         elif self.short_ema[0] < self.long_ema[0] and self.short_ema[-1] >= self.long_ema[-1]:
             # Sell signal: short EMA crosses below long EMA
