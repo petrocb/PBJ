@@ -1,5 +1,6 @@
 import backtrader as bt
 import numpy as np
+import matplotlib.pyplot as plt
 from diffClacEveryTickStrat import diffClacEveryTickStrat
 from diffClacTradeStartStrat import diffClacTradeStartStrat
 from staticDiffStrat import staticDiffStrat
@@ -26,21 +27,40 @@ def main():
 
                 #print(cerebro.broker.getvalue())
                 #print(summary.summary(arr, data))
-                #cerebro.plot()
+                # img_path = "plot.png"
+                # plt.figure(figsize=(12, 8))
+                # x = cerebro.plot()
+                # print(type(x))
+                #img_path = f"plot_{o.__name__}_{i}.png"
+
+                # Get the plot figure using cerebro.plot()
+                #fig = cerebro.plot(style='candlestick', barup='lime', bardown='red')
+                cerebro.plot()
+                #cerebro.run()
+
+                # img_path = f"plot_{o.__name__}_{i}.png"
+                #
+                # # Save the plot as a PNG image using plt.savefig()
+                # plt.savefig(img_path)
+                #
+                # output_text = summary.summary(arr, data)
+                # Save the plot as a PNG image using PIL
+                # plt.savefig("temp_plot.png")  # Save the plot to a temporary file
+                # plt.close()
+                # plt.savefig(img_path)  # Save the plot before calling plt.show() or plt.close()
+                # plt.close()
                 output_text = summary.summary(arr, data)
 
                 with open("output.txt", "a") as file:
                     file.write(str(output_text))
                     file.write('\n')
 
-                create_html_file("output.html", output_text, example_image_path)
+                create_html_file("output.html", str(o)+" "+str(m)+" "+str(i)+" "+str(output_text), example_image_path)
 def create_html_file(file_path, text, image_path):
     # HTML code as a string
     html_content = f"""
         <h1>Result</h1>
-        <p>{text}</p>
-
-        <!-- Replace "image.jpg" with the path to your image -->
+        <p>{text.replace("{", "").replace("}", "").replace("'", "")}</p>
         <img src="{image_path}" alt="My Image">
     """
 
