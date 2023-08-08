@@ -1,13 +1,31 @@
 import backtrader as bt
 import numpy as np
 import matplotlib.pyplot as plt
+from backtrader import cerebro
+import csv
 from diffClacEveryTickStrat import diffClacEveryTickStrat
 from diffClacTradeStartStrat import diffClacTradeStartStrat
 from staticDiffStrat import staticDiffStrat
 from EMACrossoverStrategy import EMACrossoverStrategy
+from customPlot import CustomPlot
 import summary
 #import pandas as pd
 #from summary import summary
+
+
+def save_plot_as_png():
+    # Call cerebro.plot() to display the plot
+    #cerebro.plot()
+
+    # Find the save button by looking for the 'icon' attribute containing 'filesave' text
+    save_button = plt.get_current_fig_manager().toolbar.children()[8]
+
+    # Trigger the button's 'clicked' event
+    save_button.trigger('clicked')
+
+    # Close the plot after saving
+    plt.close()
+
 
 def main():
     cerebro = bt.Cerebro()
@@ -24,56 +42,36 @@ def main():
                 cerebro.adddata(data)
                 print("Loading data finished")
                 cerebro.run()
-
-                #print(cerebro.broker.getvalue())
-                #print(summary.summary(arr, data))
-                # img_path = "plot.png"
-                # plt.figure(figsize=(12, 8))
-                # x = cerebro.plot()
-                # print(type(x))
-                #img_path = f"plot_{o.__name__}_{i}.png"
-
-                # Get the plot figure using cerebro.plot()
-                #fig = cerebro.plot(style='candlestick', barup='lime', bardown='red')
-                cerebro.plot()
-                #cerebro.run()
-
-                # img_path = f"plot_{o.__name__}_{i}.png"
-                #
-                # # Save the plot as a PNG image using plt.savefig()
-                # plt.savefig(img_path)
-                #
-                # output_text = summary.summary(arr, data)
-                # Save the plot as a PNG image using PIL
-                # plt.savefig("temp_plot.png")  # Save the plot to a temporary file
-                # plt.close()
-                # plt.savefig(img_path)  # Save the plot before calling plt.show() or plt.close()
-                # plt.close()
                 output_text = summary.summary(arr, data)
 
                 with open("output.txt", "a") as file:
                     file.write(str(output_text))
                     file.write('\n')
 
-                create_html_file("output.html", str(o)+" "+str(m)+" "+str(i)+" "+str(output_text), example_image_path)
-def create_html_file(file_path, text, image_path):
+                create_html_file("output.html", str(o)+" "+str(m)+" "+str(i)+" "+str(output_text))
+    with open("EURUSD2.csv", newline='') as csvfile:
+        csv_reader = csv.reader(csvfile)
+        data = [row for row in csv_reader]
+    x = [[1, 2, 3, 4, 5],[2, 4, 6, 8, 10]]
+    y = [2, 4, 6, 8, 10]
+    test = []
+    for o in data:
+        test.append([float(o[2]), float(o[3]), float(o[4]), float(o[5])])
+    print(test)
+    plt.plot(test)
+    cerebro.plot()
+    plt.show()
+def create_html_file(file_path, text):
     # HTML code as a string
     html_content = f"""
         <h1>Result</h1>
         <p>{text.replace("{", "").replace("}", "").replace("'", "")}</p>
-        <img src="{image_path}" alt="My Image">
+        <img src="{"www"}">
     """
 
     # Write the HTML content to the file
     with open(file_path, 'a') as html_file:
         html_file.write(html_content)
-
-# Example usage
-example_text = "This is an example text. You can include multiple paragraphs."
-example_image_path = "path/to/your/image.jpg"
-
-
-
 
 
 if __name__ == "__main__":
