@@ -8,6 +8,7 @@ from diffClacTradeStartStrat import diffClacTradeStartStrat
 from staticDiffStrat import staticDiffStrat
 from EMACrossoverStrategy import EMACrossoverStrategy
 import summary
+from random import randint
 #import pandas as pd
 #from summary import summary
 
@@ -47,7 +48,7 @@ def main():
                     file.write(str(output_text))
                     file.write('\n')
 
-                create_html_file("output.html", str(o)+" "+str(m)+" "+str(i)+" "+str(output_text))
+                #create_html_file("output.html", str(o)+" "+str(m)+" "+str(i)+" "+str(output_text), pic)
     with open("EURUSD2.csv", newline='') as csvfile:
         csv_reader = csv.reader(csvfile)
         data = [row for row in csv_reader]
@@ -56,16 +57,20 @@ def main():
     test = []
     for o in data:
         test.append([float(o[2]), float(o[3]), float(o[4]), float(o[5])])
-    print(test)
+    #print(test)
     plt.plot(test)
-    cerebro.plot()
-    plt.show()
-def create_html_file(file_path, text):
+
+    #cerebro.plot()
+    pic = str(randint(0,9999999))+'.png'
+    plt.savefig(pic)
+    #plt.show()
+    create_html_file("output.html", str(o) + " " + str(m) + " " + str(i) + " " + str(output_text), pic)
+def create_html_file(file_path, text, pic):
     # HTML code as a string
     html_content = f"""
         <h1>Result</h1>
         <p>{text.replace("{", "").replace("}", "").replace("'", "")}</p>
-        <img src="{"www"}">
+        <img src="{pic}">
     """
 
     # Write the HTML content to the file
