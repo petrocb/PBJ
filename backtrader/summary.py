@@ -1,7 +1,8 @@
 from datetime import timedelta
 def summary(arr, data):
     print("Starting summary")
-    initial_value = 10000
+    initial_value = 10000  # Replace this with your actual initial account value
+
     data = {
         'numObs': len(data),
         'numTrades': 0,
@@ -13,6 +14,10 @@ def summary(arr, data):
         'maxHoldingWindow': 0,
         'minHoldingWindow': 0
     }
+    if len(arr) >= 2:
+        data['pnl'] = arr[-2][3] - initial_value
+    else:
+        data['pnl'] = 0  # If not enough elements in arr, set pnl to 0
     dates = []
     if arr[len(arr)-1][0] == ('b' or 's'):
         print(len(arr))
