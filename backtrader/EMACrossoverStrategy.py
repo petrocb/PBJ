@@ -20,6 +20,6 @@ class EMACrossoverStrategy(bt.Strategy):
         elif self.short_ema[0] < self.long_ema[0] and self.short_ema[-1] >= self.long_ema[-1]:
             # Sell signal: short EMA crosses below long EMA
             if self.position:
-                self.sell(size=1)
+                self.close()
                 self.sell_signal = True
                 self.arr.append(['s', self.data.close[0], self.broker.getvalue(), self.data.datetime.datetime()])

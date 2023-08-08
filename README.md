@@ -10,3 +10,7 @@ getting the last pieces of takes prices from the bottom initially instead of at 
 https://pypi.org/project/oandapyV20/
 https://pypi.org/project/backtrader/
 https://pypi.org/project/stock-indicators/
+
+1.fix ema
+2.do ema conditions 
+3.look in to fib
