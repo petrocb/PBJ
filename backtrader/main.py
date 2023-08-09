@@ -7,6 +7,7 @@ from diffClacEveryTickStrat import diffClacEveryTickStrat
 from diffClacTradeStartStrat import diffClacTradeStartStrat
 from staticDiffStrat import staticDiffStrat
 from EMACrossoverStrategy import EMACrossoverStrategy
+from VWAP_Boll_EMA_Strategy import VWAP_Boll_EMA_Strategy
 import summary
 from random import randint
 #import pandas as pd
@@ -28,7 +29,7 @@ def save_plot_as_png():
 
 
 def main():
-    strats = [EMACrossoverStrategy]
+    strats = [VWAP_Boll_EMA_Strategy]
     fxData = ['EURUSD2.csv']
     conditions = []
     for o in range(10):
