@@ -11,6 +11,18 @@ https://pypi.org/project/oandapyV20/
 https://pypi.org/project/backtrader/
 https://pypi.org/project/stock-indicators/
 
+# To Do
 1.fix ema
 2.do ema conditions 
 3.look in to fib
+
+# Indicator Ideas
+Code up the Very Wet Ass Pussy  
+Create bollinger bands that are 1 standard deviation away from the VWAP that act as support and resistance levels 
+Combine this with  EMA to show when trending down or  up from the bollinger 
+
+Need some logic like:
+- if hit top bollinger last and ST EMA cross below LT EMA then Sell order
+- combine with trailing stop
+- if hit bottom bollinger last and ST EMA cross above LT EMA then Buy order
+- 
