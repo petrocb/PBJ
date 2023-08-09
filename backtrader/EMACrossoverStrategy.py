@@ -2,11 +2,13 @@ import backtrader as bt
 from datetime import datetime
 
 class EMACrossoverStrategy(bt.Strategy):
-    def __init__(self, arr):
+    def __init__(self, arr, i):
         self.buy_signal = False
         self.sell_signal = False
-        self.short_ema = bt.indicators.ExponentialMovingAverage(self.data.close, period=10)
-        self.long_ema = bt.indicators.ExponentialMovingAverage(self.data.close, period=30)
+        print(i[0])
+        print(i[1])
+        self.short_ema = bt.indicators.ExponentialMovingAverage(self.data.close, period=i[0])
+        self.long_ema = bt.indicators.ExponentialMovingAverage(self.data.close, period=i[1])
         self.arr = arr
 
     def next(self):

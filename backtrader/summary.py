@@ -6,7 +6,7 @@ def summary(arr, data):
     data = {
         'numObs': len(data),
         'numTrades': 0,
-        'pnl': arr[-1][3] - initial_value,
+        'pnl': 0,
         'winRatio': 0,
         'wins': 0,
         'losses': 0,
@@ -19,11 +19,8 @@ def summary(arr, data):
     else:
         data['pnl'] = 0  # If not enough elements in arr, set pnl to 0
     dates = []
-    if arr[len(arr)-1][0] == ('b' or 's'):
-        print(len(arr))
-        x = arr[len(arr)-1].pop
-        print(x)
-        print(len(arr))
+    # if arr[len(arr)-1][0] == ('b' or 's'):
+    #     x = arr[len(arr)-1].pop
     for i in range(len(arr)):
 
         # if i < len(arr) - 1 and (arr[i][0] == 'b' or arr[i][0] == 's') and arr[i][3] < arr[i+1][3]:

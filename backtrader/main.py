@@ -28,17 +28,20 @@ def save_plot_as_png():
 
 
 def main():
-    cerebro = bt.Cerebro()
     strats = [EMACrossoverStrategy]
     fxData = ['EURUSD2.csv']
-    conditions = [0]
+    conditions = []
+    for o in range(10):
+        for i in range(10):
+            conditions.append([(o+1)*10, (i+1)*10])
     for o in strats:
-        for m in conditions:
-            for i in fxData:
+        for m in fxData:
+            for i in conditions:
+                cerebro = bt.Cerebro()
                 arr = []
-                cerebro.addstrategy(o, arr=arr)
+                cerebro.addstrategy(o, arr=arr, i=i)
                 print("Loading data")
-                data = bt.feeds.MT4CSVData(dataname=i, timeframe=bt.TimeFrame.Minutes, compression=1)
+                data = bt.feeds.MT4CSVData(dataname=m, timeframe=bt.TimeFrame.Minutes, compression=1)
                 cerebro.adddata(data)
                 print("Loading data finished")
                 cerebro.run()
@@ -49,28 +52,27 @@ def main():
                     file.write('\n')
 
                 #create_html_file("output.html", str(o)+" "+str(m)+" "+str(i)+" "+str(output_text), pic)
-    with open("EURUSD2.csv", newline='') as csvfile:
-        csv_reader = csv.reader(csvfile)
-        data = [row for row in csv_reader]
-    x = [[1, 2, 3, 4, 5],[2, 4, 6, 8, 10]]
-    y = [2, 4, 6, 8, 10]
-    test = []
-    for o in data:
-        test.append([float(o[2]), float(o[3]), float(o[4]), float(o[5])])
-    #print(test)
-    plt.plot(test)
+                with open("EURUSD2.csv", newline='') as csvfile:
+                    csv_reader = csv.reader(csvfile)
+                    plotData = [row for row in csv_reader]
+                test = []
+                for c in plotData:
+                    test.append([float(c[2]), float(c[3]), float(c[4]), float(c[5])])
+                plt.plot(test)
 
-    #cerebro.plot()
-    pic = str(randint(0,9999999))+'.png'
-    plt.savefig(pic)
-    #plt.show()
-    create_html_file("output.html", str(o) + " " + str(m) + " " + str(i) + " " + str(output_text), pic)
+                #cerebro.plot()
+                pic = 'charts/'+str(randint(0,9999999))+'.png'
+                plt.savefig(pic)
+                #plt.show()
+                create_html_file("output.html", str(o) + " " + str(m) + " " + str(i) + " " + str(output_text), pic)
 def create_html_file(file_path, text, pic):
     # HTML code as a string
     html_content = f"""
+        <div>
         <h1>Result</h1>
         <p>{text.replace("{", "").replace("}", "").replace("'", "")}</p>
         <img src="{pic}">
+        <div>
     """
 
     # Write the HTML content to the file
