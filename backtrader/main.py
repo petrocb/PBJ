@@ -29,12 +29,13 @@ def save_plot_as_png():
 
 
 def main():
-    strats = [VWAP_Boll_EMA_Strategy]
+    strats = [EMACrossoverStrategy]
     fxData = ['EURUSD2.csv']
     conditions = []
     for o in range(10):
         for i in range(10):
             conditions.append([(o+1)*10, (i+1)*10])
+    #conditions = [[10, 50]]
     for o in strats:
         for m in fxData:
             for i in conditions:
@@ -69,11 +70,11 @@ def main():
 def create_html_file(file_path, text, pic):
     # HTML code as a string
     html_content = f"""
-        <div>
+        <div class="result-container">
         <h1>Result</h1>
         <p>{text.replace("{", "").replace("}", "").replace("'", "")}</p>
         <img src="{pic}">
-        <div>
+        </div>
     """
 
     # Write the HTML content to the file
