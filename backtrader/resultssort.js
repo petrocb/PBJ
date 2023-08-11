@@ -1,25 +1,33 @@
-// Get references to the necessary elements
-const sortOption = document.getElementById('sort-option');
-const resultContainer = document.querySelectorAll('.result-container');
+document.addEventListener("DOMContentLoaded", function() {
+    const selectOption = document.getElementById("sort-option");
+    const resultContainers = document.querySelectorAll(".result-container");
 
-// Function to sort the divs by profit
-function sortByProfit() {
-    const divArray = Array.from(resultContainer);
+    selectOption.addEventListener("change", function() {
+        const selectedValue = selectOption.value;
+        if (selectedValue === "profit") {
+             //Convert the result containers to an array and sort them by profit
+            const sortedContainers = Array.from(resultContainers).sort(function(a, b) {
+                const profitA = parseFloat(a.querySelector("p").textContent.match(/'pnl': ([^,]+)/)[1]);
+                const profitB = parseFloat(b.querySelector("p").textContent.match(/'pnl': ([^,]+)/)[1]);
+                return profitB - profitA; // Descending order
+            });
 
-    divArray.sort((a, b) => {
-        const aProfit = parseFloat(a.querySelector('p').textContent.match(/pnl: ([0-9.-]+)/)[1]);
-        const bProfit = parseFloat(b.querySelector('p').textContent.match(/pnl: ([0-9.-]+)/)[1]);
+             //Append the sorted containers back to the parent
+            const parent = resultContainers[0].parentNode;
+            sortedContainers.forEach(container => parent.appendChild(container));
 
-        return bProfit - aProfit; // Descending order
+        }
+        if (selectedValue === "run order") {
+            // Convert the result containers to an array and sort them by run order
+            const sortedContainers = Array.from(resultContainers).sort(function(a, b) {
+                const runOrderA = parseInt(a.querySelector(".result").textContent.match(/^\d+/)[0]);
+                const runOrderB = parseInt(b.querySelector(".result").textContent.match(/^\d+/)[0]);
+                return runOrderA - runOrderB; // Ascending order
+            });
+
+            // Append the sorted containers back to the parent
+            const parent = resultContainers[0].parentNode;
+            sortedContainers.forEach(container => parent.appendChild(container));
+        }
     });
-
-    // Append sorted divs back to the container
-    divArray.forEach(div => resultContainer.appendChild(div));
-}
-
-// Attach a change event listener to the select element
-sortOption.addEventListener('change', function() {
-    if (sortOption.value === 'profit') {
-        sortByProfit();
-    }
 });
