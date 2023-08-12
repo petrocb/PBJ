@@ -16,7 +16,7 @@ def main():
     for o in range(10):
         for i in range(10):
             conditions.append([(o+1)*10, (i+1)*10])
-    #conditions = [[10, 50]]
+    conditions = [[30, 20]]
     for o in strats:
         for m in fxData:
             for i in conditions:

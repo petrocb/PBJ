@@ -26,3 +26,4 @@ Need some logic like:
 - combine with trailing stop
 - if hit bottom bollinger last and ST EMA cross above LT EMA then Buy order
 - 
+https://medium.com/@nusfintech.ml/fx-algorithmic-trading-with-machine-learning-models-7d6821fa7e67
