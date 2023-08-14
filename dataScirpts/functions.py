@@ -13,21 +13,23 @@ def upOrDown(data):
         for i in [30]:
             try:
                 if data[o][2] < data[o + i][2]:
-                    data[o].append(1)
+                    data[o].append(3)
                 elif data[o][2] > data[o + i][2]:
-                    data[o].append(-1)
+                    data[o].append(1)
                 elif data[o][2] == data[o + i][2]:
-                    data[o].append(0)
+                    data[o].append(2)
             except:
                 pass
     return data
 
 def filter(data):
-#     for i in range(len(data)):
-#         if int(data[i][0][0:4]) < 2020:
-#             data.pop(i)
-#             print(data[i])
     newData = [row for row in data if int(row[0][0:4]) == 2022]
     return newData
 
 
+def removeDirection(data):
+    for i in range(len(data)-2):
+        # print(data[i])
+        # print(data[i][5])
+        data[i].pop(5)
+    print(data)

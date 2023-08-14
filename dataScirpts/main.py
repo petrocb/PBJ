@@ -3,13 +3,14 @@ import pandas as pd
 import csv
 def main():
     data = []
-    with open('EURUSD.csv', 'r') as csvfile:
+    with open('2022.csv', 'r') as csvfile:
         reader = csv.reader(csvfile)
         for row in reader:
             data.append(row)
-    data = functions.filter(data)
-    data = functions.spread(data)
-    data = functions.upOrDown(data)
+    #data = functions.filter(data)
+    #data = functions.spread(data)
+    #data = functions.upOrDown(data)
+    functions.removeDirection(data)
 
     with open('2022.csv', 'w', newline='') as csvfile:
         writer = csv.writer(csvfile)

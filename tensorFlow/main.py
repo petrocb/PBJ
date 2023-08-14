@@ -35,7 +35,7 @@ def main():
     print(f"Test accuracy: {test_acc}")
 
     # Use the trained model for predictions on new data
-    new_data = pd.read_csv("2021.csv")
+    new_data = pd.read_csv("2022.csv")
     new_data_features = new_data[['bid', 'ask', 'volume']]
     predictions = model.predict(new_data_features)
 
