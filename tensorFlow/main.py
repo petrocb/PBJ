@@ -11,7 +11,7 @@ def main():
 
     # Extract features and labels
     features = data[['bid', 'ask', 'volume']]
-    labels = data['futureDirection']
+    labels = data['direction']
 
     # Split data into training and test sets
     train_features, test_features, train_labels, test_labels = train_test_split(features, labels, test_size=0.2, random_state=42)
@@ -38,6 +38,7 @@ def main():
     new_data = pd.read_csv("2022.csv")
     new_data_features = new_data[['bid', 'ask', 'volume']]
     predictions = model.predict(new_data_features)
+    model.save('trained_model')
 
 if __name__ == "__main__":
     main()

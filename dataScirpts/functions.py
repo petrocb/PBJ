@@ -13,11 +13,11 @@ def upOrDown(data):
         for i in [30]:
             try:
                 if data[o][2] < data[o + i][2]:
-                    data[o].append(3)
-                elif data[o][2] > data[o + i][2]:
-                    data[o].append(1)
-                elif data[o][2] == data[o + i][2]:
                     data[o].append(2)
+                elif data[o][2] > data[o + i][2]:
+                    data[o].append(0)
+                elif data[o][2] == data[o + i][2]:
+                    data[o].append(1)
             except:
                 pass
     return data

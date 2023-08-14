@@ -8,8 +8,8 @@ def main():
         for row in reader:
             data.append(row)
     #data = functions.filter(data)
-    #data = functions.spread(data)
-    #data = functions.upOrDown(data)
+    # data = functions.spread(data)
+    # data = functions.upOrDown(data)
     functions.removeDirection(data)
 
     with open('2022.csv', 'w', newline='') as csvfile:
