@@ -29,7 +29,7 @@ Need some logic like:
 https://medium.com/@nusfintech.ml/fx-algorithmic-trading-with-machine-learning-models-7d6821fa7e67
 https://arxiv.org/abs/2103.09750
 
-#chatgpt tf improvments
+# chatgpt tf improvments
 
 Your code is a good starting point, but there are several improvements and best practices you can consider to make it more robust and maintainable. Here are some suggestions:
 
