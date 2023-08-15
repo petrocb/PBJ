@@ -12,9 +12,11 @@ https://pypi.org/project/backtrader/
 https://pypi.org/project/stock-indicators/
 
 # To Do
-1.fix ema
-2.do ema conditions 
-3.look in to fib
+1. Jack to add stop loss to ema crossover
+2. Jack - Make stop loss work with conditions
+3. add emas to T.F
+4. Pet recreate ema strat in meta trader to backtrade
+5. Pet create strat in live trader -aim to strat it on monday 
 
 # Indicator Ideas
 Code up the Very Wet Ass Pussy  
