@@ -3,8 +3,8 @@ from datetime import datetime
 
 class EMACrossoverStrategy(bt.Strategy):
     def __init__(self, arr, i):
-        self.buy_signal = False
-        self.sell_signal = False
+        self.buyOpen = False
+        self.sellOpen = False
         print(i[0])
         print(i[1])
         self.short_ema = bt.indicators.ExponentialMovingAverage(self.data.close, period=i[0])
@@ -13,8 +13,10 @@ class EMACrossoverStrategy(bt.Strategy):
 
     def next(self):
         #print((self.short_ema[0] > self.long_ema[0] and self.short_ema[-1] <= self.long_ema[-1]) or (self.short_ema[0] < self.long_ema[0] and self.short_ema[-1] >= self.long_ema[-1]))
+        # print(self.short_ema[0])
+        # print(self.long_ema[0])
         if self.short_ema[0] < self.long_ema[0] and self.short_ema[-1] >= self.long_ema[-1]:
-            self.data.close = Entry_price
+            Entry_price = self.data.close
             self.stop_loss = Entry_price + 0.0020
             # Sell signal: short EMA crosses below long EMA
             self.sell(size=1)
