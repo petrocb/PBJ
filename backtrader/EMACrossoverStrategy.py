@@ -14,10 +14,17 @@ class EMACrossoverStrategy(bt.Strategy):
     def next(self):
         #print((self.short_ema[0] > self.long_ema[0] and self.short_ema[-1] <= self.long_ema[-1]) or (self.short_ema[0] < self.long_ema[0] and self.short_ema[-1] >= self.long_ema[-1]))
         if self.short_ema[0] < self.long_ema[0] and self.short_ema[-1] >= self.long_ema[-1]:
+            self.data.close = Entry_price
+            self.stop_loss = Entry_price + 0.0020
             # Sell signal: short EMA crosses below long EMA
             self.sell(size=1)
             self.buyOpen = False
             self.arr.append(['s', self.data.close[0], 0,  self.broker.getvalue(), self.data.datetime.datetime()])
+        if self.sellOpen == True:
+            if self.data.close[-1] + 0.0020 < self.stop_loss[-1]:
+                self.stop_loss[0] = self.data.close[-1] + 0.0020
+            elif self.data.close[-1] + 0.0020 >= self.stop_loss[-1]:
+                  self.stop_loss[0] = self.stop_loss[-1]
             # Close Sell order: short EMA crosses above long EMA
         if self.short_ema[0] > self.long_ema[0] and self.short_ema[-1] <= self.long_ema[-1]:
                 self.close()

@@ -271,3 +271,104 @@
 {'numObs': 64999, 'numTrades': 737, 'pnl': -0.002859999985957984, 'winRatio': 0.23609226594301222, 'wins': 174, 'losses': 563, 'aveHoldingWindow': '-1:11 hours', 'maxHoldingWindow': '51:37 hours', 'minHoldingWindow': '-1519:41 hours'}
 {'numObs': 64999, 'numTrades': 0, 'pnl': 0, 'winRatio': 0, 'wins': 0, 'losses': 0, 'aveHoldingWindow': 0, 'maxHoldingWindow': 0, 'minHoldingWindow': 0}
 {'numObs': 64999, 'numTrades': 0, 'pnl': 0, 'winRatio': 0, 'wins': 0, 'losses': 0, 'aveHoldingWindow': 0, 'maxHoldingWindow': 0, 'minHoldingWindow': 0}
+{'numObs': 64999, 'numTrades': 0, 'pnl': 0, 'winRatio': 0, 'wins': 0, 'losses': 0, 'aveHoldingWindow': 0, 'maxHoldingWindow': 0, 'minHoldingWindow': 0}
+{'numObs': 64999, 'numTrades': 0, 'pnl': 0, 'winRatio': 0, 'wins': 0, 'losses': 0, 'aveHoldingWindow': 0, 'maxHoldingWindow': 0, 'minHoldingWindow': 0}
+{'numObs': 64999, 'numTrades': 2972, 'pnl': 0.0, 'winRatio': 0.0, 'wins': 0, 'losses': 2972, 'aveHoldingWindow': '0:0 hours', 'maxHoldingWindow': '49:7 hours', 'minHoldingWindow': '-1521:51 hours'}
+{'numObs': 64999, 'numTrades': 2410, 'pnl': 0.0, 'winRatio': 0.0, 'wins': 0, 'losses': 2410, 'aveHoldingWindow': '0:0 hours', 'maxHoldingWindow': '50:33 hours', 'minHoldingWindow': '-1520:35 hours'}
+{'numObs': 64999, 'numTrades': 2058, 'pnl': 0.0, 'winRatio': 0.0, 'wins': 0, 'losses': 2058, 'aveHoldingWindow': '0:0 hours', 'maxHoldingWindow': '50:32 hours', 'minHoldingWindow': '-1520:40 hours'}
+{'numObs': 64999, 'numTrades': 1884, 'pnl': 0.0, 'winRatio': 0.0, 'wins': 0, 'losses': 1884, 'aveHoldingWindow': '0:0 hours', 'maxHoldingWindow': '50:38 hours', 'minHoldingWindow': '-1520:41 hours'}
+{'numObs': 64999, 'numTrades': 1698, 'pnl': 0.0, 'winRatio': 0.0, 'wins': 0, 'losses': 1698, 'aveHoldingWindow': '0:0 hours', 'maxHoldingWindow': '52:6 hours', 'minHoldingWindow': '-1520:43 hours'}
+{'numObs': 64999, 'numTrades': 1580, 'pnl': 0.0, 'winRatio': 0.0, 'wins': 0, 'losses': 1580, 'aveHoldingWindow': '0:0 hours', 'maxHoldingWindow': '55:7 hours', 'minHoldingWindow': '-1519:41 hours'}
+{'numObs': 64999, 'numTrades': 1474, 'pnl': 0.0, 'winRatio': 0.0, 'wins': 0, 'losses': 1474, 'aveHoldingWindow': '0:0 hours', 'maxHoldingWindow': '51:38 hours', 'minHoldingWindow': '-1519:41 hours'}
+{'numObs': 64999, 'numTrades': 1406, 'pnl': 0.0, 'winRatio': 0.0, 'wins': 0, 'losses': 1406, 'aveHoldingWindow': '0:0 hours', 'maxHoldingWindow': '55:4 hours', 'minHoldingWindow': '-1519:42 hours'}
+{'numObs': 64999, 'numTrades': 1312, 'pnl': 0.0, 'winRatio': 0.0, 'wins': 0, 'losses': 1312, 'aveHoldingWindow': '0:0 hours', 'maxHoldingWindow': '55:2 hours', 'minHoldingWindow': '-1519:43 hours'}
+{'numObs': 64999, 'numTrades': 2970, 'pnl': 0.0, 'winRatio': 0.0, 'wins': 0, 'losses': 2970, 'aveHoldingWindow': '0:0 hours', 'maxHoldingWindow': '49:13 hours', 'minHoldingWindow': '-1520:45 hours'}
+{'numObs': 64999, 'numTrades': 0, 'pnl': 0, 'winRatio': 0, 'wins': 0, 'losses': 0, 'aveHoldingWindow': 0, 'maxHoldingWindow': 0, 'minHoldingWindow': 0}
+{'numObs': 64999, 'numTrades': 1718, 'pnl': 0.0, 'winRatio': 0.0, 'wins': 0, 'losses': 1718, 'aveHoldingWindow': '0:0 hours', 'maxHoldingWindow': '50:38 hours', 'minHoldingWindow': '-1520:40 hours'}
+{'numObs': 64999, 'numTrades': 1502, 'pnl': 0.0, 'winRatio': 0.0, 'wins': 0, 'losses': 1502, 'aveHoldingWindow': '0:0 hours', 'maxHoldingWindow': '52:2 hours', 'minHoldingWindow': '-1520:42 hours'}
+{'numObs': 64999, 'numTrades': 1326, 'pnl': 0.0, 'winRatio': 0.0, 'wins': 0, 'losses': 1326, 'aveHoldingWindow': '0:0 hours', 'maxHoldingWindow': '55:8 hours', 'minHoldingWindow': '-1519:41 hours'}
+{'numObs': 64999, 'numTrades': 1188, 'pnl': 0.0, 'winRatio': 0.0, 'wins': 0, 'losses': 1188, 'aveHoldingWindow': '0:0 hours', 'maxHoldingWindow': '55:7 hours', 'minHoldingWindow': '-1519:41 hours'}
+{'numObs': 64999, 'numTrades': 1114, 'pnl': 0.0, 'winRatio': 0.0, 'wins': 0, 'losses': 1114, 'aveHoldingWindow': '0:0 hours', 'maxHoldingWindow': '55:5 hours', 'minHoldingWindow': '-1519:42 hours'}
+{'numObs': 64999, 'numTrades': 1068, 'pnl': 0.0, 'winRatio': 0.0, 'wins': 0, 'losses': 1068, 'aveHoldingWindow': '0:0 hours', 'maxHoldingWindow': '55:4 hours', 'minHoldingWindow': '-1519:42 hours'}
+{'numObs': 64999, 'numTrades': 1014, 'pnl': 0.0, 'winRatio': 0.0, 'wins': 0, 'losses': 1014, 'aveHoldingWindow': '0:0 hours', 'maxHoldingWindow': '55:2 hours', 'minHoldingWindow': '-1519:43 hours'}
+{'numObs': 64999, 'numTrades': 948, 'pnl': 0.0, 'winRatio': 0.0, 'wins': 0, 'losses': 948, 'aveHoldingWindow': '0:0 hours', 'maxHoldingWindow': '56:8 hours', 'minHoldingWindow': '-1519:43 hours'}
+{'numObs': 64999, 'numTrades': 2408, 'pnl': 0.0, 'winRatio': 0.0, 'wins': 0, 'losses': 2408, 'aveHoldingWindow': '0:0 hours', 'maxHoldingWindow': '50:11 hours', 'minHoldingWindow': '-1519:48 hours'}
+{'numObs': 64999, 'numTrades': 1716, 'pnl': 0.0, 'winRatio': 0.0, 'wins': 0, 'losses': 1716, 'aveHoldingWindow': '0:0 hours', 'maxHoldingWindow': '50:17 hours', 'minHoldingWindow': '-1519:47 hours'}
+{'numObs': 64999, 'numTrades': 0, 'pnl': 0, 'winRatio': 0, 'wins': 0, 'losses': 0, 'aveHoldingWindow': 0, 'maxHoldingWindow': 0, 'minHoldingWindow': 0}
+{'numObs': 64999, 'numTrades': 1188, 'pnl': 0.0, 'winRatio': 0.0, 'wins': 0, 'losses': 1188, 'aveHoldingWindow': '0:0 hours', 'maxHoldingWindow': '55:8 hours', 'minHoldingWindow': '-1519:41 hours'}
+{'numObs': 64999, 'numTrades': 1080, 'pnl': 0.0, 'winRatio': 0.0, 'wins': 0, 'losses': 1080, 'aveHoldingWindow': '0:0 hours', 'maxHoldingWindow': '55:7 hours', 'minHoldingWindow': '-1519:40 hours'}
+{'numObs': 64999, 'numTrades': 998, 'pnl': 0.0, 'winRatio': 0.0, 'wins': 0, 'losses': 998, 'aveHoldingWindow': '0:0 hours', 'maxHoldingWindow': '55:4 hours', 'minHoldingWindow': '-1519:41 hours'}
+{'numObs': 64999, 'numTrades': 938, 'pnl': 0.0, 'winRatio': 0.0, 'wins': 0, 'losses': 938, 'aveHoldingWindow': '0:0 hours', 'maxHoldingWindow': '55:3 hours', 'minHoldingWindow': '-1519:41 hours'}
+{'numObs': 64999, 'numTrades': 880, 'pnl': 0.0, 'winRatio': 0.0, 'wins': 0, 'losses': 880, 'aveHoldingWindow': '0:0 hours', 'maxHoldingWindow': '56:8 hours', 'minHoldingWindow': '-1519:38 hours'}
+{'numObs': 64999, 'numTrades': 828, 'pnl': 0.0, 'winRatio': 0.0, 'wins': 0, 'losses': 828, 'aveHoldingWindow': '0:0 hours', 'maxHoldingWindow': '56:8 hours', 'minHoldingWindow': '-1519:34 hours'}
+{'numObs': 64999, 'numTrades': 784, 'pnl': 0.0, 'winRatio': 0.0, 'wins': 0, 'losses': 784, 'aveHoldingWindow': '0:0 hours', 'maxHoldingWindow': '56:9 hours', 'minHoldingWindow': '-1519:34 hours'}
+{'numObs': 64999, 'numTrades': 2056, 'pnl': 0.0, 'winRatio': 0.0, 'wins': 0, 'losses': 2056, 'aveHoldingWindow': '0:0 hours', 'maxHoldingWindow': '50:24 hours', 'minHoldingWindow': '-1519:47 hours'}
+{'numObs': 64999, 'numTrades': 1500, 'pnl': 0.0, 'winRatio': 0.0, 'wins': 0, 'losses': 1500, 'aveHoldingWindow': '0:0 hours', 'maxHoldingWindow': '52:15 hours', 'minHoldingWindow': '-1519:46 hours'}
+{'numObs': 64999, 'numTrades': 1186, 'pnl': 0.0, 'winRatio': 0.0, 'wins': 0, 'losses': 1186, 'aveHoldingWindow': '0:0 hours', 'maxHoldingWindow': '52:14 hours', 'minHoldingWindow': '-1517:43 hours'}
+{'numObs': 64999, 'numTrades': 0, 'pnl': 0, 'winRatio': 0, 'wins': 0, 'losses': 0, 'aveHoldingWindow': 0, 'maxHoldingWindow': 0, 'minHoldingWindow': 0}
+{'numObs': 64999, 'numTrades': 938, 'pnl': 0.0, 'winRatio': 0.0, 'wins': 0, 'losses': 938, 'aveHoldingWindow': '0:0 hours', 'maxHoldingWindow': '55:5 hours', 'minHoldingWindow': '-1519:41 hours'}
+{'numObs': 64999, 'numTrades': 900, 'pnl': 0.0, 'winRatio': 0.0, 'wins': 0, 'losses': 900, 'aveHoldingWindow': '0:0 hours', 'maxHoldingWindow': '55:3 hours', 'minHoldingWindow': '-1519:38 hours'}
+{'numObs': 64999, 'numTrades': 806, 'pnl': 0.0, 'winRatio': 0.0, 'wins': 0, 'losses': 806, 'aveHoldingWindow': '0:0 hours', 'maxHoldingWindow': '56:8 hours', 'minHoldingWindow': '-1519:33 hours'}
+{'numObs': 64999, 'numTrades': 766, 'pnl': 0.0, 'winRatio': 0.0, 'wins': 0, 'losses': 766, 'aveHoldingWindow': '0:0 hours', 'maxHoldingWindow': '56:8 hours', 'minHoldingWindow': '-1519:32 hours'}
+{'numObs': 64999, 'numTrades': 704, 'pnl': 0.0, 'winRatio': 0.0, 'wins': 0, 'losses': 704, 'aveHoldingWindow': '0:0 hours', 'maxHoldingWindow': '56:13 hours', 'minHoldingWindow': '-1519:34 hours'}
+{'numObs': 64999, 'numTrades': 660, 'pnl': 0.0, 'winRatio': 0.0, 'wins': 0, 'losses': 660, 'aveHoldingWindow': '0:0 hours', 'maxHoldingWindow': '56:13 hours', 'minHoldingWindow': '-1517:7 hours'}
+{'numObs': 64999, 'numTrades': 1882, 'pnl': 0.0, 'winRatio': 0.0, 'wins': 0, 'losses': 1882, 'aveHoldingWindow': '0:0 hours', 'maxHoldingWindow': '50:25 hours', 'minHoldingWindow': '-1519:46 hours'}
+{'numObs': 64999, 'numTrades': 1324, 'pnl': 0.0, 'winRatio': 0.0, 'wins': 0, 'losses': 1324, 'aveHoldingWindow': '0:0 hours', 'maxHoldingWindow': '52:13 hours', 'minHoldingWindow': '-1517:42 hours'}
+{'numObs': 64999, 'numTrades': 1078, 'pnl': 0.0, 'winRatio': 0.0, 'wins': 0, 'losses': 1078, 'aveHoldingWindow': '0:0 hours', 'maxHoldingWindow': '52:10 hours', 'minHoldingWindow': '-1517:45 hours'}
+{'numObs': 64999, 'numTrades': 936, 'pnl': 0.0, 'winRatio': 0.0, 'wins': 0, 'losses': 936, 'aveHoldingWindow': '0:0 hours', 'maxHoldingWindow': '52:6 hours', 'minHoldingWindow': '-1517:50 hours'}
+{'numObs': 64999, 'numTrades': 0, 'pnl': 0, 'winRatio': 0, 'wins': 0, 'losses': 0, 'aveHoldingWindow': 0, 'maxHoldingWindow': 0, 'minHoldingWindow': 0}
+{'numObs': 64999, 'numTrades': 782, 'pnl': 0.0, 'winRatio': 0.0, 'wins': 0, 'losses': 782, 'aveHoldingWindow': '0:0 hours', 'maxHoldingWindow': '56:9 hours', 'minHoldingWindow': '-1519:32 hours'}
+{'numObs': 64999, 'numTrades': 716, 'pnl': 0.0, 'winRatio': 0.0, 'wins': 0, 'losses': 716, 'aveHoldingWindow': '0:0 hours', 'maxHoldingWindow': '56:9 hours', 'minHoldingWindow': '-1519:31 hours'}
+{'numObs': 64999, 'numTrades': 664, 'pnl': 0.0, 'winRatio': 0.0, 'wins': 0, 'losses': 664, 'aveHoldingWindow': '0:0 hours', 'maxHoldingWindow': '56:13 hours', 'minHoldingWindow': '-1517:7 hours'}
+{'numObs': 64999, 'numTrades': 618, 'pnl': 0.0, 'winRatio': 0.0, 'wins': 0, 'losses': 618, 'aveHoldingWindow': '0:0 hours', 'maxHoldingWindow': '56:14 hours', 'minHoldingWindow': '-1517:8 hours'}
+{'numObs': 64999, 'numTrades': 578, 'pnl': 0.0, 'winRatio': 0.0, 'wins': 0, 'losses': 578, 'aveHoldingWindow': '0:0 hours', 'maxHoldingWindow': '61:54 hours', 'minHoldingWindow': '-1517:6 hours'}
+{'numObs': 64999, 'numTrades': 1696, 'pnl': 0.0, 'winRatio': 0.0, 'wins': 0, 'losses': 1696, 'aveHoldingWindow': '0:0 hours', 'maxHoldingWindow': '52:11 hours', 'minHoldingWindow': '-1519:45 hours'}
+{'numObs': 64999, 'numTrades': 1186, 'pnl': 0.0, 'winRatio': 0.0, 'wins': 0, 'losses': 1186, 'aveHoldingWindow': '0:0 hours', 'maxHoldingWindow': '52:9 hours', 'minHoldingWindow': '-1517:44 hours'}
+{'numObs': 64999, 'numTrades': 996, 'pnl': 0.0, 'winRatio': 0.0, 'wins': 0, 'losses': 996, 'aveHoldingWindow': '0:0 hours', 'maxHoldingWindow': '52:5 hours', 'minHoldingWindow': '-1517:47 hours'}
+{'numObs': 64999, 'numTrades': 898, 'pnl': 0.0, 'winRatio': 0.0, 'wins': 0, 'losses': 898, 'aveHoldingWindow': '0:0 hours', 'maxHoldingWindow': '54:21 hours', 'minHoldingWindow': '-1516:5 hours'}
+{'numObs': 64999, 'numTrades': 780, 'pnl': 0.0, 'winRatio': 0.0, 'wins': 0, 'losses': 780, 'aveHoldingWindow': '0:0 hours', 'maxHoldingWindow': '55:28 hours', 'minHoldingWindow': '-1515:31 hours'}
+{'numObs': 64999, 'numTrades': 0, 'pnl': 0, 'winRatio': 0, 'wins': 0, 'losses': 0, 'aveHoldingWindow': 0, 'maxHoldingWindow': 0, 'minHoldingWindow': 0}
+{'numObs': 64999, 'numTrades': 632, 'pnl': 0.0, 'winRatio': 0.0, 'wins': 0, 'losses': 632, 'aveHoldingWindow': '0:0 hours', 'maxHoldingWindow': '56:13 hours', 'minHoldingWindow': '-1517:7 hours'}
+{'numObs': 64999, 'numTrades': 596, 'pnl': 0.0, 'winRatio': 0.0, 'wins': 0, 'losses': 596, 'aveHoldingWindow': '0:0 hours', 'maxHoldingWindow': '56:19 hours', 'minHoldingWindow': '-1517:6 hours'}
+{'numObs': 64999, 'numTrades': 566, 'pnl': 0.0, 'winRatio': 0.0, 'wins': 0, 'losses': 566, 'aveHoldingWindow': '0:0 hours', 'maxHoldingWindow': '61:55 hours', 'minHoldingWindow': '-1517:7 hours'}
+{'numObs': 64999, 'numTrades': 502, 'pnl': 0.0, 'winRatio': 0.0, 'wins': 0, 'losses': 502, 'aveHoldingWindow': '0:0 hours', 'maxHoldingWindow': '65:26 hours', 'minHoldingWindow': '-1517:5 hours'}
+{'numObs': 64999, 'numTrades': 1578, 'pnl': 0.0, 'winRatio': 0.0, 'wins': 0, 'losses': 1578, 'aveHoldingWindow': '0:0 hours', 'maxHoldingWindow': '52:7 hours', 'minHoldingWindow': '-1517:43 hours'}
+{'numObs': 64999, 'numTrades': 1112, 'pnl': 0.0, 'winRatio': 0.0, 'wins': 0, 'losses': 1112, 'aveHoldingWindow': '0:0 hours', 'maxHoldingWindow': '52:4 hours', 'minHoldingWindow': '-1517:45 hours'}
+{'numObs': 64999, 'numTrades': 936, 'pnl': 0.0, 'winRatio': 0.0, 'wins': 0, 'losses': 936, 'aveHoldingWindow': '0:0 hours', 'maxHoldingWindow': '52:2 hours', 'minHoldingWindow': '-1517:53 hours'}
+{'numObs': 64999, 'numTrades': 804, 'pnl': 0.0, 'winRatio': 0.0, 'wins': 0, 'losses': 804, 'aveHoldingWindow': '0:0 hours', 'maxHoldingWindow': '55:27 hours', 'minHoldingWindow': '-1515:32 hours'}
+{'numObs': 64999, 'numTrades': 714, 'pnl': 0.0, 'winRatio': 0.0, 'wins': 0, 'losses': 714, 'aveHoldingWindow': '0:0 hours', 'maxHoldingWindow': '56:45 hours', 'minHoldingWindow': '-1515:36 hours'}
+{'numObs': 64999, 'numTrades': 632, 'pnl': 0.0, 'winRatio': 0.0, 'wins': 0, 'losses': 632, 'aveHoldingWindow': '0:0 hours', 'maxHoldingWindow': '56:46 hours', 'minHoldingWindow': '-1515:43 hours'}
+{'numObs': 64999, 'numTrades': 0, 'pnl': 0, 'winRatio': 0, 'wins': 0, 'losses': 0, 'aveHoldingWindow': 0, 'maxHoldingWindow': 0, 'minHoldingWindow': 0}
+{'numObs': 64999, 'numTrades': 554, 'pnl': 0.0, 'winRatio': 0.0, 'wins': 0, 'losses': 554, 'aveHoldingWindow': '0:0 hours', 'maxHoldingWindow': '61:55 hours', 'minHoldingWindow': '-1517:5 hours'}
+{'numObs': 64999, 'numTrades': 500, 'pnl': 0.0, 'winRatio': 0.0, 'wins': 0, 'losses': 500, 'aveHoldingWindow': '0:0 hours', 'maxHoldingWindow': '65:27 hours', 'minHoldingWindow': '-1517:7 hours'}
+{'numObs': 64999, 'numTrades': 486, 'pnl': 0.0, 'winRatio': 0.0, 'wins': 0, 'losses': 486, 'aveHoldingWindow': '0:0 hours', 'maxHoldingWindow': '65:29 hours', 'minHoldingWindow': '-1512:13 hours'}
+{'numObs': 64999, 'numTrades': 1472, 'pnl': 0.0, 'winRatio': 0.0, 'wins': 0, 'losses': 1472, 'aveHoldingWindow': '0:0 hours', 'maxHoldingWindow': '52:2 hours', 'minHoldingWindow': '-1517:44 hours'}
+{'numObs': 64999, 'numTrades': 1066, 'pnl': 0.0, 'winRatio': 0.0, 'wins': 0, 'losses': 1066, 'aveHoldingWindow': '0:0 hours', 'maxHoldingWindow': '52:1 hours', 'minHoldingWindow': '-1517:47 hours'}
+{'numObs': 64999, 'numTrades': 878, 'pnl': 0.0, 'winRatio': 0.0, 'wins': 0, 'losses': 878, 'aveHoldingWindow': '0:0 hours', 'maxHoldingWindow': '53:1 hours', 'minHoldingWindow': '-1515:32 hours'}
+{'numObs': 64999, 'numTrades': 764, 'pnl': 0.0, 'winRatio': 0.0, 'wins': 0, 'losses': 764, 'aveHoldingWindow': '0:0 hours', 'maxHoldingWindow': '55:26 hours', 'minHoldingWindow': '-1515:35 hours'}
+{'numObs': 64999, 'numTrades': 664, 'pnl': 0.0, 'winRatio': 0.0, 'wins': 0, 'losses': 664, 'aveHoldingWindow': '0:0 hours', 'maxHoldingWindow': '56:46 hours', 'minHoldingWindow': '-1515:44 hours'}
+{'numObs': 64999, 'numTrades': 596, 'pnl': 0.0, 'winRatio': 0.0, 'wins': 0, 'losses': 596, 'aveHoldingWindow': '0:0 hours', 'maxHoldingWindow': '56:48 hours', 'minHoldingWindow': '-1515:51 hours'}
+{'numObs': 64999, 'numTrades': 554, 'pnl': 0.0, 'winRatio': 0.0, 'wins': 0, 'losses': 554, 'aveHoldingWindow': '0:0 hours', 'maxHoldingWindow': '59:49 hours', 'minHoldingWindow': '-1515:59 hours'}
+{'numObs': 64999, 'numTrades': 0, 'pnl': 0, 'winRatio': 0, 'wins': 0, 'losses': 0, 'aveHoldingWindow': 0, 'maxHoldingWindow': 0, 'minHoldingWindow': 0}
+{'numObs': 64999, 'numTrades': 490, 'pnl': 0.0, 'winRatio': 0.0, 'wins': 0, 'losses': 490, 'aveHoldingWindow': '0:0 hours', 'maxHoldingWindow': '65:28 hours', 'minHoldingWindow': '-1512:17 hours'}
+{'numObs': 64999, 'numTrades': 454, 'pnl': 0.0, 'winRatio': 0.0, 'wins': 0, 'losses': 454, 'aveHoldingWindow': '0:0 hours', 'maxHoldingWindow': '65:31 hours', 'minHoldingWindow': '-1512:20 hours'}
+{'numObs': 64999, 'numTrades': 1404, 'pnl': 0.0, 'winRatio': 0.0, 'wins': 0, 'losses': 1404, 'aveHoldingWindow': '0:0 hours', 'maxHoldingWindow': '52:1 hours', 'minHoldingWindow': '-1517:44 hours'}
+{'numObs': 64999, 'numTrades': 1012, 'pnl': 0.0, 'winRatio': 0.0, 'wins': 0, 'losses': 1012, 'aveHoldingWindow': '0:0 hours', 'maxHoldingWindow': '51:59 hours', 'minHoldingWindow': '-1517:48 hours'}
+{'numObs': 64999, 'numTrades': 826, 'pnl': 0.0, 'winRatio': 0.0, 'wins': 0, 'losses': 826, 'aveHoldingWindow': '0:0 hours', 'maxHoldingWindow': '55:28 hours', 'minHoldingWindow': '-1515:33 hours'}
+{'numObs': 64999, 'numTrades': 702, 'pnl': 0.0, 'winRatio': 0.0, 'wins': 0, 'losses': 702, 'aveHoldingWindow': '0:0 hours', 'maxHoldingWindow': '56:46 hours', 'minHoldingWindow': '-1515:41 hours'}
+{'numObs': 64999, 'numTrades': 618, 'pnl': 0.0, 'winRatio': 0.0, 'wins': 0, 'losses': 618, 'aveHoldingWindow': '0:0 hours', 'maxHoldingWindow': '56:48 hours', 'minHoldingWindow': '-1515:48 hours'}
+{'numObs': 64999, 'numTrades': 566, 'pnl': 0.0, 'winRatio': 0.0, 'wins': 0, 'losses': 566, 'aveHoldingWindow': '0:0 hours', 'maxHoldingWindow': '59:49 hours', 'minHoldingWindow': '-1515:58 hours'}
+{'numObs': 64999, 'numTrades': 500, 'pnl': 0.0, 'winRatio': 0.0, 'wins': 0, 'losses': 500, 'aveHoldingWindow': '0:0 hours', 'maxHoldingWindow': '62:37 hours', 'minHoldingWindow': '-1514:4 hours'}
+{'numObs': 64999, 'numTrades': 490, 'pnl': 0.0, 'winRatio': 0.0, 'wins': 0, 'losses': 490, 'aveHoldingWindow': '0:0 hours', 'maxHoldingWindow': '65:9 hours', 'minHoldingWindow': '-1509:8 hours'}
+{'numObs': 64999, 'numTrades': 0, 'pnl': 0, 'winRatio': 0, 'wins': 0, 'losses': 0, 'aveHoldingWindow': 0, 'maxHoldingWindow': 0, 'minHoldingWindow': 0}
+{'numObs': 64999, 'numTrades': 436, 'pnl': 0.0, 'winRatio': 0.0, 'wins': 0, 'losses': 436, 'aveHoldingWindow': '0:0 hours', 'maxHoldingWindow': '65:37 hours', 'minHoldingWindow': '-1512:23 hours'}
+{'numObs': 64999, 'numTrades': 1310, 'pnl': 0.0, 'winRatio': 0.0, 'wins': 0, 'losses': 1310, 'aveHoldingWindow': '0:0 hours', 'maxHoldingWindow': '51:58 hours', 'minHoldingWindow': '-1517:45 hours'}
+{'numObs': 64999, 'numTrades': 946, 'pnl': 0.0, 'winRatio': 0.0, 'wins': 0, 'losses': 946, 'aveHoldingWindow': '0:0 hours', 'maxHoldingWindow': '52:48 hours', 'minHoldingWindow': '-1517:50 hours'}
+{'numObs': 64999, 'numTrades': 782, 'pnl': 0.0, 'winRatio': 0.0, 'wins': 0, 'losses': 782, 'aveHoldingWindow': '0:0 hours', 'maxHoldingWindow': '56:46 hours', 'minHoldingWindow': '-1515:37 hours'}
+{'numObs': 64999, 'numTrades': 660, 'pnl': 0.0, 'winRatio': 0.0, 'wins': 0, 'losses': 660, 'aveHoldingWindow': '0:0 hours', 'maxHoldingWindow': '56:48 hours', 'minHoldingWindow': '-1515:46 hours'}
+{'numObs': 64999, 'numTrades': 578, 'pnl': 0.0, 'winRatio': 0.0, 'wins': 0, 'losses': 578, 'aveHoldingWindow': '0:0 hours', 'maxHoldingWindow': '59:49 hours', 'minHoldingWindow': '-1515:57 hours'}
+{'numObs': 64999, 'numTrades': 502, 'pnl': 0.0, 'winRatio': 0.0, 'wins': 0, 'losses': 502, 'aveHoldingWindow': '0:0 hours', 'maxHoldingWindow': '62:35 hours', 'minHoldingWindow': '-1514:3 hours'}
+{'numObs': 64999, 'numTrades': 486, 'pnl': 0.0, 'winRatio': 0.0, 'wins': 0, 'losses': 486, 'aveHoldingWindow': '0:0 hours', 'maxHoldingWindow': '65:8 hours', 'minHoldingWindow': '-1509:6 hours'}
+{'numObs': 64999, 'numTrades': 454, 'pnl': 0.0, 'winRatio': 0.0, 'wins': 0, 'losses': 454, 'aveHoldingWindow': '0:0 hours', 'maxHoldingWindow': '65:10 hours', 'minHoldingWindow': '-1509:13 hours'}
+{'numObs': 64999, 'numTrades': 436, 'pnl': 0.0, 'winRatio': 0.0, 'wins': 0, 'losses': 436, 'aveHoldingWindow': '0:0 hours', 'maxHoldingWindow': '65:14 hours', 'minHoldingWindow': '-1509:16 hours'}
+{'numObs': 64999, 'numTrades': 0, 'pnl': 0, 'winRatio': 0, 'wins': 0, 'losses': 0, 'aveHoldingWindow': 0, 'maxHoldingWindow': 0, 'minHoldingWindow': 0}

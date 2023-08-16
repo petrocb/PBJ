@@ -29,7 +29,8 @@ def save_plot_as_png():
 
 
 def main():
-    strats = [VWAP_Boll_EMA_Strategy]
+
+    strats = [EMACrossoverStrategy]
     fxData = ['EURUSD2.csv']
     conditions = []
     for o in range(10):
@@ -40,7 +41,7 @@ def main():
             for i in conditions:
                 cerebro = bt.Cerebro()
                 arr = []
-                cerebro.addstrategy(o, arr=arr, i=i)
+                cerebro.addstrategy(o, arr=arr, i=m)  # Pass vwap_values
                 print("Loading data")
                 data = bt.feeds.MT4CSVData(dataname=m, timeframe=bt.TimeFrame.Minutes, compression=1)
                 cerebro.adddata(data)
