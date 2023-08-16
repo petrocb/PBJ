@@ -5,18 +5,19 @@ from diffClacTradeStartStrat import diffClacTradeStartStrat
 from staticDiffStrat import staticDiffStrat
 from EMACrossoverStrategy import EMACrossoverStrategy
 from VWAP_Boll_EMA_Strategy import VWAP_Boll_EMA_Strategy
+from EMACrossoverStratergyNoStopLoss import EMACrossoverStrategyNoStopLoss
 from summary import summary
 import output
 
 def main():
     runOrder = 1
-    strats = [EMACrossoverStrategy]
+    strats = [EMACrossoverStrategy, EMACrossoverStrategyNoStopLoss]
     fxData = ['EURUSD2.csv']
     conditions = []
     for o in range(10):
         for i in range(10):
             conditions.append([(o+1)*10, (i+1)*10])
-    conditions = [[30, 20]]
+    conditions = [[30, 10]]
     for o in strats:
         for m in fxData:
             for i in conditions:
