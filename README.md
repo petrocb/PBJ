@@ -7,9 +7,13 @@ getting the last pieces of takes prices from the bottom initially instead of at 
 
 
 # Links
-https://pypi.org/project/oandapyV20/
-https://pypi.org/project/backtrader/
-https://pypi.org/project/stock-indicators/
+https://pypi.org/project/oandapyV20/ </br>
+https://pypi.org/project/backtrader/ </br>
+https://pypi.org/project/stock-indicators/ </br>
+
+# new links
+https://github.com/GJason88/oanda-ema-strategy/blob/master/MA_Cross_Strategy.py </br>
+https://btalib.backtrader.com/
 
 # To Do
 1. Jack to add stop loss to ema crossover
@@ -67,3 +71,4 @@ Your code is a good starting point, but there are several improvements and best 
 
     Separate Files:
     If the code becomes more complex, consider organizing it into separate files, such as one for data preprocessing, one for model building, and another for training and evaluation.
+
