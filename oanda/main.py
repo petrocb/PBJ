@@ -1,7 +1,23 @@
+import requests
+from EMACrossOver import EMACrossOver
+import json
 def main():
-    pass
+    token = "554a05a67a483b45171693a0ded86b01-7f36009c47bba3095ed7d8cc9901486c"
 
 
+    accountID = "101-004-25985927-001"
+    # response = requests.get("https://stream-fxpractice.oanda.com/v3/accounts/{}/pricing/stream?instruments={}".format(accountID, "EUR_USD"), headers={'Authorization': api}, stream=True)
+    price = requests.get(f"https://api-fxpractice.oanda.com/v3/accounts/{accountID}/pricing", headers={'Authorization': f'Bearer {token}'}, params={'instruments': "EUR_USD"})
+    print(price)
+    print("Response Status Code:", price.status_code)
+    print("Response Content:", price.text)
+    price = price.json()
+    print(price['prices'][0]['bids'][0]['price'])
+    print(price['prices'][0]['asks'][0]['price'])
+    # x = EMACrossOver()
+    # print(api.request(orders.OrderList(accountID)))
+    # price = api.request(pricing.PricingInfo(accountID=accountID, params={"instruments": "EUR_USD"}))['prices'][0]
+    # print(price)
 if __name__ == "__main__":
     main()
 

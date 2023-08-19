@@ -375,3 +375,4 @@
 {'numObs': 64999, 'numTrades': 92, 'pnl': 5.596819999975196, 'winRatio': 0.010869565217391304, 'wins': 1, 'losses': 91, 'aveHoldingWindow': '0:6 hours', 'maxHoldingWindow': '1:46 hours', 'minHoldingWindow': '0:1 hours'}
 {'numObs': 8822960, 'numTrades': 112105, 'pnl': 123.90763999973387, 'winRatio': 0.013237589759600375, 'wins': 1484, 'losses': 110621, 'aveHoldingWindow': '0:3 hours', 'maxHoldingWindow': '51:14 hours', 'minHoldingWindow': '0:1 hours'}
 {'numObs': 64999, 'numTrades': 92, 'pnl': 143672.29999998445, 'winRatio': 0.021739130434782608, 'wins': 2, 'losses': 90, 'aveHoldingWindow': '0:6 hours', 'maxHoldingWindow': '1:46 hours', 'minHoldingWindow': '0:1 hours'}
+{'numObs': 64999, 'numTrades': 92, 'pnl': 143672.29999998445, 'winRatio': 0.021739130434782608, 'wins': 2, 'losses': 90, 'aveHoldingWindow': '0:6 hours', 'maxHoldingWindow': '1:46 hours', 'minHoldingWindow': '0:1 hours'}
