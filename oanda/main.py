@@ -9,9 +9,11 @@ def main():
     #                      params={'instruments': "EUR_USD"})
     print(x.getBid())
     print(x.getAsk())
+    print(x.getPastPrices())
     i = False
     while i:
         x.tick()
+
         #print(price)
 if __name__ == "__main__":
     main()
