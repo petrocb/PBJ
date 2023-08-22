@@ -1,5 +1,6 @@
 import requests
 from EMACrossOver import EMACrossOver
+import functions
 import json
 def main():
     x = EMACrossOver()
@@ -7,9 +8,9 @@ def main():
     #                      f"/v3/accounts/{x.getCred()[2]}/instruments",
     #                      headers={'Authorization': f'Bearer {x.getCred()[3]}'},
     #                      params={'instruments': "EUR_USD"})
-    print(x.getBid())
-    print(x.getAsk())
-    print(x.getPastPrices())
+    print(functions.getBid())
+    print(functions.getAsk())
+    print(functions.getPastPrices())
     i = False
     while i:
         x.tick()
