@@ -41,3 +41,7 @@ def plotChart():
     pic = 'charts/' + str(randint(0, 9999999)) + '.png'
     plt.savefig(pic)
     return pic
+
+def plotDataExport(data, ):
+    with open('data', newline='') as csvfile:
+        csv_reader = csv.reader(csvfile)

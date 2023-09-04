@@ -28,7 +28,7 @@ def getPastPrices():
     list = []
     prices = requests.get(f"{getCred()[0]}/v3/accounts/{getCred()[2]}/instruments/EUR_USD/candles",
                           headers={'Authorization': f'Bearer {getCred()[1]}'},
-                          params={'granularity': 'M1', 'from': '2023-08-20T00:00:00.000Z'})
+                          params={'granularity': 'M5', 'from': '2023-08-20T00:00:00.000Z'})
     prices = prices.json()
     for i in prices['candles']:
         list.append([i['time'], float(i['mid']['c'])])

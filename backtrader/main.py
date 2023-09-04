@@ -4,13 +4,14 @@ from diffClacEveryTickStrat import diffClacEveryTickStrat
 from diffClacTradeStartStrat import diffClacTradeStartStrat
 from staticDiffStrat import staticDiffStrat
 from EMACrossoverStrategy import EMACrossoverStrategy
+from EMACrossoverStratergyNoStopLoss import EMACrossoverStrategyNoStopLoss
 from VWAP_Boll_EMA_Strategy import VWAP_Boll_EMA_Strategy
 from summary import summary
 import output
 
 def main():
     runOrder = 1
-    strats = [EMACrossoverStrategy]
+    strats = [EMACrossoverStrategyNoStopLoss]
     fxData = ['EURUSD2.csv']
     conditions = []
     for o in range(10):
@@ -22,12 +23,13 @@ def main():
             for i in conditions:
                 cerebro = bt.Cerebro()
                 arr = []
-                cerebro.addstrategy(o, arr=arr, i=i)
+                plotData = []
+                cerebro.addstrategy(o, arr=arr, i=i, plotData=plotData)
                 data = bt.feeds.MT4CSVData(dataname=m, timeframe=bt.TimeFrame.Minutes, compression=1)
                 cerebro.adddata(data)
                 cerebro.run()
                 output_text = summary(arr, data)
-
+                print(plotData)
                 with open("output.txt", "a") as file:
                     file.write(str(output_text))
                     file.write('\n')

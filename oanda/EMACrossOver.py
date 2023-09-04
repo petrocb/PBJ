@@ -12,5 +12,5 @@ class EMACrossOver():
     def tick(self):
         pass
 
-    def emaCalc
+    def emaCalc(self):
         pass
