@@ -2,11 +2,15 @@ import requests
 from EMACrossOver import EMACrossOver
 import functions
 import json
+
+
 def main():
     x = EMACrossOver()
     # print(functions.getBid())
     # print(functions.getAsk())
-    print(functions.getPastPrices('2023-08-20T00:00:00.000Z')[-1][0])
+    list = functions.startPastPricesList()
+    print(list['candles'][-1]['time'])
+    list = functions.updatePastPrices(list)
     # i = False
     # while i:
     #     x.tick()
