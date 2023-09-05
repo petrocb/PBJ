@@ -4,16 +4,12 @@ import functions
 import json
 def main():
     x = EMACrossOver()
-    # data = requests.get(x.getCred()[0] +
-    #                      f"/v3/accounts/{x.getCred()[2]}/instruments",
-    #                      headers={'Authorization': f'Bearer {x.getCred()[3]}'},
-    #                      params={'instruments': "EUR_USD"})
-    print(functions.getBid())
-    print(functions.getAsk())
-    print(functions.getPastPrices())
-    i = False
-    while i:
-        x.tick()
+    # print(functions.getBid())
+    # print(functions.getAsk())
+    print(functions.getPastPrices('2023-08-20T00:00:00.000Z')[-1][0])
+    # i = False
+    # while i:
+    #     x.tick()
 
         #print(price)
 if __name__ == "__main__":
