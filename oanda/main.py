@@ -5,12 +5,13 @@ import json
 
 
 def main():
-    x = EMACrossOver()
+
     # print(functions.getBid())
     # print(functions.getAsk())
     list = functions.startPastPricesList()
+    x = EMACrossOver(list)
     print(list['candles'][-1]['time'])
-    list = functions.updatePastPrices(list)
+    #list = functions.updatePastPrices(list)
     # i = False
     # while i:
     #     x.tick()
