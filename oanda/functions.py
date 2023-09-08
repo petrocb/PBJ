@@ -1,3 +1,4 @@
+import pandas as pd
 import requests
 import json
 import datetime
@@ -27,13 +28,18 @@ def getAsk():
 
 
 def startPastPricesList():
-    time = datetime.datetime.utcnow() - datetime.timedelta(minutes=5)
-    prices = requests.get(f"{getCred()[0]}/v3/accounts/{getCred()[2]}/instruments/EUR_USD/candles",
-                          headers={'Authorization': f'Bearer {getCred()[1]}'},
-                          params={'granularity': 'M5', 'count': 30})
-    prices = prices.json()
-    close_prices = [candle['mid']['c'] for candle in prices['candles']]
-    return close_prices
+    data = requests.get(f"{getCred()[0]}/v3/accounts/{getCred()[2]}/instruments/EUR_USD/candles",
+                        headers={'Authorization': f'Bearer {getCred()[1]}'},
+                        params={'granularity': 'M5', 'count': 30})
+    data = data.json()
+    data = data['candles']
+    prices = []
+    for i in data:
+        prices.append([i['time'], i['mid']['o'], i['mid']['h'], i['mid']['l'], i['mid']['c'], 0, 0])
+    prices = pd.DataFrame(prices)
+    prices.columns = ['Date', 'Open', 'High', 'Low', 'Close', 'Volume', 'OpenInterest']
+    return prices
+
 
 
 def updatePastPrices(prices_list):
@@ -57,11 +63,11 @@ def updatePastPrices(prices_list):
 
 
 # Example usage:
-past_close_prices = startPastPricesList()
-print("Initial Past Close Prices:")
-print(past_close_prices)
+# past_close_prices = startPastPricesList()
+# print("Initial Past Close Prices:")
+# print(past_close_prices)
 
 # Simulate updating past close prices
-past_close_prices = updatePastPrices(past_close_prices)
-print("\nUpdated Past Close Prices (Last 30 Close Prices):")
-print(past_close_prices)
+# past_close_prices = updatePastPrices(past_close_prices)
+# print("\nUpdated Past Close Prices (Last 30 Close Prices):")
+# print(past_close_prices)

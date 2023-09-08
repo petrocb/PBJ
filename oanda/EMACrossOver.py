@@ -5,11 +5,11 @@ import pandas as pd
 import functions
 
 class EMACrossOver():
-    def __init__(self, closes):
+    def __init__(self):
         self.buyOpen = False #Unsure if these need to be adjusted?
         self.sellOpen = False #Unsure if these need to be adjusted?
-        self.shortEma = self.emaCalc(10, closes)  # Calculate short EMA with provided closes
-        self.longEma = self.emaCalc(30, closes)   # Calculate long EMA with provided closes
+        self.shortEma = self.emaCalc(10)  # Calculate short EMA with provided closes
+        self.longEma = self.emaCalc(30)   # Calculate long EMA with provided closes
         self.closes = functions.startPastPricesList()
         self.diff = 0.040
         Entry_price = self.closes
@@ -34,8 +34,9 @@ class EMACrossOver():
             self.close()
             self.sellOpen = False
 
-    def emaCalc(self, period, closes):
-        return ema(closes, period=period)
+    def emaCalc(self, period):
+        # return ema(functions.startPastPricesList(), period=period)
+        print(ema(functions.startPastPricesList(), period=period).df)
 
     def buy(self):
         # Place a buy order
