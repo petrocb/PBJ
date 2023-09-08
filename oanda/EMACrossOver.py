@@ -10,9 +10,9 @@ class EMACrossOver():
         self.sellOpen = False #Unsure if these need to be adjusted?
         self.shortEma = self.emaCalc(10, closes)  # Calculate short EMA with provided closes
         self.longEma = self.emaCalc(30, closes)   # Calculate long EMA with provided closes
-        self.closes = closes
+        self.closes = functions.startPastPricesList()
         self.diff = 0.040
-        Entry_price = self.data.close
+        Entry_price = self.closes
         self.stop_loss = Entry_price + self.diff
 
     def tick(self):
