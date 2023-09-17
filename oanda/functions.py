@@ -71,3 +71,42 @@ def updatePastPrices(prices_list):
 # past_close_prices = updatePastPrices(past_close_prices)
 # print("\nUpdated Past Close Prices (Last 30 Close Prices):")
 # print(past_close_prices)
+
+def emaCalc(data):
+    print(data)
+    ema = data[-1] * (2 / (len(data) + 1))
+    data.pop()
+    if len(data) > 0:
+        ema += emaCalc(data) * (1 - (2 / (len(data) + 1)))
+    print("full", ema)
+    return ema
+
+
+def calculate_ema(data, alpha):
+    """
+    Calculate the Exponential Moving Average (EMA) of a given dataset.
+
+    Parameters:
+    - data: A list or numpy array containing the time series data.
+    - alpha: The smoothing factor (usually between 0 and 1). A higher alpha gives more weight to recent data.
+
+    Returns:
+    - ema: A list containing the EMA values.
+    """
+
+    if not isinstance(data, (list, np.ndarray)) or len(data) == 0:
+        raise ValueError("Data should be a non-empty list or numpy array.")
+
+    if not 0 < alpha <= 1:
+        raise ValueError("Alpha should be between 0 and 1.")
+
+    ema = [data[0]]  # The EMA for the first data point is the same as the data point itself
+
+    for i in range(1, len(data)):
+        ema_value = alpha * data[i] + (1 - alpha) * ema[-1]
+        ema.append(ema_value)
+
+    return ema
+
+
+# Example usage:
