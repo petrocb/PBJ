@@ -73,12 +73,10 @@ def updatePastPrices(prices_list):
 # print(past_close_prices)
 
 def emaCalc(data):
-    print(data)
     ema = data[-1] * (2 / (len(data) + 1))
     data.pop()
     if len(data) > 0:
         ema += emaCalc(data) * (1 - (2 / (len(data) + 1)))
-    print("full", ema)
     return ema
 
 
