@@ -38,6 +38,7 @@ def startPastPricesList():
         prices.append([i['time'], i['mid']['o'], i['mid']['h'], i['mid']['l'], i['mid']['c'], 0, 0])
     prices = pd.DataFrame(prices)
     prices.columns = ['Date', 'Open', 'High', 'Low', 'Close', 'Volume', 'OpenInterest']
+    return prices['Close']
     return prices
 
 
