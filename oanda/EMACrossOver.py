@@ -1,6 +1,7 @@
 import requests
 import json
 from btalib import ema
+import backtrader as bt
 import pandas as pd
 import functions
 
@@ -8,16 +9,18 @@ class EMACrossOver():
     def __init__(self):
         self.buyOpen = False #Unsure if these need to be adjusted?
         self.sellOpen = False #Unsure if these need to be adjusted?
-        self.shortEma = self.emaCalc(10)  # Calculate short EMA with provided closes
-        self.longEma = self.emaCalc(30)   # Calculate long EMA with provided closes
-        # self.closes = functions.startPastPricesList()
+        self.closes = functions.startPastPricesList()
+        self.short_ema = bt.indicators.ExponentialMovingAverage(self.closes, period=30)
+        self.long_ema = bt.indicators.ExponentialMovingAverage(self.closes, period=10)
         self.diff = 0.040
-        Entry_price = self.closes
-        self.stop_loss = Entry_price + self.diff
+        self.Entry_price = self.closes
+        self.stop_loss = self.Entry_price + self.diff
 
     def tick(self):
         self.closes = functions.startPastPricesList()
-        if self.shortEma[0] < self.longEma[0] and self.shortEma[-1] >= self.longEma[-1]:
+        self.short_ema = bt.indicators.ExponentialMovingAverage(self.closes, period=30)
+        self.long_ema = bt.indicators.ExponentialMovingAverage(self.closes, period=10)
+        if self.short_ema[0] < self.long_ema[0] and self.short_ema[-1] >= self.long_ema[-1]:
             # Sell signal: short EMA crosses below long EMA
             Entry_price = self.closes
             self.stop_loss = Entry_price + self.diff

@@ -112,7 +112,7 @@ def sell_trade():
                                  json=data)
         return response.json()
 
-    def close_trade(trade_id):
+def close_trade(trade_id):
         # Close an existing trade by trade ID
         response = requests.put(f"{getCred()[0]}/v3/accounts/{getCred()[2]}/trades/{trade_id}/close",
                                 headers={'Authorization': f'Bearer {getCred()[1]}'})
