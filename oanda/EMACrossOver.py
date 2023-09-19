@@ -20,7 +20,7 @@ class EMACrossOver():
             # Sell signal: short EMA crosses below long EMA
             Entry_price = self.closes
             self.stop_loss = Entry_price + self.diff
-            self.sell()
+            functions.sell_trade()
             self.buyOpen = False
 
         if self.sellOpen == True:
@@ -31,27 +31,13 @@ class EMACrossOver():
             # Close Sell order: short EMA crosses above long EMA
         if self.closes[0] >= self.stop_loss:
             # self.short_ema[0] > self.long_ema[0] and self.short_ema[-1] <= self.long_ema[-1] or
-            self.close()
+            functions.close_trade()
             self.sellOpen = False
+
+
+
+
 
     def emaCalc(self, period):
         # return ema(functions.startPastPricesList(), period=period)
         print(ema(functions.startPastPricesList(), period=period).df)
-
-    def buy(self):
-        # Place a buy order
-        # You want this to be done a certain way and im not sure of the code
-        # Need to define how to tell API to initiate trade in the way you want
-        pass
-
-    def sell(self):
-        # Place a sell order
-        # You want this to be done a certain way and im not sure of the code
-        # Need to define how to tell API to initiate trade in the way you want
-        pass
-
-    def close(self):
-        # Close an existing order
-        # You want this to be done a certain way and im not sure of the code
-        # Need to define how to tell API to initiate trade in the way you want
-        pass

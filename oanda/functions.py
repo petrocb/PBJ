@@ -79,6 +79,44 @@ def emaCalc(data):
         ema += emaCalc(data) * (1 - (2 / (len(data) + 1)))
     return ema
 
+def buy_trade():
+        # Place a buy trade
+        instrument = "EUR:USD"  # Replace with the instrument you want to trade
+        units = 100  # Replace with the desired number of units
+        data = {
+            "order": {
+                "instrument": instrument,
+                "units": str(units),  # Convert units to string
+                "type": "MARKET"  # You can use other order types if needed
+            }
+        }
+        response = requests.post(f"{getCred()[0]}/v3/accounts/{getCred()[2]}/orders",
+                                 headers={'Authorization': f'Bearer {getCred()[1]}'},
+                                 json=data)
+        return response.json()
+
+def sell_trade():
+        # Place a sell trade
+        instrument = "EUR:USD"  # Replace with the instrument you want to trade
+        units = -100  # Replace with the desired number of units (negative for selling)
+        data = {
+            "order": {
+                "instrument": instrument,
+                "units": str(units),  # Convert units to string
+                "type": "MARKET"  # You can use other order types if needed
+            }
+        }
+        response = requests.post(f"{getCred()[0]}/v3/accounts/{getCred()[2]}/orders",
+                                 headers={'Authorization': f'Bearer {getCred()[1]}'},
+                                 json=data)
+        return response.json()
+
+    def close_trade(trade_id):
+        # Close an existing trade by trade ID
+        response = requests.put(f"{getCred()[0]}/v3/accounts/{getCred()[2]}/trades/{trade_id}/close",
+                                headers={'Authorization': f'Bearer {getCred()[1]}'})
+        return response.json()
+
 
 def calculate_ema(data, alpha):
     """
