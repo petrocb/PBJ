@@ -42,31 +42,39 @@ def startPastPricesList():
     print(list)
     count = 0
     for i in list:
-        list[count] = float(i)
+        list[count] = [datetime.datetime.fromisoformat(prices['Date'][count]),float(i)]
         count += 1
     print(list)
     return list
 
 
 
-def updatePastPrices(prices_list):
-    time = datetime.datetime.utcnow() - datetime.timedelta(minutes=5)
-    latest_prices = requests.get(f"{getCred()[0]}/v3/accounts/{getCred()[2]}/instruments/EUR_USD/candles",
-                                 headers={'Authorization': f'Bearer {getCred()[1]}'},
-                                 params={'granularity': 'M5', 'count': 30})
+def updatePastPrices(data):
+    # time = datetime.datetime.utcnow() - datetime.timedelta(minutes=5)
+    # latest_prices = requests.get(f"{getCred()[0]}/v3/accounts/{getCred()[2]}/instruments/EUR_USD/candles",
+    #                              headers={'Authorization': f'Bearer {getCred()[1]}'},
+    #                              params={'granularity': 'M5', 'count': 30})
+    #
+    # latest_prices = latest_prices.json()
+    # latest_candles = latest_prices['candles']
+    # latest_close_prices = [candle['mid']['c'] for candle in latest_candles]
+    #
+    # # Remove excess data to keep only the last 30 close prices
+    # if len(prices_list) + len(latest_close_prices) > 30:
+    #     num_to_remove = len(prices_list) + len(latest_close_prices) - 30
+    #     prices_list = prices_list[num_to_remove:]
+    #
+    # # Extend the prices_list with the new close prices
+    # prices_list.extend(latest_close_prices)
+    # return prices_list
+    print(datetime.datetime.utcnow())
+    print(datetime.datetime.utcnow() - datetime.timedelta(minutes=5))
+    if data[-1][0] < datetime.datetime.utcnow() - datetime.timedelta(minutes=5):
+        data.append([requests.get(f"{getCred()[0]}/v3/accounts/{getCred()[2]}/instruments/EUR_USD/candles",
+                                     headers={'Authorization': f'Bearer {getCred()[1]}'},
+                                     params={'granularity': 'M5', 'count': 1})])
 
-    latest_prices = latest_prices.json()
-    latest_candles = latest_prices['candles']
-    latest_close_prices = [candle['mid']['c'] for candle in latest_candles]
-
-    # Remove excess data to keep only the last 30 close prices
-    if len(prices_list) + len(latest_close_prices) > 30:
-        num_to_remove = len(prices_list) + len(latest_close_prices) - 30
-        prices_list = prices_list[num_to_remove:]
-
-    # Extend the prices_list with the new close prices
-    prices_list.extend(latest_close_prices)
-    return prices_list
+    return data
 
 
 # Example usage:

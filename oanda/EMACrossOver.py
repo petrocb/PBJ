@@ -39,6 +39,6 @@ class EMACrossOver():
             functions.close_trade()
             self.sellOpen = False
 
-    def emaCalc(self, period):
-        # return ema(functions.startPastPricesList(), period=period)
-        print(ema(functions.startPastPricesList(), period=period).df)
+    # def emaCalc(self, period):
+    #     # return ema(functions.startPastPricesList(), period=period)
+    #     print(ema(functions.startPastPricesList(), period=period).df)
