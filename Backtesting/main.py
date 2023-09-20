@@ -26,7 +26,7 @@ def get_dates(ts):
     return np.unique(ts)
 
 
-def EMA2(p, window_LT=200, window_ST=50, signal_type='buy',):
+def EMA2(p, window_LT=200, window_ST=50, signal_type='buy'):
     alpha_LT = 2 / (window_LT + 1)
     beta_LT = 1 - alpha_LT
     alpha_ST = 2 / (window_ST + 1)

@@ -2,8 +2,8 @@ import pandas as pd
 import requests
 import json
 import datetime
-
-
+import numpy as np
+import backtrader as bt
 def getCred():
     return ["https://api-fxpractice.oanda.com", "554a05a67a483b45171693a0ded86b01-7f36009c47bba3095ed7d8cc9901486c",
             "101-004-25985927-001"]
@@ -38,8 +38,14 @@ def startPastPricesList():
         prices.append([i['time'], i['mid']['o'], i['mid']['h'], i['mid']['l'], i['mid']['c'], 0, 0])
     prices = pd.DataFrame(prices)
     prices.columns = ['Date', 'Open', 'High', 'Low', 'Close', 'Volume', 'OpenInterest']
-    return prices['Close']
-    return prices
+    list = prices['Close'].to_list()
+    print(list)
+    count = 0
+    for i in list:
+        list[count] = float(i)
+        count += 1
+    print(list)
+    return list
 
 
 
@@ -147,3 +153,43 @@ def calculate_ema(data, alpha):
 
 
 # Example usage:
+
+def buy(self):
+        # Place a buy order
+        # You want this to be done a certain way and im not sure of the code
+        # Need to define how to tell API to initiate trade in the way you want
+        pass
+
+def sell(self):
+    # Place a sell order
+    # You want this to be done a certain way and im not sure of the code
+    # Need to define how to tell API to initiate trade in the way you want
+    pass
+def close(self):
+    # Close an existing order
+    # You want this to be done a certain way and im not sure of the code
+    # Need to define how to tell API to initiate trade in the way you want
+    pass
+
+def EMA2(p, window_LT=200):
+    alpha_LT = 2 / (window_LT + 1)
+    beta_LT = 1 - alpha_LT
+    ema_LT = list(np.zeros(window_LT) + np.nan) + [np.average(p[0:window_LT])]
+    for i in np.arange(window_LT + 1, len(p)):
+        ema_LT += [(alpha_LT * p[i]) + (ema_LT[i - 1] * beta_LT)]
+
+    for i in np.arange(len(p) - 1):
+        if np.isnan(ema_LT[i]):
+            continue
+
+    return ema_LT
+    #
+    #     if np.isnan(ema_ST[i]):
+    #         continue
+    #
+    #     if ema_LT[i] < ema_ST[i] and (signal_type == 'buy only' or signal_type == 'both'):
+    #         signals[i] = 1
+    #     elif ema_LT[i] > ema_ST[i] and (signal_type == 'sell only' or signal_type == 'both'):
+    #         signals[i] = -1
+    #
+    # return signals
