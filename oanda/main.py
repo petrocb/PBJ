@@ -23,7 +23,6 @@ def main():
     # data = [25, 22, 20, 18, 15, 12, 10]
     #ema_values = functions.emaCalc(data)
     #print(ema_values)
-    print(functions.startPastPricesList())
     print(functions.updatePastPrices(functions.startPastPricesList()))
 
 if __name__ == "__main__":
