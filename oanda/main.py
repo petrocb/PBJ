@@ -4,6 +4,7 @@ import functions
 import json
 import time
 import backtrader
+import time
 def main():
     # print(functions.EMA2([10, 12, 15, 18, 20, 22, 25]))
     # print(functions.emaCalc([10, 12, 15, 18, 20, 22, 25]))
@@ -15,15 +16,17 @@ def main():
     # list = functions.startPastPricesList()
     #print(functions.startPastPricesList())
     #x = EMACrossOver()
-
-    # while True:
+    x = functions.startPastPricesList()
+    while True:
         # x.tick()  # Execute the EMA crossover strategy
         # time.sleep(300)  # Sleep for 5 minutes (300 secs)
     #data = [10, 12, 15, 18, 20, 22, 25]
     # data = [25, 22, 20, 18, 15, 12, 10]
     #ema_values = functions.emaCalc(data)
     #print(ema_values)
-    print(functions.updatePastPrices(functions.startPastPricesList()))
+
+        functions.updatePastPrices(x)
+        time.sleep(60*5)
 
 if __name__ == "__main__":
     main()
