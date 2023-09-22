@@ -50,23 +50,6 @@ def startPastPricesList():
 
 
 def updatePastPrices(data):
-    # time = datetime.datetime.utcnow() - datetime.timedelta(minutes=5)
-    # latest_prices = requests.get(f"{getCred()[0]}/v3/accounts/{getCred()[2]}/instruments/EUR_USD/candles",
-    #                              headers={'Authorization': f'Bearer {getCred()[1]}'},
-    #                              params={'granularity': 'M5', 'count': 30})
-    #
-    # latest_prices = latest_prices.json()
-    # latest_candles = latest_prices['candles']
-    # latest_close_prices = [candle['mid']['c'] for candle in latest_candles]
-    #
-    # # Remove excess data to keep only the last 30 close prices
-    # if len(prices_list) + len(latest_close_prices) > 30:
-    #     num_to_remove = len(prices_list) + len(latest_close_prices) - 30
-    #     prices_list = prices_list[num_to_remove:]
-    #
-    # # Extend the prices_list with the new close prices
-    # prices_list.extend(latest_close_prices)
-    # return prices_list
     print(datetime.datetime.utcnow())
     print(datetime.datetime.utcnow() - datetime.timedelta(minutes=5))
     if data[-1][0] < datetime.datetime.utcnow() - datetime.timedelta(minutes=5):
@@ -75,24 +58,6 @@ def updatePastPrices(data):
                                      params={'granularity': 'M5', 'count': 1})])
 
     return data
-
-
-# Example usage:
-# past_close_prices = startPastPricesList()
-# print("Initial Past Close Prices:")
-# print(past_close_prices)
-
-# Simulate updating past close prices
-# past_close_prices = updatePastPrices(past_close_prices)
-# print("\nUpdated Past Close Prices (Last 30 Close Prices):")
-# print(past_close_prices)
-
-def emaCalc(data):
-    ema = data[-1] * (2 / (len(data) + 1))
-    data.pop()
-    if len(data) > 0:
-        ema += emaCalc(data) * (1 - (2 / (len(data) + 1)))
-    return ema
 
 def buy_trade():
         # Place a buy trade
@@ -133,32 +98,6 @@ def close_trade(trade_id):
         return response.json()
 
 
-def calculate_ema(data, alpha):
-    """
-    Calculate the Exponential Moving Average (EMA) of a given dataset.
-
-    Parameters:
-    - data: A list or numpy array containing the time series data.
-    - alpha: The smoothing factor (usually between 0 and 1). A higher alpha gives more weight to recent data.
-
-    Returns:
-    - ema: A list containing the EMA values.
-    """
-
-    if not isinstance(data, (list, np.ndarray)) or len(data) == 0:
-        raise ValueError("Data should be a non-empty list or numpy array.")
-
-    if not 0 < alpha <= 1:
-        raise ValueError("Alpha should be between 0 and 1.")
-
-    ema = [data[0]]  # The EMA for the first data point is the same as the data point itself
-
-    for i in range(1, len(data)):
-        ema_value = alpha * data[i] + (1 - alpha) * ema[-1]
-        ema.append(ema_value)
-
-    return ema
-
 
 # Example usage:
 
@@ -191,13 +130,4 @@ def EMA2(p, window_LT=200):
             continue
 
     return ema_LT
-    #
-    #     if np.isnan(ema_ST[i]):
-    #         continue
-    #
-    #     if ema_LT[i] < ema_ST[i] and (signal_type == 'buy only' or signal_type == 'both'):
-    #         signals[i] = 1
-    #     elif ema_LT[i] > ema_ST[i] and (signal_type == 'sell only' or signal_type == 'both'):
-    #         signals[i] = -1
-    #
-    # return signals
+
