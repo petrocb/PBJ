@@ -74,7 +74,7 @@ def updatePastPrices(data):
 
     return data
 
-def buy_trade():
+def buy():
         # Place a buy trade
         instrument = "EUR:USD"  # Replace with the instrument you want to trade
         units = 100  # Replace with the desired number of units
@@ -90,7 +90,7 @@ def buy_trade():
                                  json=data)
         return response.json()
 
-def sell_trade():
+def sell():
         # Place a sell trade
         instrument = "EUR:USD"  # Replace with the instrument you want to trade
         units = -100  # Replace with the desired number of units (negative for selling)
@@ -106,7 +106,7 @@ def sell_trade():
                                  json=data)
         return response.json()
 
-def close_trade(trade_id):
+def close(trade_id):
         # Close an existing trade by trade ID
         response = requests.put(f"{getCred()[0]}/v3/accounts/{getCred()[2]}/trades/{trade_id}/close",
                                 headers={'Authorization': f'Bearer {getCred()[1]}'})
@@ -116,22 +116,7 @@ def close_trade(trade_id):
 
 # Example usage:
 
-def buy(self):
-        # Place a buy order
-        # You want this to be done a certain way and im not sure of the code
-        # Need to define how to tell API to initiate trade in the way you want
-        pass
 
-def sell(self):
-    # Place a sell order
-    # You want this to be done a certain way and im not sure of the code
-    # Need to define how to tell API to initiate trade in the way you want
-    pass
-def close(self):
-    # Close an existing order
-    # You want this to be done a certain way and im not sure of the code
-    # Need to define how to tell API to initiate trade in the way you want
-    pass
 
 def EMA2(p, window_LT=200):
     alpha_LT = 2 / (window_LT + 1)
