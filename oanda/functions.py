@@ -39,12 +39,10 @@ def startPastPricesList():
     prices = pd.DataFrame(prices)
     prices.columns = ['Date', 'Open', 'High', 'Low', 'Close', 'Volume', 'OpenInterest']
     list = prices['Close'].to_list()
-    print(list)
     count = 0
     for i in list:
         list[count] = [datetime.datetime.fromisoformat(prices['Date'][count]),float(i)]
         count += 1
-    print(list)
     return list
 
 
@@ -52,10 +50,27 @@ def startPastPricesList():
 def updatePastPrices(data):
     print(datetime.datetime.utcnow())
     print(datetime.datetime.utcnow() - datetime.timedelta(minutes=5))
-    if data[-1][0] < datetime.datetime.utcnow() - datetime.timedelta(minutes=5):
-        data.append([requests.get(f"{getCred()[0]}/v3/accounts/{getCred()[2]}/instruments/EUR_USD/candles",
+    if data[-1][0] < (datetime.datetime.utcnow() - datetime.timedelta(minutes=5)).replace(tzinfo=datetime.timezone.utc):
+        x = requests.get(f"{getCred()[0]}/v3/accounts/{getCred()[2]}/instruments/EUR_USD/candles",
                                      headers={'Authorization': f'Bearer {getCred()[1]}'},
-                                     params={'granularity': 'M5', 'count': 1})])
+                                     params={'granularity': 'M5', 'count': 1})
+        x = x.json()
+        x = x['candles']
+        prices = []
+        for i in x:
+            prices.append([i['time'], i['mid']['o'], i['mid']['h'], i['mid']['l'], i['mid']['c'], 0, 0])
+        prices = pd.DataFrame(prices)
+        prices.columns = ['Date', 'Open', 'High', 'Low', 'Close', 'Volume', 'OpenInterest']
+        list = prices['Close'].to_list()
+        count = 0
+        for i in list:
+            list[count] = ["New",datetime.datetime.fromisoformat(prices['Date'][count]), float(i)]
+            count += 1
+        data.append(x)
+        print("passed")
+        print(x)
+    else:
+        print("failed")
 
     return data
 
