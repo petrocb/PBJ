@@ -15,7 +15,7 @@ def getAsk():
 
 
 def startPastPricesList():
-    return []
+    return 0
 
 
 
