@@ -23,6 +23,11 @@ class dataHandler:
 
     def update(self):
         with open('EURUSD2.csv', newline='') as csvfile:
-            reader = csv.reader(csvfile, delimiter=' ', quotechar='|')
+            reader = csv.reader(csvfile, delimiter=',', quotechar='|')
             self.line += 1
-            return reader[self.line]
+            print(self.line)
+            print(reader[self.line])
+            return [datetime.datetime.combine(datetime.date(int(self.line[0][0:4]), int(self.line[0][5:7]), int(self.line[0][8:10])),
+                             datetime.time(int(self.line[1][0:2])))]
+            return reader[[datetime.datetime.combine(datetime.date(int(self.line[0][0:4]), int(self.line[0][5:7]), int(self.line[0][8:10])),
+                             datetime.time(int(self.line[1][0:2]), int(self.line[1][3:5]))), float(self.line[-2])]]
