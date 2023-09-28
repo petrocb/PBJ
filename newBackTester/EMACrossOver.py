@@ -19,8 +19,8 @@ class EMACrossOver():
 
     def tick(self):
         self.closes = functions.updatePastPrices(self.closes)
-        # self.short_ema = functions.EMA2(self.closes[0:-10])
-        # self.long_ema = functions.EMA2(self.closes[0:-30])
+        self.short_ema = functions.EMA2(self.closes[0:-10])
+        self.long_ema = functions.EMA2(self.closes[0:-30])
         if self.short_ema < self.long_ema and self.short_ema >= self.long_ema:
             # Sell signal: short EMA crosses below long EMA
             Entry_price = self.closes
@@ -34,7 +34,7 @@ class EMACrossOver():
             elif self.closes[-1] + self.diff >= self.stop_loss:
                 self.stop_loss = self.stop_loss
             # Close Sell order: short EMA crosses above long EMA
-        if self.closes[-1] >= self.stop_loss:
+        if self.closes[-1][-1] >= self.stop_loss:
             # self.short_ema[0] > self.long_ema[0] and self.short_ema[-1] <= self.long_ema[-1] or
             functions.close()
             self.sellOpen = False

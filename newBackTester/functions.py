@@ -37,6 +37,9 @@ def sell():
 def close(trade_id):
     dp.close()
 
+def getPositions():
+    return dp.getPosition()
+
 
 def EMA2(p, window_LT=200):
     alpha_LT = 2 / (window_LT + 1)

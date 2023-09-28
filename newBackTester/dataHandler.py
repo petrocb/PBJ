@@ -60,3 +60,7 @@ class dataHandler:
                 if count == self.line:
                     self.positions.append([i, "c"])
                 count += 1
+
+    def getPosition(self):
+        print(self.positions)
+        return self.positions
