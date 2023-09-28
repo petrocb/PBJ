@@ -6,9 +6,12 @@ import numpy as np
 import backtrader as bt
 import csv
 from dataHandler import dataHandler
+
 dp = dataHandler()
+
+
 def getBid():
-    return  0
+    return 0
 
 
 def getAsk():
@@ -17,17 +20,23 @@ def getAsk():
 
 def startPastPricesList():
     return dp.start()
+
+
 def updatePastPrices(data):
     return dp.update()
 
+
 def buy():
-    pass
+    dp.buy()
+
 
 def sell():
-        pass
+    dp.sell()
+
 
 def close(trade_id):
-        pass
+    dp.close()
+
 
 def EMA2(p, window_LT=200):
     alpha_LT = 2 / (window_LT + 1)
@@ -43,4 +52,3 @@ def EMA2(p, window_LT=200):
             continue
 
     return ema_LT
-

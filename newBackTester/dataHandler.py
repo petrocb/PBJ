@@ -51,3 +51,12 @@ class dataHandler:
                 if count == self.line:
                     self.positions.append([i, "s"])
                 count += 1
+
+    def close(self):
+        with open('EURUSD2.csv', newline='') as csvfile:
+            reader = csv.reader(csvfile, delimiter=',', quotechar='|')
+            count = 0
+            for i in reader:
+                if count == self.line:
+                    self.positions.append([i, "c"])
+                count += 1
