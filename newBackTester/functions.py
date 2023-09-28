@@ -21,7 +21,8 @@ def updatePastPrices(data):
     return dp.update()
 
 def buy():
-        pass
+    pass
+
 def sell():
         pass
 

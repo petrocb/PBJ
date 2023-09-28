@@ -5,6 +5,7 @@ import datetime
 class dataHandler:
     def __init__(self):
         self.line = 0
+        self.positions = []
 
     def start(self):
         with open('EURUSD2.csv', newline='') as csvfile:
@@ -25,9 +26,28 @@ class dataHandler:
         with open('EURUSD2.csv', newline='') as csvfile:
             reader = csv.reader(csvfile, delimiter=',', quotechar='|')
             self.line += 1
-            print(self.line)
-            print(reader[self.line])
-            return [datetime.datetime.combine(datetime.date(int(self.line[0][0:4]), int(self.line[0][5:7]), int(self.line[0][8:10])),
-                             datetime.time(int(self.line[1][0:2])))]
-            return reader[[datetime.datetime.combine(datetime.date(int(self.line[0][0:4]), int(self.line[0][5:7]), int(self.line[0][8:10])),
-                             datetime.time(int(self.line[1][0:2]), int(self.line[1][3:5]))), float(self.line[-2])]]
+            count = 0
+            data = []
+            for i in reader:
+                if count == self.line:
+                    data.append([datetime.datetime.combine(datetime.date(int(i[0][0:4]), int(i[0][5:7]), int(i[0][8:10])),
+                                                   datetime.time(int(i[1][0:2]), int(i[1][3:5]))), float(i[-2])])
+                    return data
+                count += 1
+    def buy(self):
+        with open('EURUSD2.csv', newline='') as csvfile:
+            reader = csv.reader(csvfile, delimiter=',', quotechar='|')
+            count = 0
+            for i in reader:
+                if count == self.line:
+                    self.positions.append([i, "b"])
+                count += 1
+
+    def sell(self):
+        with open('EURUSD2.csv', newline='') as csvfile:
+            reader = csv.reader(csvfile, delimiter=',', quotechar='|')
+            count = 0
+            for i in reader:
+                if count == self.line:
+                    self.positions.append([i, "s"])
+                count += 1
