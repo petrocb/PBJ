@@ -11,19 +11,19 @@ class EMACrossOver():
         self.buyOpen = False #Unsure if these need to be adjusted?
         self.sellOpen = False #Unsure if these need to be adjusted?
         self.closes = functions.startPastPricesList()
-        print(self.closes)
-        print(len(self.closes))
-        self.short_ema = functions.sma(self.closes[-10:])
-        self.long_ema = functions.sma(self.closes[-30:])
+        self.short_ema = [functions.sma(self.closes[-10:])]
+        self.long_ema = [functions.sma(self.closes[-30:])]
         self.diff = 0.040
         self.Entry_price = float(self.closes[0][1])
         self.stop_loss = self.Entry_price + self.diff
 
     def tick(self):
+        print(self.closes[-1:])
         self.closes = functions.updatePastPrices(self.closes)
-        self.short_ema = functions.sma(self.closes[-10:])
-        self.long_ema = functions.sma(self.closes[-30:])
-        if self.short_ema < self.long_ema and self.short_ema >= self.long_ema:
+        self.short_ema.append([functions.sma(self.closes[-10:])])
+        self.long_ema.append([functions.sma(self.closes[-30:])])
+        # print(self.short_ema[-1] < self.long_ema[-1] and self.short_ema[-2] >= self.long_ema[-2])
+        if self.short_ema[-1] < self.long_ema[-1] and self.short_ema[-2] >= self.long_ema[-2]:
             # Sell signal: short EMA crosses below long EMA
             Entry_price = self.closes
             self.stop_loss = Entry_price + self.diff

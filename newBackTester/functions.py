@@ -61,7 +61,6 @@ def EMA2(p, window_LT=200):
     return ema_LT[-1]
 
 def ema(data):
-    print(data)
     ema = data[-1][1] * (2 / (len(data) + 1))
     data.pop()
     if len(data) > 0:
@@ -70,6 +69,4 @@ def ema(data):
 
 def sma(data):
     list = [i[1] for i in data]
-    print(len(list))
-    print("qqq", sum(list)/len(list))
     return sum(list)/len(list)

@@ -62,5 +62,4 @@ class dataHandler:
                 count += 1
 
     def getPosition(self):
-        print(self.positions)
         return self.positions
