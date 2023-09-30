@@ -51,7 +51,25 @@ def EMA2(p, window_LT=200):
         ema_LT += [(alpha_LT * p[i]) + (ema_LT[i - 1] * beta_LT)]
 
     for i in np.arange(len(p) - 1):
+        print(np.isnan(ema_LT[i]))
         if np.isnan(ema_LT[i]):
             continue
+        else:
+            return ema_LT[i]
+    print(ema_LT)
+    print(ema_LT[-1])
+    return ema_LT[-1]
 
-    return ema_LT
+def ema(data):
+    print(data)
+    ema = data[-1][1] * (2 / (len(data) + 1))
+    data.pop()
+    if len(data) > 0:
+        ema += ema(data) * (1 - (2 / (len(data) + 1)))
+    return ema
+
+def sma(data):
+    list = [i[1] for i in data]
+    print(len(list))
+    print("qqq", sum(list)/len(list))
+    return sum(list)/len(list)
