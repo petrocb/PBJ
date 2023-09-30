@@ -1,8 +1,7 @@
 from datetime import timedelta
 def summary(arr, data):
-    pass
     # print("Starting summary")
-    # print(arr)
+    print(arr)
     # initial_value = 10000  # Replace this with your actual initial account value
     #
     # data = {

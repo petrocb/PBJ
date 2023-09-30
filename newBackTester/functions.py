@@ -70,7 +70,8 @@ def ema(data):
 def sma(data):
     #list = [i[1] for i in data]
     list = []
+    # print(data)
     for i in data:
-        print(i)
+        # print(i)
         list.append(i[1])
     return sum(list)/len(list)
