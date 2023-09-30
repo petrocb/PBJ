@@ -27,11 +27,11 @@ class dataHandler:
             reader = csv.reader(csvfile, delimiter=',', quotechar='|')
             self.line += 1
             count = 0
-            data = []
             for i in reader:
                 if count == self.line:
-                    data.append([datetime.datetime.combine(datetime.date(int(i[0][0:4]), int(i[0][5:7]), int(i[0][8:10])),
-                                                   datetime.time(int(i[1][0:2]), int(i[1][3:5]))), float(i[-2])])
+                    return [datetime.datetime.combine(datetime.date(int(i[0][0:4]), int(i[0][5:7]), int(i[0][8:10])),
+                                                   datetime.time(int(i[1][0:2]), int(i[1][3:5]))), float(i[-2])]
+                    print("data,",data)
                     return data
                 count += 1
     def buy(self):
