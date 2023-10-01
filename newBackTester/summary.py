@@ -2,6 +2,21 @@ from datetime import timedelta
 def summary(arr, data):
     # print("Starting summary")
     print(arr)
+    total = 0
+    winRatio = 0
+    for i in arr:
+        print(i)
+        if i[-1] == 's':
+            price = float(i[0][-2])
+        elif i[-1] == 'c':
+            total += price - float(i[0][-2])
+            if price < float(i[0][-2]):
+                winRatio += 1
+            # else:
+            #     winRatio -= 1
+    winRatio = round(winRatio/(len(arr)/2), 2)
+    print(total)
+    print(winRatio)
     # initial_value = 10000  # Replace this with your actual initial account value
     #
     # data = {
