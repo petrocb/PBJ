@@ -30,7 +30,7 @@ def getAsk():
 def startPastPricesList():
     data = requests.get(f"{getCred()[0]}/v3/accounts/{getCred()[2]}/instruments/EUR_USD/candles",
                         headers={'Authorization': f'Bearer {getCred()[1]}'},
-                        params={'granularity': 'M5', 'count': 30})
+                        params={'granularity': 'M1', 'count': 30})
     data = data.json()
     data = data['candles']
     prices = []
@@ -48,12 +48,12 @@ def startPastPricesList():
 
 
 def updatePastPrices(data):
-    print(datetime.datetime.utcnow())
-    print(datetime.datetime.utcnow() - datetime.timedelta(minutes=5))
+    # print(datetime.datetime.utcnow())
+    # print(datetime.datetime.utcnow() - datetime.timedelta(minutes=5))
     if data[-1][0] < (datetime.datetime.utcnow() - datetime.timedelta(minutes=5)).replace(tzinfo=datetime.timezone.utc):
         x = requests.get(f"{getCred()[0]}/v3/accounts/{getCred()[2]}/instruments/EUR_USD/candles",
                                      headers={'Authorization': f'Bearer {getCred()[1]}'},
-                                     params={'granularity': 'M5', 'count': 1})
+                                     params={'granularity': 'M1', 'count': 1})
         x = x.json()
         x = x['candles']
         prices = []
@@ -63,15 +63,19 @@ def updatePastPrices(data):
         prices.columns = ['Date', 'Open', 'High', 'Low', 'Close', 'Volume', 'OpenInterest']
         list = prices['Close'].to_list()
         count = 0
+        print("LIST:",list)
         for i in list:
-            list[count] = ["New",datetime.datetime.fromisoformat(prices['Date'][count]), float(i)]
+            list[count] = [datetime.datetime.fromisoformat(prices['Date'][count]), float(i)]
+            data.append(list[count])
             count += 1
-        data.append(x)
-        print("passed")
-        print(x)
-    else:
-        print("failed")
 
+
+        # print("passed")
+        # print(x)
+    else:
+        # print("failed")
+        pass
+    print("data:",data)
     return data
 
 def buy():
@@ -131,3 +135,13 @@ def EMA2(p, window_LT=200):
 
     return ema_LT
 
+def sma(data):
+    #list = [i[1] for i in data]
+    list = []
+    print("data:",data)
+    print("len:",len(data))
+    for i in data:
+        print("i:",i)
+        list.append(i[1])
+    print("list:",list)
+    return sum(list)/len(list)
