@@ -21,6 +21,7 @@ class EMACrossOver():
         self.closes.append(functions.updatePastPrices(self.closes))
         self.short_ema.append(functions.sma(self.closes[-10:]))
         self.long_ema.append(functions.sma(self.closes[-30:]))
+        print(self.closes[-1])
         # print(self.short_ema[-1])
         # print(self.long_ema[-1])
         if self.short_ema[-1] < self.long_ema[-1] and self.short_ema[-2] >= self.long_ema[-2] and not self.sellOpen:
@@ -30,16 +31,20 @@ class EMACrossOver():
             functions.sell()
             self.sellOpen = True
 
-        if self.sellOpen:
-            if self.closes[-1][1] + self.diff < self.stop_loss:
-                self.stop_loss = self.closes[-1][1] + self.diff
-            elif self.closes[-1][1] + self.diff >= self.stop_loss:
-                self.stop_loss = self.stop_loss
-            # Close Sell order: short EMA crosses above long EMA
-        if self.closes[-1][1] >= self.stop_loss:
-            # self.short_ema[0] > self.long_ema[0] and self.short_ema[-1] <= self.long_ema[-1] or
+        if self.short_ema[-1] > self.long_ema[-1] and self.short_ema[-2] <= self.long_ema[-2] and self.sellOpen:
             functions.close()
             self.sellOpen = False
+
+        # if self.sellOpen:
+        #     if self.closes[-1][1] + self.diff < self.stop_loss:
+        #         self.stop_loss = self.closes[-1][1] + self.diff
+        #     elif self.closes[-1][1] + self.diff >= self.stop_loss:
+        #         self.stop_loss = self.stop_loss
+        #     # Close Sell order: short EMA crosses above long EMA
+        # if self.closes[-1][1] >= self.stop_loss:
+        #     # self.short_ema[0] > self.long_ema[0] and self.short_ema[-1] <= self.long_ema[-1] or
+        #     functions.close()
+        #     self.sellOpen = False
 
     # def emaCalc(self, period):
     #     # return ema(functions.startPastPricesList(), period=period)

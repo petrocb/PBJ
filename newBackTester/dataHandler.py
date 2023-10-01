@@ -8,7 +8,7 @@ class dataHandler:
         self.positions = []
 
     def start(self):
-        with open('EURUSD3.csv', newline='') as csvfile:
+        with open('EURUSD2.csv', newline='') as csvfile:
             reader = csv.reader(csvfile, delimiter=',', quotechar='|')
             count = 0
             # data = [[datetime.combine(datetime.date(i[0]),datetime.time(i[1])), i[-2]] for i in reader]
@@ -23,7 +23,7 @@ class dataHandler:
             return data
 
     def update(self):
-        with open('EURUSD3.csv', newline='') as csvfile:
+        with open('EURUSD2.csv', newline='') as csvfile:
             reader = csv.reader(csvfile, delimiter=',', quotechar='|')
             self.line += 1
             count = 0
