@@ -34,7 +34,7 @@ def sell():
     dh.sell()
 
 
-def close():
+def close(id):
     dh.close()
 
 def getPositions():

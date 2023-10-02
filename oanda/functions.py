@@ -67,8 +67,8 @@ def updatePastPrices(data):
             list[count] = [datetime.datetime.fromisoformat(prices['Date'][count]), float(i)]
             data.append(list[count])
             count += 1
-
-
+        if len(data) > 30:
+            data.pop(0)
         # print("passed")
         # print(x)
     else:
@@ -90,7 +90,9 @@ def buy():
         response = requests.post(f"{getCred()[0]}/v3/accounts/{getCred()[2]}/orders",
                                  headers={'Authorization': f'Bearer {getCred()[1]}'},
                                  json=data)
-        return response.json()
+        id = response.json()
+        id = id['orderFillTransaction']['id']
+        return id
 
 def sell():
         # Place a sell trade
