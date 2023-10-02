@@ -10,10 +10,10 @@ class SMACrossOver():
         self.diff = 0.040
         self.Entry_price = float(self.closes[0][1])
         self.stop_loss = self.Entry_price + self.diff
+        self.id = 0
 
     def tick(self):
         self.closes = functions.updatePastPrices(self.closes)
-        print("closes;",self.closes)
         self.short_ema.append(functions.sma(self.closes[-10:]))
         self.long_ema.append(functions.sma(self.closes[-30:]))
         # print(self.closes[-1])
@@ -23,9 +23,15 @@ class SMACrossOver():
             # Sell signal: short EMA crosses below long EMA
             self.Entry_price = self.closes[-1][1]
             self.stop_loss = self.Entry_price + self.diff
-            functions.sell()
+            self.id = functions.sell()
             self.sellOpen = True
+            print("!!!!SELL!!!!")
 
         if self.short_ema[-1] > self.long_ema[-1] and self.short_ema[-2] <= self.long_ema[-2] and self.sellOpen:
-            functions.close()
+            functions.close(self.id)
             self.sellOpen = False
+            print("!!!!CLOSE!!!!")
+        print("closes:",self.closes)
+        print(" short:",self.short_ema,
+              " long:",self.long_ema)
+        print(" open:",self.sellOpen)
