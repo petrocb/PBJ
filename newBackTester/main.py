@@ -8,44 +8,47 @@ import csv
 def main():
     lot_size = 10000
     direction = 'sell only'
-    #data = np.array([1.0700,1.0695,1.0685,1.0680,1.0679,1.0675,1.0670,1.0665,1.0664,1.0663,1.0660,1.0650,1.0640,1.0615,1.0618,1.0622,1.0627,1.0630,1.0635,1.06637,1.0640])
-    data = pd.read_csv('EURUSD3.csv')
+    # close_data = np.array([1.0700,1.0695,1.0685,1.0680,1.0679,1.0675,1.0670,1.0665,1.0664,1.0663,1.0660,1.0650,1.0640,1.0615,1.0618,1.0622,1.0627,1.0630,1.0635,1.06637,1.0640])
+    data = pd.read_csv('EURUSD2.csv')
     close_data = data['1.09196']
     #print(close_data)
 
     df = EMA2(close_data,10,30,direction)
-    #print(df)
+    print(df)
 
     obs = close_data.shape[0]
-    #print(obs)
+
     num_trades = np.sum(np.diff(df['Signals'])==1)
-    #print(num_trades)
-    PnL = lot_size * np.sum(close_data[1:] * np.diff(df['Signals']))
-    #print(PnL)
 
     ind_in = np.where(np.diff(df['Signals'])==1)[0]+1
     ind_out = np.where(np.diff(df['Signals'])==-1)[0]+1
-    inout= pd.DataFrame(data={'IN':close_data[ind_in], 'OUT': close_data[ind_out]})
-    #print(ind_in)
-    #print(ind_out)
+    ind_in_price= close_data[ind_in].reset_index(drop=True)
+    ind_out_price= close_data[ind_out].reset_index(drop=True)
+    if direction == 'sell only':
+        pnl= ind_in_price - ind_out_price
+    else:
+        pnl = ind_out_price - ind_in_price
+
+    print(pnl)
+    in_vs_out= pd.DataFrame(data={'IN':ind_in_price, 'OUT': ind_out_price, 'PnL': pnl})
+    print(in_vs_out)
     #value when getting in must be bigger than getting out as we are SELLING
     #switch this if buying
-    print(len(close_data[ind_in]))
-    print(len(close_data[ind_out]))
-    print(inout)
-    # if direction == 'sell only':
-    #      num_win = np.sum((close_data[ind_in]-close_data[ind_out])>0)
-    # elif direction == 'buy only':
-    #      num_win = np.sum((close_data[ind_out] - close_data[ind_in]) > 0)
-    # print(num_win)
-    # if  num_trades != 0:
-    #     win_ratio = num_win/num_trades
-    # else:
-    #     win_ratio = 0
-    #
-    # summary_data = {'Num. Obs.': obs, 'Num. Trade': num_trades, 'Pnl':PnL, "Win Ratio": win_ratio}  # add addtional fields if necessary
-    # summary_table = pd.DataFrame(data=summary_data, index=[0])
-    # print(summary_table)
+
+
+    if direction == 'sell only':
+         num_win = np.sum((in_vs_out['IN']-in_vs_out['OUT'])>0)
+    elif direction == 'buy only':
+         num_win = np.sum((in_vs_out['OUT'] - in_vs_out['IN']) > 0)
+    print(num_win)
+    if  num_trades != 0:
+        win_ratio = num_win/num_trades
+    else:
+        win_ratio = 0
+
+    summary_data = {'Num. Obs.': obs, 'Num. Trade': num_trades, 'Pnl':sum(pnl)*lot_size, "Win Ratio": win_ratio}  # add addtional fields if necessary
+    summary_table = pd.DataFrame(data=summary_data, index=[0])
+    print(summary_table)
 
 
 
