@@ -1,14 +1,63 @@
 from EMACrossOver import EMACrossOver
 from summary import summary
+import pandas as pd
 import numpy as np
 from functions import EMA2
 from functions import signals
 import csv
 def main():
-    data = [1.0629,1.0627,1.0626,1.0622,1.0620,1.0615,1.0610,1.0605,1.0599,1.0597,1.0592,1.0590,1.0588,1.0580,1.0588,1.0590,1.0597,1.0599,1.0605,1.0610,1.0626]
-    df = EMA2(data,8,3)
-    df1 = signals(df)
-    print(df1)
+    lot_size = 10000
+    direction = 'sell only'
+    #data = np.array([1.0700,1.0695,1.0685,1.0680,1.0679,1.0675,1.0670,1.0665,1.0664,1.0663,1.0660,1.0650,1.0640,1.0615,1.0618,1.0622,1.0627,1.0630,1.0635,1.06637,1.0640])
+    data = pd.read_csv('EURUSD3.csv')
+    close_data = data['1.09196']
+    #print(close_data)
+
+    df = EMA2(close_data,10,30,direction)
+    #print(df)
+
+    obs = close_data.shape[0]
+    #print(obs)
+    num_trades = np.sum(np.diff(df['Signals'])==1)
+    #print(num_trades)
+    PnL = lot_size * np.sum(close_data[1:] * np.diff(df['Signals']))
+    #print(PnL)
+
+    ind_in = np.where(np.diff(df['Signals'])==1)[0]+1
+    ind_out = np.where(np.diff(df['Signals'])==-1)[0]+1
+    #print(ind_in)
+    #print(ind_out)
+    #value when getting in must be bigger than getting out as we are SELLING
+    #switch this if buying
+    if direction == 'sell only':
+         num_win = np.sum((close_data[ind_in]-close_data[ind_out])>0)
+    elif direction == 'buy only':
+         num_win = np.sum((close_data[ind_out] - close_data[ind_in]) > 0)
+    print(num_win)
+    # if  num_trades != 0:
+    #     win_ratio = num_win/num_trades
+    # else:
+    #     win_ratio = 0
+    #
+    # summary_data = {'Num. Obs.': obs, 'Num. Trade': num_trades, 'Pnl':PnL, "Win Ratio": win_ratio}  # add addtional fields if necessary
+    # summary_table = pd.DataFrame(data=summary_data, index=[0])
+    # print(summary_table)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
     # print(signals(df,8))
     # print(np.diff(signals(df,8)))
 

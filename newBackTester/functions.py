@@ -59,14 +59,53 @@ def EMA2(p, window_LT=200, window_ST=50, signal_type='buy only'):
         if np.isnan(ema_LT[i]):
             continue
 
-        ema_ST = list(np.zeros(window_ST) + np.nan) + [np.average(p[0:window_ST])]
-        for i in np.arange(window_ST + 1, len(p)):
-            ema_ST += [(alpha_ST * p[i]) + (ema_ST[i - 1] * beta_ST)]
+    ema_ST = list(np.zeros(window_ST) + np.nan) + [np.average(p[0:window_ST])]
+    for i in np.arange(window_ST + 1, len(p)):
+        ema_ST += [(alpha_ST * p[i]) + (ema_ST[i - 1] * beta_ST)]
 
-    d = {'Price': p, 'EMA_ST': ema_ST, 'EMA_LT': ema_LT}
+    for i in np.arange(len(p) - 1):
+        if np.isnan(ema_ST[i]):
+            continue
+
+        #if ema_LT[i] < ema_ST[i] and (signal_type == 'buy only' or signal_type == 'both'):
+            #signals[i] = 1
+    for i in np.arange(window_LT , len(p)):
+        if ema_LT[i] > ema_ST[i] and (signal_type == 'sell only' or signal_type == 'both'):
+            signals[i] = 1
+    signals[-1] = 0
+    d = {'Price': p, 'EMA_ST': ema_ST, 'EMA_LT': ema_LT, 'Signals': signals}
+
     df = pd.DataFrame(data=d)
 
     return df
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 def signals(df, window_LT = 8):
     p = df["Price"]
