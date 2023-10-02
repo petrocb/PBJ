@@ -25,15 +25,19 @@ def main():
 
     ind_in = np.where(np.diff(df['Signals'])==1)[0]+1
     ind_out = np.where(np.diff(df['Signals'])==-1)[0]+1
+    inout= pd.DataFrame(data={'IN':close_data[ind_in], 'OUT': close_data[ind_out]})
     #print(ind_in)
     #print(ind_out)
     #value when getting in must be bigger than getting out as we are SELLING
     #switch this if buying
-    if direction == 'sell only':
-         num_win = np.sum((close_data[ind_in]-close_data[ind_out])>0)
-    elif direction == 'buy only':
-         num_win = np.sum((close_data[ind_out] - close_data[ind_in]) > 0)
-    print(num_win)
+    print(len(close_data[ind_in]))
+    print(len(close_data[ind_out]))
+    print(inout)
+    # if direction == 'sell only':
+    #      num_win = np.sum((close_data[ind_in]-close_data[ind_out])>0)
+    # elif direction == 'buy only':
+    #      num_win = np.sum((close_data[ind_out] - close_data[ind_in]) > 0)
+    # print(num_win)
     # if  num_trades != 0:
     #     win_ratio = num_win/num_trades
     # else:
