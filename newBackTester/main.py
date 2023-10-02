@@ -9,8 +9,12 @@ def main():
     lot_size = 10000
     direction = 'sell only'
     # close_data = np.array([1.0700,1.0695,1.0685,1.0680,1.0679,1.0675,1.0670,1.0665,1.0664,1.0663,1.0660,1.0650,1.0640,1.0615,1.0618,1.0622,1.0627,1.0630,1.0635,1.06637,1.0640])
-    data = pd.read_csv('EURUSD2.csv')
-    close_data = data['1.09196']
+    #2023.04.07, 15: 11, 1.09196, 1.09206, 1.09193, 1.09206, 17
+    #open,high,low,close
+    data = pd.read_csv('EURUSD3.csv')
+    date= data['2023.04.07']
+    time= data['15:11']
+    close_data = data['1.09206']
     #print(close_data)
 
     df = EMA2(close_data,10,30,direction)
@@ -23,24 +27,26 @@ def main():
     ind_in = np.where(np.diff(df['Signals'])==1)[0]+1
     ind_out = np.where(np.diff(df['Signals'])==-1)[0]+1
     ind_in_price= close_data[ind_in].reset_index(drop=True)
+    ind_in_date= date[ind_in].reset_index(drop=True)
+    ind_in_time= time[ind_in].reset_index(drop=True)
     ind_out_price= close_data[ind_out].reset_index(drop=True)
+    ind_out_date= date[ind_out].reset_index(drop=True)
+    ind_out_time= time[ind_out].reset_index(drop=True)
     if direction == 'sell only':
         pnl= ind_in_price - ind_out_price
     else:
         pnl = ind_out_price - ind_in_price
 
-    print(pnl)
-    in_vs_out= pd.DataFrame(data={'IN':ind_in_price, 'OUT': ind_out_price, 'PnL': pnl})
+    in_vs_out= pd.DataFrame(data={'Date IN': ind_in_date , 'Time IN':ind_in_time ,'Price IN':ind_in_price,'Date OUT':ind_out_date , 'Time OUT': ind_out_time, 'Price OUT': ind_out_price, 'PnL': pnl})
     print(in_vs_out)
     #value when getting in must be bigger than getting out as we are SELLING
     #switch this if buying
 
 
     if direction == 'sell only':
-         num_win = np.sum((in_vs_out['IN']-in_vs_out['OUT'])>0)
+         num_win = np.sum((in_vs_out['Price IN']-in_vs_out['Price OUT'])>0)
     elif direction == 'buy only':
-         num_win = np.sum((in_vs_out['OUT'] - in_vs_out['IN']) > 0)
-    print(num_win)
+         num_win = np.sum((in_vs_out['Price OUT'] - in_vs_out['Price IN']) > 0)
     if  num_trades != 0:
         win_ratio = num_win/num_trades
     else:
