@@ -78,7 +78,7 @@ def updatePastPrices(data):
 
 def buy():
         # Place a buy trade
-        instrument = "EUR:USD"  # Replace with the instrument you want to trade
+        instrument = "EUR_USD"  # Replace with the instrument you want to trade
         units = 10000  # Replace with the desired number of units
         data = {
             "order": {

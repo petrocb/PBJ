@@ -22,7 +22,7 @@ class SMACrossOver():
             print("!!!!SELL!!!!")
             if self.id != 0:
                 functions.close(self.id)
-            # self.id = functions.sell()
+            self.id = functions.sell()
             self.sellOpen = True
             self.buyOpen = False
 
@@ -30,16 +30,16 @@ class SMACrossOver():
             print("!!!!BUY!!!!")
             if self.id != 0:
                 functions.close(self.id)
-            # self.id = functions.buy(self.id)
+            self.id = functions.buy()
             self.sellOpen = False
             self.buyOpen = True
 
 
         with open('output.csv', 'a', newline='') as csvfile:
             csvWriter = csv.writer(csvfile)
-            csvWriter.writerow([self.closes, self.short_ema, self.long_ema, self.sellOpen])
+            csvWriter.writerow([self.closes, self.short_ema, self.long_ema, self.sellOpen, self.buyOpen])
         csvfile.close()
         print("closes:", self.closes)
         print(" short:", self.short_ema,
               " long:", self.long_ema)
-        print(" open:", self.sellOpen)
+        print("sell buy open:", self.sellOpen, self.buyOpen)
