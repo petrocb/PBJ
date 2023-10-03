@@ -73,24 +73,26 @@ def main():
     #print(signals(EMA2(data,8,3),"sell only"))
     runOrder = 1
     strats = [SMACrossOver()]
-    fxData = ['EURUSD2.csv']
-    conditions = [30, 10]
+    fxData = ['EURUSD3.csv']
+    conditions = [30]
     data = []
     for o in strats:
         for m in fxData:
             for i in conditions:
-                with open('EURUSD2.csv', newline='') as csvfile:
+                with open('EURUSD3.csv', newline='') as csvfile:
                     reader = csv.reader(csvfile, delimiter=',', quotechar='|')
                     count = 0
                     for x in reader:
                         arr = []
                         plotData = []
                         for x in m:
-                                try:
+                                # try:
                                     o.tick()
-                                except TypeError as e:
-                                    print(e)
-                        summary(getPositions(), data)
+                                # except TypeError as e:
+                                #     print(e)
+                                #     pass
+                    print(getPositions())
+                    summary(getPositions(), data)
 
 
 if __name__ == "__main__":

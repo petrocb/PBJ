@@ -11,7 +11,8 @@ class SMACrossOver():
         self.id = 0
 
     def tick(self):
-        self.closes = functions.updatePastPrices(self.closes)
+        self.closes.append(functions.updatePastPrices(self.closes))
+        print(self.closes)
         self.short_ema.append(functions.sma(self.closes[-10:]))
         self.long_ema.append(functions.sma(self.closes[-30:]))
         if len(self.short_ema) > 2:
@@ -22,7 +23,7 @@ class SMACrossOver():
             print("!!!!SELL!!!!")
             if self.id != 0:
                 functions.close(self.id)
-            # self.id = functions.sell()
+            self.id = functions.sell()
             self.sellOpen = True
             self.buyOpen = False
 
@@ -30,7 +31,7 @@ class SMACrossOver():
             print("!!!!BUY!!!!")
             if self.id != 0:
                 functions.close(self.id)
-            # self.id = functions.buy(self.id)
+            self.id = functions.buy()
             self.sellOpen = False
             self.buyOpen = True
 
