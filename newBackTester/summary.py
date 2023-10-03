@@ -4,22 +4,30 @@ def summary(arr, data):
     # print(arr)
     total = 0
     winRatio = 0
+    count = 0
     for i in arr:
-        # print(i)
-        if i[-1] == 's':
-            price = float(i[0][-2])
+        print(i)
+        if i[-1] == ('s' and 'b'):
+            price = float(i[0][1])
+            count += 1
         elif i[-1] == 'c':
-            total += price - float(i[0][-2])
-            if price < float(i[0][-2]):
-                winRatio += 1
+            if arr[count-1][-1] == 's':
+                total += price - float(i[0][1])
+                if price < float(i[0][1]):
+                    winRatio += 1
+            elif arr[count-1][-1] == 'b':
+                total += float(i[0][1]) - price
+                if price > float(i[0][1]):
+                    winRatio += 1
+            count += 1
             # else:
             #     winRatio -= 1
     try:
         winRatio = round(winRatio/(len(arr)/2), 2)
     except ZeroDivisionError:
         pass
-    # print(total)
-    # print(winRatio)
+    print(total)
+    print(winRatio)
     # initial_value = 10000  # Replace this with your actual initial account value
     #
     # data = {

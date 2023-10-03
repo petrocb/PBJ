@@ -6,6 +6,7 @@ class SMACrossOver():
         self.buyOpen = False  # Unsure if these need to be adjusted?
         self.sellOpen = False  # Unsure if these need to be adjusted?
         self.closes = functions.startPastPricesList()
+        # print(len(self.closes))
         self.short_ema = [functions.sma(self.closes[-10:])]
         self.long_ema = [functions.sma(self.closes[-30:])]
         self.id = 0
@@ -39,7 +40,7 @@ class SMACrossOver():
             csvWriter = csv.writer(csvfile)
             csvWriter.writerow([self.closes, self.short_ema, self.long_ema, self.sellOpen, self.buyOpen])
         csvfile.close()
-        print("closes:", self.closes)
-        print(" short:", self.short_ema,
-              " long:", self.long_ema)
-        print("sell buy open:", self.sellOpen, self.buyOpen)
+        # print("closes:", self.closes)
+        # print(" short:", self.short_ema,
+        #       " long:", self.long_ema)
+        # print("sell buy open:", self.sellOpen, self.buyOpen)

@@ -23,7 +23,8 @@ def startPastPricesList():
 
 
 def updatePastPrices(data):
-    return dh.update()
+    data.append(dh.update())
+    return data
 
 
 def buy():
@@ -78,34 +79,6 @@ def EMA2(p, window_LT=200, window_ST=50, signal_type='buy only'):
     df = pd.DataFrame(data=d)
 
     return df
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 def signals(df, window_LT = 8):
     p = df["Price"]

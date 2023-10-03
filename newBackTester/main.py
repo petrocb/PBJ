@@ -85,13 +85,13 @@ def main():
                     for x in reader:
                         arr = []
                         plotData = []
-                        for x in m:
-                                # try:
-                                    o.tick()
-                                # except TypeError as e:
-                                #     print(e)
-                                #     pass
-                    print(getPositions())
+                        # for x in m:
+                        try:
+                            o.tick()
+                        except IndexError as e:
+                            print(e)
+                            pass
+                    # print(getPositions())
                     summary(getPositions(), data)
 
 
