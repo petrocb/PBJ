@@ -17,3 +17,13 @@ https://arxiv.org/abs/2103.09750
 
 # Work stream ideas
 ## Systems
+- Improve testing system
+- As Tkinter support for better control of live bots
+- Improve summary
+## Data collection
+- Write data collection script
+## Improve straergy
+- Get a working EMA function
+- Get a working EMA CrossOver stratergy
+## ML Stream
+- Get tensor flow flowing again
