@@ -7,21 +7,23 @@ import numpy as np
 import functions
 
 class EMACrossOver():
-    def __init__(self):
+    def __init__(self,cond):
         self.buyOpen = False #Unsure if these need to be adjusted?
         self.sellOpen = False #Unsure if these need to be adjusted?
         self.closes = functions.startPastPricesList()
-        self.short_ema = [functions.sma(self.closes[-10:])]
-        self.long_ema = [functions.sma(self.closes[-30:])]
+        self.short = cond[0]
+        self.long = cond[1]
+        self.short_ema = [functions.sma(self.closes[-self.short:])]
+        self.long_ema = [functions.sma(self.closes[-self.long:])]
         self.diff = 0.040
         self.Entry_price = float(self.closes[0][1])
         self.stop_loss = self.Entry_price + self.diff
+        print(self.short, self.long)
 
     def tick(self):
         self.closes.append(functions.updatePastPrices(self.closes))
-        self.short_ema.append(functions.sma(self.closes[-10:]))
-        self.long_ema.append(functions.sma(self.closes[-30:]))
-        print(self.closes[-1])
+        self.short_ema.append(functions.sma(self.closes[-self.short:]))
+        self.long_ema.append(functions.sma(self.closes[-self.long:]))
         # print(self.short_ema[-1])
         # print(self.long_ema[-1])
         if self.short_ema[-1] < self.long_ema[-1] and self.short_ema[-2] >= self.long_ema[-2] and not self.sellOpen:

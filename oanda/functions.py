@@ -13,7 +13,7 @@ def getPrice():
     price = requests.get(f"{getCred()[0]}/v3/accounts/{getCred()[2]}/pricing",
                          headers={'Authorization': f'Bearer {getCred()[1]}'},
                          params={'instruments': "EUR_USD"})
-
+    responce("price",price)
     price = price.json()
     price = price['prices'][0]
     return price
@@ -31,6 +31,7 @@ def startPastPricesList():
     data = requests.get(f"{getCred()[0]}/v3/accounts/{getCred()[2]}/instruments/EUR_USD/candles",
                         headers={'Authorization': f'Bearer {getCred()[1]}'},
                         params={'granularity': 'M1', 'count': 30})
+    responce("start", data)
     data = data.json()
     data = data['candles']
     prices = []
@@ -50,10 +51,11 @@ def startPastPricesList():
 def updatePastPrices(data):
     # print(datetime.datetime.utcnow())
     # print(datetime.datetime.utcnow() - datetime.timedelta(minutes=5))
-    if data[-1][0] < (datetime.datetime.utcnow() - datetime.timedelta(minutes=5)).replace(tzinfo=datetime.timezone.utc):
+    if data[-1][0] < (datetime.datetime.utcnow() - datetime.timedelta(minutes=1)).replace(tzinfo=datetime.timezone.utc):
         x = requests.get(f"{getCred()[0]}/v3/accounts/{getCred()[2]}/instruments/EUR_USD/candles",
                                      headers={'Authorization': f'Bearer {getCred()[1]}'},
                                      params={'granularity': 'M1', 'count': 1})
+        responce("update", x)
         x = x.json()
         x = x['candles']
         prices = []
@@ -63,25 +65,23 @@ def updatePastPrices(data):
         prices.columns = ['Date', 'Open', 'High', 'Low', 'Close', 'Volume', 'OpenInterest']
         list = prices['Close'].to_list()
         count = 0
-        print("LIST:",list)
         for i in list:
             list[count] = [datetime.datetime.fromisoformat(prices['Date'][count]), float(i)]
             data.append(list[count])
             count += 1
-
-
+        if len(data) > 30:
+            data.pop(0)
         # print("passed")
         # print(x)
     else:
         # print("failed")
         pass
-    print("data:",data)
     return data
 
 def buy():
         # Place a buy trade
-        instrument = "EUR:USD"  # Replace with the instrument you want to trade
-        units = 100  # Replace with the desired number of units
+        instrument = "EUR_USD"  # Replace with the instrument you want to trade
+        units = 10000  # Replace with the desired number of units
         data = {
             "order": {
                 "instrument": instrument,
@@ -92,12 +92,15 @@ def buy():
         response = requests.post(f"{getCred()[0]}/v3/accounts/{getCred()[2]}/orders",
                                  headers={'Authorization': f'Bearer {getCred()[1]}'},
                                  json=data)
-        return response.json()
+        responce("buy", response)
+        id = response.json()
+        id = id['orderFillTransaction']['id']
+        return id
 
 def sell():
         # Place a sell trade
-        instrument = "EUR:USD"  # Replace with the instrument you want to trade
-        units = -100  # Replace with the desired number of units (negative for selling)
+        instrument = "EUR_USD"  # Replace with the instrument you want to trade
+        units = -10000  # Replace with the desired number of units (negative for selling)
         data = {
             "order": {
                 "instrument": instrument,
@@ -108,12 +111,16 @@ def sell():
         response = requests.post(f"{getCred()[0]}/v3/accounts/{getCred()[2]}/orders",
                                  headers={'Authorization': f'Bearer {getCred()[1]}'},
                                  json=data)
-        return response.json()
+        responce("sell", response)
+        id = response.json()
+        id = id['orderFillTransaction']['id']
+        return id
 
 def close(trade_id):
         # Close an existing trade by trade ID
         response = requests.put(f"{getCred()[0]}/v3/accounts/{getCred()[2]}/trades/{trade_id}/close",
                                 headers={'Authorization': f'Bearer {getCred()[1]}'})
+        responce("close", response)
         return response.json()
 
 
@@ -138,10 +145,11 @@ def EMA2(p, window_LT=200):
 def sma(data):
     #list = [i[1] for i in data]
     list = []
-    print("data:",data)
-    print("len:",len(data))
     for i in data:
-        print("i:",i)
         list.append(i[1])
-    print("list:",list)
     return sum(list)/len(list)
+
+def responceSave(loc, res):
+    file = open("respnce.txt", "a")
+    file.write(datetime.datetime.utcnow(),loc,res,"\n")
+    file.close()

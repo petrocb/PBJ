@@ -6,13 +6,13 @@ class SMACrossOver():
         self.buyOpen = False  # Unsure if these need to be adjusted?
         self.sellOpen = False  # Unsure if these need to be adjusted?
         self.closes = functions.startPastPricesList()
-        # print(len(self.closes))
         self.short_ema = [functions.sma(self.closes[-10:])]
         self.long_ema = [functions.sma(self.closes[-30:])]
         self.id = 0
 
     def tick(self):
         self.closes = functions.updatePastPrices(self.closes)
+        # print(self.closes)
         self.short_ema.append(functions.sma(self.closes[-10:]))
         self.long_ema.append(functions.sma(self.closes[-30:]))
         if len(self.short_ema) > 2:
@@ -20,7 +20,7 @@ class SMACrossOver():
         if len(self.long_ema) > 2:
             self.long_ema.pop(0)
         if self.short_ema[-1] < self.long_ema[-1] and self.short_ema[-2] >= self.long_ema[-2] and not self.sellOpen:
-            print("!!!!SELL!!!!")
+            # print("!!!!SELL!!!!")
             if self.id != 0:
                 functions.close(self.id)
             self.id = functions.sell()
@@ -28,7 +28,7 @@ class SMACrossOver():
             self.buyOpen = False
 
         if self.short_ema[-1] > self.long_ema[-1] and self.short_ema[-2] <= self.long_ema[-2] and not self.buyOpen:
-            print("!!!!BUY!!!!")
+            # print("!!!!BUY!!!!")
             if self.id != 0:
                 functions.close(self.id)
             self.id = functions.buy()
@@ -36,11 +36,11 @@ class SMACrossOver():
             self.buyOpen = True
 
 
-        with open('output.csv', 'a', newline='') as csvfile:
-            csvWriter = csv.writer(csvfile)
-            csvWriter.writerow([self.closes, self.short_ema, self.long_ema, self.sellOpen, self.buyOpen])
-        csvfile.close()
+        # with open('output.csv', 'a', newline='') as csvfile:
+        #     csvWriter = csv.writer(csvfile)
+        #     csvWriter.writerow([self.closes, self.short_ema, self.long_ema, self.sellOpen])
+        # csvfile.close()
         # print("closes:", self.closes)
         # print(" short:", self.short_ema,
         #       " long:", self.long_ema)
-        # print("sell buy open:", self.sellOpen, self.buyOpen)
+        # print(" open:", self.sellOpen)
