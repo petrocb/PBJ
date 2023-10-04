@@ -6,11 +6,12 @@ import json
 import time
 import backtrader
 import time
+from scraper import scaper
 def main():
-    x = SMACrossOver()
+    x = scaper()
     while True:
-        x.tick()  # Execute the EMA crossover strategy
-        time.sleep(60)  # Sleep for 1 min
+        x.tick()
+        time.sleep(10)
 
 if __name__ == "__main__":
     main()
