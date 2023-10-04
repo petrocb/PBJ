@@ -106,5 +106,6 @@ def sma(data):
     # print(data)
     for i in data:
         # print(i)
+        print(i)
         list.append(i[1])
     return sum(list)/len(list)
