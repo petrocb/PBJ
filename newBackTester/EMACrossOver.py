@@ -1,13 +1,11 @@
 import requests
 import json
-from btalib import ema
-import backtrader as bt
 import pandas as pd
 import numpy as np
 import functions
 
 class EMACrossOver():
-    def __init__(self,cond):
+    def __init__(self, cond):
         self.buyOpen = False #Unsure if these need to be adjusted?
         self.sellOpen = False #Unsure if these need to be adjusted?
         self.closes = functions.startPastPricesList()
