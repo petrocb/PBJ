@@ -15,7 +15,7 @@ def getPrice():
                          params={'instruments': "EUR_USD"})
     # responce("price",price)
     price = price.json()
-    price = price['prices'][0]
+    # price = price['prices'][0]
     return price
 
 

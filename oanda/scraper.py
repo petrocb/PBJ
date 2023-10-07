@@ -1,5 +1,6 @@
 from functions import getAsk
 from functions import getBid
+from functions import getPrice
 from datetime import datetime
 import csv
 class scaper():
@@ -9,5 +10,5 @@ class scaper():
     def tick(self):
         with open('data.csv', 'a', newline='') as csvfile:
             csvWriter = csv.writer(csvfile)
-            csvWriter.writerow([datetime.utcnow(), getBid(), getAsk()])
+            csvWriter.writerow([datetime.utcnow(), getPrice()])
         csvfile.close()
