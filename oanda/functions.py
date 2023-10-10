@@ -3,7 +3,7 @@ import requests
 import json
 import datetime
 import numpy as np
-import backtrader as bt
+import csv
 def getCred():
     return ["https://api-fxpractice.oanda.com", "554a05a67a483b45171693a0ded86b01-7f36009c47bba3095ed7d8cc9901486c",
             "101-004-25985927-001"]
@@ -13,7 +13,7 @@ def getPrice():
     price = requests.get(f"{getCred()[0]}/v3/accounts/{getCred()[2]}/pricing",
                          headers={'Authorization': f'Bearer {getCred()[1]}'},
                          params={'instruments': "EUR_USD"})
-    # responce("price",price)
+    responceSave("price",price)
     price = price.json()
     # price = price['prices'][0]
     return price
@@ -31,7 +31,7 @@ def startPastPricesList():
     data = requests.get(f"{getCred()[0]}/v3/accounts/{getCred()[2]}/instruments/EUR_USD/candles",
                         headers={'Authorization': f'Bearer {getCred()[1]}'},
                         params={'granularity': 'M1', 'count': 30})
-    # responce("start", data)
+    responceSave("start", data)
     data = data.json()
     data = data['candles']
     prices = []
@@ -55,7 +55,7 @@ def updatePastPrices(data):
         x = requests.get(f"{getCred()[0]}/v3/accounts/{getCred()[2]}/instruments/EUR_USD/candles",
                                      headers={'Authorization': f'Bearer {getCred()[1]}'},
                                      params={'granularity': 'M1', 'count': 1})
-        # responce("update", x)
+        responceSave("update", x)
         x = x.json()
         x = x['candles']
         prices = []
@@ -92,7 +92,7 @@ def buy():
         response = requests.post(f"{getCred()[0]}/v3/accounts/{getCred()[2]}/orders",
                                  headers={'Authorization': f'Bearer {getCred()[1]}'},
                                  json=data)
-        # responce("buy", response)
+        responceSave("buy", response)
         id = response.json()
         id = id['orderFillTransaction']['id']
         return id
@@ -111,7 +111,7 @@ def sell():
         response = requests.post(f"{getCred()[0]}/v3/accounts/{getCred()[2]}/orders",
                                  headers={'Authorization': f'Bearer {getCred()[1]}'},
                                  json=data)
-        # responce("sell", response)
+        responceSave("sell", response)
         id = response.json()
         id = id['orderFillTransaction']['id']
         return id
@@ -120,7 +120,7 @@ def close(trade_id):
         # Close an existing trade by trade ID
         response = requests.put(f"{getCred()[0]}/v3/accounts/{getCred()[2]}/trades/{trade_id}/close",
                                 headers={'Authorization': f'Bearer {getCred()[1]}'})
-        responce("close", response)
+        responceSave("close", response)
         return response.json()
 
 
@@ -150,6 +150,8 @@ def sma(data):
     return sum(list)/len(list)
 
 def responceSave(loc, res):
-    file = open("respnce.txt", "a")
-    file.write(datetime.datetime.utcnow(),loc,res,"\n")
-    file.close()
+    with open('response.csv', 'a', newline='') as csvfile:
+        csvWriter = csv.writer(csvfile)
+        csvWriter.writerow([datetime.datetime.utcnow(), loc, res])
+    csvfile.close()
+

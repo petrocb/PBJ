@@ -1,6 +1,5 @@
 import requests
 import json
-from btalib import ema
 import backtrader as bt
 import pandas as pd
 import numpy as np
