@@ -1,12 +1,13 @@
 from datetime import timedelta
-def summary(arr, data):
+import csv
+def summary(cond, arr, data):
     # print("Starting summary")
     # print(arr)
     total = 0
     winRatio = 0
     count = 0
     for i in arr:
-        print(i)
+        # print(i)
         if i[-1] == ('s' and 'b'):
             price = float(i[0][1])
             count += 1
@@ -26,8 +27,12 @@ def summary(arr, data):
         winRatio = round(winRatio/(len(arr)/2), 2)
     except ZeroDivisionError:
         pass
-    print(total)
-    print(winRatio)
+    with open('output.csv', 'a', newline='') as csvfile:
+        csvWriter = csv.writer(csvfile)
+        csvWriter.writerow([cond, total, winRatio])
+    csvfile.close()
+    # print(total)
+    # print(winRatio)
     # initial_value = 10000  # Replace this with your actual initial account value
     #
     # data = {

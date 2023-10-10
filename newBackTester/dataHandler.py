@@ -25,7 +25,6 @@ class dataHandler:
 
     def update(self):
         self.line += 1
-        print(self.line)
         return self.data[self.line]
         # with open('EURUSD3.csv', newline='') as csvfile:
             # reader = csv.reader(csvfile, delimiter=',', quotechar='|')
@@ -69,3 +68,6 @@ class dataHandler:
 
     def getPosition(self):
         return self.positions
+
+    def setLine(self):
+        self.line = 0

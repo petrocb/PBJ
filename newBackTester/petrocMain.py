@@ -6,6 +6,7 @@ from functions import EMA2
 from functions import signals
 import csv
 from functions import getPositions
+from functions import setLine
 from SMACrossOver import SMACrossOver
 
 def main():
@@ -36,6 +37,9 @@ def main():
                             print(e)
                             pass
                     # print(getPositions())
-                    summary(getPositions(), data)
+                    print(i)
+                    summary(i, getPositions(), data)
+                    setLine()
+
 if __name__ == "__main__":
     main()
