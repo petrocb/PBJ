@@ -1,14 +1,17 @@
-from datetime import timedelta
+from datetime import datetime
 import csv
 def summary(cond, arr, data):
     # print("Starting summary")
+    if cond == [40, 50]:
+        pass
     # print(arr)
     total = 0
     winRatio = 0
     count = 0
     for i in arr:
         # print(i)
-        if i[-1] == ('s' and 'b'):
+        # print(i[-1])
+        if i[-1] == 's' or i[-1] == 'b':
             price = float(i[0][1])
             count += 1
         elif i[-1] == 'c':
@@ -23,13 +26,17 @@ def summary(cond, arr, data):
             count += 1
             # else:
             #     winRatio -= 1
+        # with open('output3.csv', 'a', newline='') as csvfile:
+        #     csvWriter = csv.writer(csvfile)
+        #     csvWriter.writerow(i)
+        # csvfile.close()
     try:
         winRatio = round(winRatio/(len(arr)/2), 2)
     except ZeroDivisionError:
         pass
-    with open('output.csv', 'a', newline='') as csvfile:
+    with open('output5.csv', 'a', newline='') as csvfile:
         csvWriter = csv.writer(csvfile)
-        csvWriter.writerow([cond, total, winRatio])
+        csvWriter.writerow([datetime.utcnow(), cond, total, winRatio])
     csvfile.close()
     # print(total)
     # print(winRatio)
