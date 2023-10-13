@@ -7,14 +7,15 @@ class SMACrossOver():
         self.sellOpen = False  # Unsure if these need to be adjusted?
         self.closes = functions.startPastPricesList()
         self.short_ema = [functions.sma(self.closes[-10:])]
-        self.long_ema = [functions.sma(self.closes[-30])]
+        self.long_ema = [functions.sma(self.closes[-30:])]
         self.id = 0
-        print(self.short, self.long)
+        # print(self.short, self.long)
 
 
     def tick(self, cond):
+        # print(cond)
         self.closes = functions.updatePastPrices(self.closes)
-        # print(self.closes)
+        # print(self.closes[-1])
         self.short_ema.append(functions.sma(self.closes[-cond[0]:]))
         self.long_ema.append(functions.sma(self.closes[-cond[1]:]))
         if len(self.short_ema) > 2:

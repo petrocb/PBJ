@@ -4,7 +4,6 @@ from SMACrossOver import SMACrossOver
 import functions
 import json
 import time
-import backtrader
 import time
 from scraper import scaper
 def main():

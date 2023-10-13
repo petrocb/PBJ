@@ -9,7 +9,6 @@ from dataHandler import dataHandler
 
 dh = dataHandler()
 
-
 def getBid():
     return 0
 
@@ -41,6 +40,11 @@ def close(id):
 def getPositions():
     return dh.getPosition()
 
+def setLine():
+    dh.setLine()
+
+def reset():
+    dh.reset()
 
 def EMA2(p, window_LT=200, window_ST=50, signal_type='buy only'):
     alpha_LT = 2 / (window_LT + 1)
@@ -103,9 +107,11 @@ def ema(data):
 def sma(data):
     #list = [i[1] for i in data]
     list = []
+    # print(len(data))
     # print(data)
     for i in data:
+        # print("apples")
         # print(i)
-        print(i)
         list.append(i[1])
     return sum(list)/len(list)
+
