@@ -5,6 +5,17 @@ def summary(cond, arr, data):
     if cond == [40, 50]:
         pass
     # print(arr)
+    data = {
+        'numObs': 0,
+        'numTrades': 0,
+        'pnl': 0,
+        'winRatio': 0,
+        'wins': 0,
+        'losses': 0,
+        'aveHoldingWindow': 0,
+        'maxHoldingWindow': 0,
+        'minHoldingWindow': 0
+    }
     total = 0
     winRatio = 0
     count = 0
@@ -15,15 +26,21 @@ def summary(cond, arr, data):
             price = float(i[0][1])
             count += 1
         elif i[-1] == 'c':
+            data['numTrades'] += 1
             if arr[count-1][-1] == 's':
-                total += price - float(i[0][1])
+                data['pnl'] += price - float(i[0][1])
                 if price < float(i[0][1]):
-                    winRatio += 1
+                    data['wins'] += 1
+                else:
+                    data['losses'] += 1
             elif arr[count-1][-1] == 'b':
-                total += float(i[0][1]) - price
+                data['pnl'] += float(i[0][1]) - price
                 if price > float(i[0][1]):
-                    winRatio += 1
+                    data['wins'] += 1
+                else:
+                    data['losses'] += 1
             count += 1
+    data['winRatio'] = data['wins'] / data['numTrades']
             # else:
             #     winRatio -= 1
         # with open('output3.csv', 'a', newline='') as csvfile:
@@ -34,9 +51,9 @@ def summary(cond, arr, data):
         winRatio = round(winRatio/(len(arr)/2), 2)
     except ZeroDivisionError:
         pass
-    with open('output5.csv', 'a', newline='') as csvfile:
+    with open('output6.csv', 'a', newline='') as csvfile:
         csvWriter = csv.writer(csvfile)
-        csvWriter.writerow([datetime.utcnow(), cond, total, winRatio])
+        csvWriter.writerow([datetime.utcnow(), data])
     csvfile.close()
     # print(total)
     # print(winRatio)

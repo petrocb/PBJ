@@ -13,12 +13,12 @@ from SMACrossOver import SMACrossOver
 def main():
     runOrder = 1
     strats = [SMACrossOver()]
-    fxData = ['EURUSD.csv']
+    fxData = ['EURUSD2.csv']
     conditions = []
     for o in range(10):
         for i in range(10):
             conditions.append([(o + 1) * 10, (i + 1) * 10])
-    print(conditions)
+    conditions = [[30, 10]]
     # conditions = [[10, 44], [22, 99]]
     data = []
 
@@ -26,7 +26,7 @@ def main():
     for m in fxData:
         for i in conditions:
             o = SMACrossOver()
-            with open('EURUSD.csv', newline='') as csvfile:
+            with open('EURUSD2.csv', newline='') as csvfile:
                 reader = csv.reader(csvfile, delimiter=',', quotechar='|')
                 count = 0
                 for x in reader:
