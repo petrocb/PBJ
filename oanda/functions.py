@@ -15,6 +15,7 @@ def getPrice():
                          params={'instruments': "EUR_USD"})
     responceSave("price",price)
     price = price.json()
+    jsonSave("price", price)
     # price = price['prices'][0]
     return price
 
@@ -33,6 +34,7 @@ def startPastPricesList():
                         params={'granularity': 'M1', 'count': 30})
     responceSave("start", data)
     data = data.json()
+    jsonSave("start", data)
     data = data['candles']
     prices = []
     for i in data:
@@ -57,6 +59,7 @@ def updatePastPrices(data):
                                      params={'granularity': 'M1', 'count': 1})
         responceSave("update", x)
         x = x.json()
+        jsonSave("update", x)
         x = x['candles']
         prices = []
         for i in x:
@@ -94,6 +97,7 @@ def buy():
                                  json=data)
         responceSave("buy", response)
         id = response.json()
+        jsonSave("buy", response)
         id = id['orderFillTransaction']['id']
         return id
 
@@ -113,6 +117,7 @@ def sell():
                                  json=data)
         responceSave("sell", response)
         id = response.json()
+        jsonSave("sell", response)
         id = id['orderFillTransaction']['id']
         return id
 
@@ -121,7 +126,9 @@ def close(trade_id):
         response = requests.put(f"{getCred()[0]}/v3/accounts/{getCred()[2]}/trades/{trade_id}/close",
                                 headers={'Authorization': f'Bearer {getCred()[1]}'})
         responceSave("close", response)
-        return response.json()
+        r = response.json()
+        jsonSave("close", response)
+        return r
 
 
 
@@ -155,3 +162,8 @@ def responceSave(loc, res):
         csvWriter.writerow([datetime.datetime.utcnow(), loc, res])
     csvfile.close()
 
+def jsonSave(loc, res):
+    with open('js.csv', 'a', newline='') as csvfile:
+        csvWriter = csv.writer(csvfile)
+        csvWriter.writerow([datetime.datetime.utcnow(), loc, res])
+    csvfile.close()
