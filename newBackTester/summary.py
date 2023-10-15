@@ -28,7 +28,7 @@ def summary(cond, arr, data):
         elif i[-1] == 'c':
             data['numTrades'] += 1
             if arr[count-1][-1] == 's':
-                data['pnl'] += price - float(i[0][1])
+                data['pnl'] += float(i[0][1]) + price
                 if price < float(i[0][1]):
                     data['wins'] += 1
                 else:
@@ -40,13 +40,14 @@ def summary(cond, arr, data):
                 else:
                     data['losses'] += 1
             count += 1
+        with open('rawdata.csv', 'a', newline='') as csvfile:
+            csvWriter = csv.writer(csvfile)
+            csvWriter.writerow(i)
+        csvfile.close()
     data['winRatio'] = data['wins'] / data['numTrades']
             # else:
             #     winRatio -= 1
-        # with open('output3.csv', 'a', newline='') as csvfile:
-        #     csvWriter = csv.writer(csvfile)
-        #     csvWriter.writerow(i)
-        # csvfile.close()
+
     try:
         winRatio = round(winRatio/(len(arr)/2), 2)
     except ZeroDivisionError:
