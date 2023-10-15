@@ -1,6 +1,6 @@
 from datetime import datetime
 import csv
-def summary(cond, arr, data):
+def summary(cond, arr, data, conditions):
     # print("Starting summary")
     if cond == [40, 50]:
         pass
@@ -22,20 +22,22 @@ def summary(cond, arr, data):
     for i in arr:
         # print(i)
         # print(i[-1])
+        # print(data['pnl'])
+        # print(i[0][1])
         if i[-1] == 's' or i[-1] == 'b':
             price = float(i[0][1])
             count += 1
         elif i[-1] == 'c':
             data['numTrades'] += 1
             if arr[count-1][-1] == 's':
-                data['pnl'] += float(i[0][1]) + price
-                if price < float(i[0][1]):
+                data['pnl'] -= float(i[0][1]) - price
+                if price > float(i[0][1]):
                     data['wins'] += 1
                 else:
                     data['losses'] += 1
             elif arr[count-1][-1] == 'b':
                 data['pnl'] += float(i[0][1]) - price
-                if price > float(i[0][1]):
+                if price < float(i[0][1]):
                     data['wins'] += 1
                 else:
                     data['losses'] += 1
@@ -44,7 +46,10 @@ def summary(cond, arr, data):
             csvWriter = csv.writer(csvfile)
             csvWriter.writerow(i)
         csvfile.close()
-    data['winRatio'] = data['wins'] / data['numTrades']
+    try:
+        data['winRatio'] = data['wins'] / data['numTrades']
+    except ZeroDivisionError:
+        pass
             # else:
             #     winRatio -= 1
 
@@ -52,9 +57,9 @@ def summary(cond, arr, data):
         winRatio = round(winRatio/(len(arr)/2), 2)
     except ZeroDivisionError:
         pass
-    with open('output6.csv', 'a', newline='') as csvfile:
+    with open('output.csv', 'a', newline='') as csvfile:
         csvWriter = csv.writer(csvfile)
-        csvWriter.writerow([datetime.utcnow(), data])
+        csvWriter.writerow([datetime.utcnow(), conditions, data])
     csvfile.close()
     # print(total)
     # print(winRatio)

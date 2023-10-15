@@ -8,17 +8,22 @@ import csv
 from functions import getPositions
 from functions import reset
 from SMACrossOver import SMACrossOver
-
+from SMACrossOverNoStopLoss import SMACrossOverNoStopLoss
 
 def main():
     runOrder = 1
     strats = [SMACrossOver()]
-    fxData = ['EURUSD2.csv']
+    fxData = ['EURUSD.csv']
     conditions = []
     for o in range(10):
-        for i in range(10):
-            conditions.append([(o + 1) * 10, (i + 1) * 10])
-    conditions = [[30, 10]]
+        for m in range(10):
+            for i in range(100):
+                conditions.append([(o + 1) * 10, (m + 1) * 10, (i + 1) / 10000])
+
+    # for i in range(1000):
+    #     conditions.append([30, 10, (i+1)/10000])
+    # conditions = [[30, 10], [10, 30]]
+    # print(conditions)
     # conditions = [[10, 44], [22, 99]]
     data = []
 
@@ -26,7 +31,7 @@ def main():
     for m in fxData:
         for i in conditions:
             o = SMACrossOver()
-            with open('EURUSD2.csv', newline='') as csvfile:
+            with open('EURUSD1min2020.csv', newline='') as csvfile:
                 reader = csv.reader(csvfile, delimiter=',', quotechar='|')
                 count = 0
                 for x in reader:
@@ -34,13 +39,13 @@ def main():
                     plotData = []
                     # for x in m:
                     try:
-                        o.tick([i[0], i[1]])
+                        o.tick(i)
                     except IndexError as e:
                         # print(e)
                         pass
                 # print(getPositions())
                 print(i)
-            summary(i, getPositions(), data)
+            summary(i, getPositions(), data, i)
             reset()
 
 
