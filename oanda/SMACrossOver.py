@@ -54,8 +54,8 @@ class SMACrossOver():
         if self.sellOpen and self.closes[-1][1] > self.stopLoss:
             print("STOP")
             # time.sleep(30)
-            self.id = 0
             functions.close(self.id)
+            self.id = 0
             self.buyOpen = False
             self.sellOpen = False
 
