@@ -31,7 +31,7 @@ def getAsk():
 def startPastPricesList():
     data = requests.get(f"{getCred()[0]}/v3/accounts/{getCred()[2]}/instruments/EUR_USD/candles",
                         headers={'Authorization': f'Bearer {getCred()[1]}'},
-                        params={'granularity': 'M1', 'count': 30})
+                        params={'granularity': 'M1', 'count': 80})
     responceSave("start", data)
     data = data.json()
     jsonSave("start", data)
@@ -72,7 +72,7 @@ def updatePastPrices(data):
             list[count] = [datetime.datetime.fromisoformat(prices['Date'][count]), float(i)]
             data.append(list[count])
             count += 1
-        if len(data) > 30:
+        if len(data) > 80:
             data.pop(0)
         # print("passed")
         # print(x)
@@ -163,7 +163,7 @@ def responceSave(loc, res):
     csvfile.close()
 
 def jsonSave(loc, res):
-    with open('js.csv', 'a', newline='') as csvfile:
+    with open('response.csv', 'a', newline='') as csvfile:
         csvWriter = csv.writer(csvfile)
         csvWriter.writerow([datetime.datetime.utcnow(), loc, res])
     csvfile.close()

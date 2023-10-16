@@ -7,10 +7,12 @@ import time
 import time
 from scraper import scaper
 def main():
-    x = scaper()
+    x = SMACrossOver()
+    y = scaper()
     while True:
-        x.tick()
-        time.sleep(10)
+        x.tick([80, 40, 0.0005])
+        y.tick()
+        time.sleep(60)
 
 if __name__ == "__main__":
     main()
