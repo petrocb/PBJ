@@ -30,7 +30,8 @@ def summary(cond, arr, data, conditions):
         elif i[-1] == 'c':
             data['numTrades'] += 1
             if arr[count-1][-1] == 's':
-                data['pnl'] -= float(i[0][1]) - price
+                # data['pnl'] -= float(i[0][1]) - price
+                data['pnl'] += price - float(i[0][1])
                 if price > float(i[0][1]):
                     data['wins'] += 1
                 else:

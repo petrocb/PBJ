@@ -28,10 +28,10 @@ def getAsk():
     return getPrice()['asks'][0]['price']
 
 
-def startPastPricesList():
+def startPastPricesList(count):
     data = requests.get(f"{getCred()[0]}/v3/accounts/{getCred()[2]}/instruments/EUR_USD/candles",
                         headers={'Authorization': f'Bearer {getCred()[1]}'},
-                        params={'granularity': 'M1', 'count': 80})
+                        params={'granularity': 'M1', 'count': count})
     responceSave("start", data)
     data = data.json()
     jsonSave("start", data)
@@ -50,7 +50,7 @@ def startPastPricesList():
 
 
 
-def updatePastPrices(data):
+def updatePastPrices(data, count):
     # print(datetime.datetime.utcnow())
     # print(datetime.datetime.utcnow() - datetime.timedelta(minutes=5))
     if data[-1][0] < (datetime.datetime.utcnow() - datetime.timedelta(minutes=1)).replace(tzinfo=datetime.timezone.utc):
@@ -72,7 +72,7 @@ def updatePastPrices(data):
             list[count] = [datetime.datetime.fromisoformat(prices['Date'][count]), float(i)]
             data.append(list[count])
             count += 1
-        if len(data) > 80:
+        if len(data) > count:
             data.pop(0)
         # print("passed")
         # print(x)

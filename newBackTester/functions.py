@@ -17,12 +17,14 @@ def getAsk():
     return 0
 
 
-def startPastPricesList():
-    return dh.start()
+def startPastPricesList(count):
+    return dh.start(count)
 
 
-def updatePastPrices(data):
+def updatePastPrices(data, count):
     data.append(dh.update())
+    if len(data) > count:
+        data.pop(0)
     return data
 
 
