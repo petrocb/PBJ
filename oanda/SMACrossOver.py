@@ -7,8 +7,8 @@ class SMACrossOver():
         self.buyOpen = False  # Unsure if these need to be adjusted?
         self.sellOpen = False  # Unsure if these need to be adjusted?
         self.closes = functions.startPastPricesList(80)
-        self.short_ema = [functions.sma(self.closes[-10:])]
-        self.long_ema = [functions.sma(self.closes[-30:])]
+        self.short_ema = [functions.sma(self.closes[-40:])]
+        self.long_ema = [functions.sma(self.closes[-80:])]
         self.id = 0
         self.stopLoss = 0
         # print(self.short, self.long)

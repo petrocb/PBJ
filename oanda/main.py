@@ -10,7 +10,7 @@ def main():
     x = SMACrossOver()
     y = scaper()
     while True:
-        x.tick([80, 40, 0.0005])
+        x.tick([40, 80, 0.0005])
         y.tick()
         time.sleep(60)
 
