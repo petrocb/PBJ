@@ -23,7 +23,7 @@ def upOrDown(data):
     return data
 
 def filter(data):
-    newData = [row for row in data if int(row[0][0:4]) > 2019]
+    newData = [row for row in data if int(row[0][0:4]) > 2022]
     return newData
 
 

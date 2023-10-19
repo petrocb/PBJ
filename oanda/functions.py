@@ -17,15 +17,16 @@ def getPrice():
     price = price.json()
     jsonSave("price", price)
     # price = price['prices'][0]
+    # print(price)
     return price
 
 
 def getBid():
-    return getPrice()['bids'][0]['price']
+    return getPrice()['prices'][0]['bids'][0]['price']
 
 
 def getAsk():
-    return getPrice()['asks'][0]['price']
+    return getPrice()['prices'][0]['asks'][0]['price']
 
 
 def startPastPricesList(count):
@@ -96,9 +97,11 @@ def buy():
                                  headers={'Authorization': f'Bearer {getCred()[1]}'},
                                  json=data)
         responceSave("buy", response)
+        print(response)
         id = response.json()
         jsonSave("buy", response)
         id = id['orderFillTransaction']['id']
+
         return id
 
 def sell():
@@ -109,13 +112,15 @@ def sell():
             "order": {
                 "instrument": instrument,
                 "units": str(units),  # Convert units to string
-                "type": "MARKET"  # You can use other order types if needed
+                "type": "MARKET",  # You can use other order types if needed
+                # "price": str(float(getAsk()) + 0.001)
             }
         }
         response = requests.post(f"{getCred()[0]}/v3/accounts/{getCred()[2]}/orders",
                                  headers={'Authorization': f'Bearer {getCred()[1]}'},
                                  json=data)
         responceSave("sell", response)
+        print(response)
         id = response.json()
         jsonSave("sell", response)
         id = id['orderFillTransaction']['id']

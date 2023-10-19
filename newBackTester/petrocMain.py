@@ -40,11 +40,11 @@ def main():
                     arr = []
                     plotData = []
                     # for x in m:
-                    try:
-                        o.tick(i)
-                    except IndexError as e:
-                        # print(e)
-                        pass
+                    # try:
+                    o.tick(i)
+                    # except IndexError as e:
+                    #     # print(e)
+                    #     pass
                 # print(getPositions())
                 print(i)
             summary(i, getPositions(), data, i)

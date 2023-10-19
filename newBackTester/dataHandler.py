@@ -23,7 +23,7 @@ class dataHandler:
                 #     break
             return self.data[:line]
 
-    def update(self, count):
+    def update(self):
         self.line += 1
         return self.data[self.line]
         # with open('EURUSD3.csv', newline='') as csvfile:

@@ -13,6 +13,8 @@ def main():
         x.tick([40, 80, 0.0005])
         y.tick()
         time.sleep(60)
+    # functions.sell()
+    # functions.getAsk()
 
 if __name__ == "__main__":
     main()
