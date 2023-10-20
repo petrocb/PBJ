@@ -2,17 +2,16 @@ import functions
 import csv
 import time
 
+
 class SMACrossOver():
     def __init__(self):
-        self.buyOpen = False  # Unsure if these need to be adjusted?
+        self.buyOpen = True  # Unsure if these need to be adjusted?
         self.sellOpen = False  # Unsure if these need to be adjusted?
         self.closes = functions.startPastPricesList(80)
-        self.short_ema = [functions.sma(self.closes[-10:])]
-        self.long_ema = [functions.sma(self.closes[-30:])]
+        self.short_ema = [functions.sma(self.closes[-40:])]
+        self.long_ema = [functions.sma(self.closes[-80:])]
         self.id = 0
         self.stopLoss = 0
-        # print(self.short, self.long)
-
 
     def tick(self, cond):
         # print(cond)
@@ -41,30 +40,14 @@ class SMACrossOver():
             self.sellOpen = False
             self.buyOpen = True
             self.stopLoss = self.closes[-1][1] - cond[2]
-        functions.checkSLnTP()
-        # print("price:", self.closes[-1][1])
-        # print("stopLoss:", self.stopLoss)
-        # if self.buyOpen and self.closes[-1][1] < self.stopLoss:
-        #     print("STOP")
-        #     # time.sleep(30)
-        #     self.id = 0
-        #     functions.close(self.id)
-        #     self.buyOpen = False
-        #     self.sellOpen = False
-        #
-        # if self.sellOpen and self.closes[-1][1] > self.stopLoss:
-        #     print("STOP")
-        #     # time.sleep(30)
-        #     self.id = 0
-        #     functions.close(self.id)
-        #     self.buyOpen = False
-        #     self.sellOpen = False
 
-        # with open('output.csv', 'a', newline='') as csvfile:
-        #     csvWriter = csv.writer(csvfile)
-        #     csvWriter.writerow([self.closes, self.short_ema, self.long_ema, self.sellOpen])
-        # csvfile.close()
-        # print("closes:", self.closes)
-        # print(" short:", self.short_ema,
-        #       " long:", self.long_ema)
-        # print(" open:", self.sellOpen)
+        if functions.openTrades()['positions'] == [] and self.buyOpen or functions.openTrades()['positions'] == [] and self.sellOpen:
+            self.buyOpen = False
+            self.sellOpen = False
+
+        with open('response.csv', 'a', newline='') as csvfile:
+            csvWriter = csv.writer(csvfile)
+            csvWriter.writerow([self.closes[-1], self.short_ema, self.long_ema, self.sellOpen, self.buyOpen])
+        csvfile.close()
+
+        functions.checkSLnTP()

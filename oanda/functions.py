@@ -142,11 +142,12 @@ def close(trade_id):
     return r
 
 def openTrades():
-    responce = requests.get(f"{getCred()[0]}/v3/accounts/{getCred()[2]}/openPositions",
+    response = requests.get(f"{getCred()[0]}/v3/accounts/{getCred()[2]}/openPositions",
                             headers={'Authorization': f'Bearer {getCred()[1]}'})
-    print(responce)
-    print(responce.json())
-
+    responceSave("open", response)
+    response = response.json()
+    jsonSave("open", response)
+    return response
 
 def EMA2(p, window_LT=200):
     alpha_LT = 2 / (window_LT + 1)
