@@ -9,6 +9,7 @@ from dataHandler import dataHandler
 
 dh = dataHandler()
 
+
 def getBid():
     return 0
 
@@ -28,25 +29,38 @@ def updatePastPrices(data, count):
     return data
 
 
-def buy():
-    dh.buy()
+def buy(distance):
+    dh.buy(distance)
 
 
-def sell():
-    dh.sell()
+def sell(distance):
+    dh.sell(distance)
 
 
 def close(id):
     dh.close()
 
+
 def getPositions():
     return dh.getPosition()
+
 
 def setLine():
     dh.setLine()
 
+
 def reset():
     dh.reset()
+
+
+def checkSLnTP():
+    if dh.checkSLnTP():
+        print("close")
+        dh.close()
+
+def openTrades():
+    dh.openTrades()
+
 
 def EMA2(p, window_LT=200, window_ST=50, signal_type='buy only'):
     alpha_LT = 2 / (window_LT + 1)
@@ -74,9 +88,9 @@ def EMA2(p, window_LT=200, window_ST=50, signal_type='buy only'):
         if np.isnan(ema_ST[i]):
             continue
 
-        #if ema_LT[i] < ema_ST[i] and (signal_type == 'buy only' or signal_type == 'both'):
-            #signals[i] = 1
-    for i in np.arange(window_LT , len(p)):
+        # if ema_LT[i] < ema_ST[i] and (signal_type == 'buy only' or signal_type == 'both'):
+        # signals[i] = 1
+    for i in np.arange(window_LT, len(p)):
         if ema_LT[i] > ema_ST[i] and (signal_type == 'sell only' or signal_type == 'both'):
             signals[i] = 1
     signals[-1] = 0
@@ -86,18 +100,20 @@ def EMA2(p, window_LT=200, window_ST=50, signal_type='buy only'):
 
     return df
 
-def signals(df, window_LT = 8):
+
+def signals(df, window_LT=8):
     p = df["Price"]
     signals = np.zeros(len(p))
     if len(p) < window_LT:
         return signals
     for i in np.arange(window_LT + 1, len(p)):
-       # if df["EMA_LT"][i] < df["EMA_ST"][i] and (signal_type == 'buy only' or signal_type == 'both'):
-       #  signals[i] = 1
-       if df["EMA_LT"][i] > df["EMA_ST"][i]:
-        signals[i] = 1
-        df['Signals'] = np.diff(signals)
+        # if df["EMA_LT"][i] < df["EMA_ST"][i] and (signal_type == 'buy only' or signal_type == 'both'):
+        #  signals[i] = 1
+        if df["EMA_LT"][i] > df["EMA_ST"][i]:
+            signals[i] = 1
+            df['Signals'] = np.diff(signals)
     return df
+
 
 def ema(data):
     ema = data[-1][1] * (2 / (len(data) + 1))
@@ -106,8 +122,9 @@ def ema(data):
         ema += ema(data) * (1 - (2 / (len(data) + 1)))
     return ema
 
+
 def sma(data):
-    #list = [i[1] for i in data]
+    # list = [i[1] for i in data]
     list = []
     # print(len(data))
     # print(data)
@@ -115,5 +132,4 @@ def sma(data):
         # print("apples")
         # print(i)
         list.append(i[1])
-    return sum(list)/len(list)
-
+    return sum(list) / len(list)

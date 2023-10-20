@@ -4,6 +4,8 @@ import json
 import datetime
 import numpy as np
 import csv
+
+
 def getCred():
     return ["https://api-fxpractice.oanda.com", "554a05a67a483b45171693a0ded86b01-7f36009c47bba3095ed7d8cc9901486c",
             "101-004-25985927-001"]
@@ -13,7 +15,7 @@ def getPrice():
     price = requests.get(f"{getCred()[0]}/v3/accounts/{getCred()[2]}/pricing",
                          headers={'Authorization': f'Bearer {getCred()[1]}'},
                          params={'instruments': "EUR_USD"})
-    responceSave("price",price)
+    responceSave("price", price)
     price = price.json()
     jsonSave("price", price)
     # price = price['prices'][0]
@@ -45,10 +47,9 @@ def startPastPricesList(count):
     list = prices['Close'].to_list()
     count = 0
     for i in list:
-        list[count] = [datetime.datetime.fromisoformat(prices['Date'][count]),float(i)]
+        list[count] = [datetime.datetime.fromisoformat(prices['Date'][count]), float(i)]
         count += 1
     return list
-
 
 
 def updatePastPrices(data, count):
@@ -56,8 +57,8 @@ def updatePastPrices(data, count):
     # print(datetime.datetime.utcnow() - datetime.timedelta(minutes=5))
     if data[-1][0] < (datetime.datetime.utcnow() - datetime.timedelta(minutes=1)).replace(tzinfo=datetime.timezone.utc):
         x = requests.get(f"{getCred()[0]}/v3/accounts/{getCred()[2]}/instruments/EUR_USD/candles",
-                                     headers={'Authorization': f'Bearer {getCred()[1]}'},
-                                     params={'granularity': 'M1', 'count': 1})
+                         headers={'Authorization': f'Bearer {getCred()[1]}'},
+                         params={'granularity': 'M1', 'count': 1})
         responceSave("update", x)
         x = x.json()
         jsonSave("update", x)
@@ -82,63 +83,69 @@ def updatePastPrices(data, count):
         pass
     return data
 
-def buy():
-        # Place a buy trade
-        instrument = "EUR_USD"  # Replace with the instrument you want to trade
-        units = 10000  # Replace with the desired number of units
-        data = {
-            "order": {
-                "instrument": instrument,
-                "units": str(units),  # Convert units to string
-                "type": "MARKET"  # You can use other order types if needed
-            }
-        }
-        response = requests.post(f"{getCred()[0]}/v3/accounts/{getCred()[2]}/orders",
-                                 headers={'Authorization': f'Bearer {getCred()[1]}'},
-                                 json=data)
-        responceSave("buy", response)
-        print(response)
-        id = response.json()
-        jsonSave("buy", response)
-        id = id['orderFillTransaction']['id']
 
-        return id
-
-def sell():
-        # Place a sell trade
-        instrument = "EUR_USD"  # Replace with the instrument you want to trade
-        units = -10000  # Replace with the desired number of units (negative for selling)
-        data = {
-            "order": {
-                "instrument": instrument,
-                "units": str(units),  # Convert units to string
-                "type": "MARKET",  # You can use other order types if needed
-                # "price": str(float(getAsk()) + 0.001)
-            }
+def buy(distance):
+    # Place a buy trade
+    instrument = "EUR_USD"  # Replace with the instrument you want to trade
+    units = 10000  # Replace with the desired number of units
+    data = {
+        "order": {
+            "instrument": instrument,
+            "units": str(units),  # Convert units to string
+            "type": "MARKET",  # You can use other order types if needed
+            "stopLossOnFill": {"distance": distance}
         }
-        response = requests.post(f"{getCred()[0]}/v3/accounts/{getCred()[2]}/orders",
-                                 headers={'Authorization': f'Bearer {getCred()[1]}'},
-                                 json=data)
-        responceSave("sell", response)
-        print(response)
-        id = response.json()
-        jsonSave("sell", response)
-        id = id['orderFillTransaction']['id']
-        return id
+    }
+    response = requests.post(f"{getCred()[0]}/v3/accounts/{getCred()[2]}/orders",
+                             headers={'Authorization': f'Bearer {getCred()[1]}'},
+                             json=data)
+    responceSave("buy", response)
+    print(response)
+    id = response.json()
+    jsonSave("buy", response)
+    id = id['orderFillTransaction']['id']
+
+    return id
+
+
+def sell(distance):
+    # Place a sell trade
+    instrument = "EUR_USD"  # Replace with the instrument you want to trade
+    units = -10000  # Replace with the desired number of units (negative for selling)
+    data = {
+        "order": {
+            "instrument": instrument,
+            "units": str(units),  # Convert units to string
+            "type": "MARKET",  # You can use other order types if needed
+            "stopLossOnFill": {"distance": distance}
+
+        }
+    }
+    response = requests.post(f"{getCred()[0]}/v3/accounts/{getCred()[2]}/orders",
+                             headers={'Authorization': f'Bearer {getCred()[1]}'},
+                             json=data)
+    responceSave("sell", response)
+    print(response)
+    id = response.json()
+    jsonSave("sell", response)
+    id = id['orderFillTransaction']['id']
+    return id
+
 
 def close(trade_id):
-        # Close an existing trade by trade ID
-        response = requests.put(f"{getCred()[0]}/v3/accounts/{getCred()[2]}/trades/{trade_id}/close",
-                                headers={'Authorization': f'Bearer {getCred()[1]}'})
-        responceSave("close", response)
-        r = response.json()
-        jsonSave("close", response)
-        return r
+    # Close an existing trade by trade ID
+    response = requests.put(f"{getCred()[0]}/v3/accounts/{getCred()[2]}/trades/{trade_id}/close",
+                            headers={'Authorization': f'Bearer {getCred()[1]}'})
+    responceSave("close", response)
+    r = response.json()
+    jsonSave("close", response)
+    return r
 
-
-
-# Example usage:
-
+def openTrades():
+    responce = requests.get(f"{getCred()[0]}/v3/accounts/{getCred()[2]}/openPositions",
+                            headers={'Authorization': f'Bearer {getCred()[1]}'})
+    print(responce)
+    print(responce.json())
 
 
 def EMA2(p, window_LT=200):
@@ -154,12 +161,13 @@ def EMA2(p, window_LT=200):
 
     return ema_LT
 
+
 def sma(data):
-    #list = [i[1] for i in data]
     list = []
     for i in data:
         list.append(i[1])
-    return sum(list)/len(list)
+    return sum(list) / len(list)
+
 
 def responceSave(loc, res):
     with open('response.csv', 'a', newline='') as csvfile:
@@ -167,8 +175,16 @@ def responceSave(loc, res):
         csvWriter.writerow([datetime.datetime.utcnow(), loc, res])
     csvfile.close()
 
+
 def jsonSave(loc, res):
     with open('response.csv', 'a', newline='') as csvfile:
         csvWriter = csv.writer(csvfile)
         csvWriter.writerow([datetime.datetime.utcnow(), loc, res])
     csvfile.close()
+
+
+def checkSLnTP():
+    # implements a back testing function. Not needed in live trading but added to stop errors
+    pass
+
+

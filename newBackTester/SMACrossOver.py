@@ -6,7 +6,7 @@ class SMACrossOver():
     def __init__(self):
         self.buyOpen = False  # Unsure if these need to be adjusted?
         self.sellOpen = False  # Unsure if these need to be adjusted?
-        self.closes = functions.startPastPricesList()
+        self.closes = functions.startPastPricesList(80)
         self.short_ema = [functions.sma(self.closes[-10:])]
         self.long_ema = [functions.sma(self.closes[-30:])]
         self.id = 0
@@ -16,7 +16,7 @@ class SMACrossOver():
 
     def tick(self, cond):
         # print(cond)
-        self.closes = functions.updatePastPrices(self.closes)
+        self.closes = functions.updatePastPrices(self.closes, 80)
         # print(self.closes[-1])
         self.short_ema.append(functions.sma(self.closes[-cond[0]:]))
         self.long_ema.append(functions.sma(self.closes[-cond[1]:]))
@@ -28,7 +28,7 @@ class SMACrossOver():
             # print("!!!!SELL!!!!")
             if self.id != 0:
                 functions.close(self.id)
-            self.id = functions.sell()
+            self.id = functions.sell(cond[2])
             self.sellOpen = True
             self.buyOpen = False
             self.stopLoss = self.closes[-1][1] + cond[2]
@@ -37,27 +37,28 @@ class SMACrossOver():
             # print("!!!!BUY!!!!")
             if self.id != 0:
                 functions.close(self.id)
-            self.id = functions.buy()
+            self.id = functions.buy(cond[2])
             self.sellOpen = False
             self.buyOpen = True
             self.stopLoss = self.closes[-1][1] - cond[2]
+        functions.checkSLnTP()
         # print("price:", self.closes[-1][1])
         # print("stopLoss:", self.stopLoss)
-        if self.buyOpen and self.closes[-1][1] < self.stopLoss:
-            print("STOP")
-            # time.sleep(30)
-            self.id = 0
-            functions.close(self.id)
-            self.buyOpen = False
-            self.sellOpen = False
-
-        if self.sellOpen and self.closes[-1][1] > self.stopLoss:
-            print("STOP")
-            # time.sleep(30)
-            self.id = 0
-            functions.close(self.id)
-            self.buyOpen = False
-            self.sellOpen = False
+        # if self.buyOpen and self.closes[-1][1] < self.stopLoss:
+        #     print("STOP")
+        #     # time.sleep(30)
+        #     self.id = 0
+        #     functions.close(self.id)
+        #     self.buyOpen = False
+        #     self.sellOpen = False
+        #
+        # if self.sellOpen and self.closes[-1][1] > self.stopLoss:
+        #     print("STOP")
+        #     # time.sleep(30)
+        #     self.id = 0
+        #     functions.close(self.id)
+        #     self.buyOpen = False
+        #     self.sellOpen = False
 
         # with open('output.csv', 'a', newline='') as csvfile:
         #     csvWriter = csv.writer(csvfile)

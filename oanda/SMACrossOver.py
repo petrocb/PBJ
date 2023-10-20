@@ -28,7 +28,7 @@ class SMACrossOver():
             # print("!!!!SELL!!!!")
             if self.id != 0:
                 functions.close(self.id)
-            self.id = functions.sell()
+            self.id = functions.sell(cond[2])
             self.sellOpen = True
             self.buyOpen = False
             self.stopLoss = self.closes[-1][1] + cond[2]
@@ -43,21 +43,21 @@ class SMACrossOver():
             self.stopLoss = self.closes[-1][1] - cond[2]
         print("price:", self.closes[-1][1])
         print("stopLoss:", self.stopLoss)
-        if self.buyOpen and self.closes[-1][1] < self.stopLoss:
-            print("STOP")
-            # time.sleep(30)
-            functions.close(self.id)
-            self.id = 0
-            self.buyOpen = False
-            self.sellOpen = False
-
-        if self.sellOpen and self.closes[-1][1] > self.stopLoss:
-            print("STOP")
-            # time.sleep(30)
-            functions.close(self.id)
-            self.id = 0
-            self.buyOpen = False
-            self.sellOpen = False
+        # if self.buyOpen and self.closes[-1][1] < self.stopLoss:
+        #     print("STOP")
+        #     # time.sleep(30)
+        #     functions.close(self.id)
+        #     self.id = 0
+        #     self.buyOpen = False
+        #     self.sellOpen = False
+        #
+        # if self.sellOpen and self.closes[-1][1] > self.stopLoss:
+        #     print("STOP")
+        #     # time.sleep(30)
+        #     functions.close(self.id)
+        #     self.id = 0
+        #     self.buyOpen = False
+        #     self.sellOpen = False
 
         with open('response.csv', 'a', newline='') as csvfile:
             csvWriter = csv.writer(csvfile)
