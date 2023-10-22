@@ -8,13 +8,13 @@ import time
 import time
 from scraper import scaper
 def main():
-    x = NewSMACross([40, 80, 0.0005])
-    # y = scaper()
+    x = NewSMACross([40, 80, 0.0005, 0.0005])
+    y = scaper()
     while True:
         x.tick()
-    #     y.tick()
+        y.tick()
         time.sleep(60)
-    # functions.sell(0.0005)
+    # functions.sell(0.0005, 0.0005)
     # functions.getAsk()
     # functions.close(10266)
     # functions.openTrades()
