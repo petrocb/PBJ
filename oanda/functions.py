@@ -84,7 +84,7 @@ def updatePastPrices(data, count):
     return data
 
 
-def buy(distance):
+def buy(sld, tpd):
     # Place a buy trade
     instrument = "EUR_USD"  # Replace with the instrument you want to trade
     units = 10000  # Replace with the desired number of units
@@ -93,7 +93,8 @@ def buy(distance):
             "instrument": instrument,
             "units": str(units),  # Convert units to string
             "type": "MARKET",  # You can use other order types if needed
-            "stopLossOnFill": {"distance": distance}
+            "stopLossOnFill": {"distance": sld},
+            "takeProfitOnFill": {"distance": tpd}
         }
     }
     response = requests.post(f"{getCred()[0]}/v3/accounts/{getCred()[2]}/orders",
@@ -108,7 +109,7 @@ def buy(distance):
     return id
 
 
-def sell(distance):
+def sell(sld, tpd):
     # Place a sell trade
     instrument = "EUR_USD"  # Replace with the instrument you want to trade
     units = -10000  # Replace with the desired number of units (negative for selling)
@@ -117,7 +118,8 @@ def sell(distance):
             "instrument": instrument,
             "units": str(units),  # Convert units to string
             "type": "MARKET",  # You can use other order types if needed
-            "stopLossOnFill": {"distance": distance}
+            "stopLossOnFill": {"distance": sld},
+            "takeProfitOnFill": {"distance": tpd}
 
         }
     }
@@ -148,6 +150,9 @@ def openTrades():
     response = response.json()
     jsonSave("open", response)
     return response
+
+def time():
+    return datetime.datetime.utcnow().hour
 
 def EMA2(p, window_LT=200):
     alpha_LT = 2 / (window_LT + 1)

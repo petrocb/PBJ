@@ -12,7 +12,7 @@ def main():
     # data = functions.upOrDown(data)
     # functions.removeDirection(data)
 
-    with open('EURUSD1month2023.csv', 'w', newline='') as csvfile:
+    with open('EURUSD1min2023sep.csv', 'w', newline='') as csvfile:
         writer = csv.writer(csvfile)
         for row in data:
             writer.writerow(row)

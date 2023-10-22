@@ -45,7 +45,7 @@ def summary(cond, arr, data, conditions):
             count += 1
         with open('rawdata.csv', 'a', newline='') as csvfile:
             csvWriter = csv.writer(csvfile)
-            csvWriter.writerow(i)
+            csvWriter.writerow([datetime.utcnow(), i])
         csvfile.close()
     try:
         data['winRatio'] = data['wins'] / data['numTrades']

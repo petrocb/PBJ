@@ -11,7 +11,7 @@ class dataHandler:
         self.tp = 0
 
     def start(self, line):
-        with open('EURUSD1min2020.csv', newline='') as csvfile:
+        with open('EURUSD1min2023.05.csv', newline='') as csvfile:
             reader = csv.reader(csvfile, delimiter=',', quotechar='|')
             count = 0
             self.line = line
@@ -22,20 +22,24 @@ class dataHandler:
             return self.data[:line]
 
     def update(self):
-        self.line += 1
-        return self.data[self.line]
+            self.line += 1
+            return self.data[self.line]
 
-    def buy(self, distance):
+    def buy(self, sld, tpd):
         self.positions.append([self.data[self.line], 'b'])
-        self.sl = float(self.positions[-1][0][1]) - distance
+        self.sl = float(self.positions[-1][0][1]) - sld
+        self.tp = float(self.positions[-1][0][1]) + tpd
 
-    def sell(self, distance):
+    def sell(self, sld, tpd):
         self.positions.append([self.data[self.line], 's'])
-        self.sl = float(self.positions[-1][0][1]) + distance
+        self.sl = float(self.positions[-1][0][1]) + sld
+        self.tp = float(self.positions[-1][0][1]) - tpd
 
 
     def close(self):
         self.positions.append([self.data[self.line], 'c'])
+        print(self.positions[-1])
+        print(self.positions[-2])
 
 
     def getPosition(self):
@@ -49,18 +53,36 @@ class dataHandler:
         self.positions = []
         self.data = []
 
+    def time(self):
+        return self.data[self.line][0].hour
     def checkSLnTP(self):
         try:
-            if (self.data[self.line][1] < self.sl and self.positions[-1][-1] == 'b') or (self.data[self.line][1] > self.sl and self.positions[-1][-1] == 's'):
+            if (self.data[self.line][1] < self.sl and self.positions[-1][-1] == 'b') or \
+                    (self.data[self.line][1] > self.sl and self.positions[-1][-1] == 's') or \
+                    (self.data[self.line][1] > self.tp and self.positions[-1][-1] == 'b') or \
+                    (self.data[self.line][1] < self.tp and self.positions[-1][-1] == 's'):
                 return True
             else:
                 return False
         except IndexError:
-            pass
-
+            return False
     def openTrades(self):
-        if self.positions[-1][-1] == 'b' or self.positions[-1][-1] == 's':
-            return self.positions[-1]
-        else:
-            return []
+        try:
+            if self.positions[-1][-1] == 'b' or self.positions[-1][-1] == 's':
+                return {"positions": [0]}
+
+            else:
+                return {"positions": []}
+
+        except IndexError as e:
+            print(e)
+            return {"positions": []}
+        # try:
+        #     if self.positions[-1][-1] == 'b' or self.positions[-1][-1] == 's':
+        #         return self.positions[-1]
+        #     else:
+        #         return []
+        # except IndexError as e:
+        #     print("error", e)
+        #     return []
 

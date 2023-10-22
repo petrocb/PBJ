@@ -1,16 +1,17 @@
 import requests
 from EMACrossOver import EMACrossOver
 from SMACrossOver import SMACrossOver
+from newSMACross import NewSMACross
 import functions
 import json
 import time
 import time
 from scraper import scaper
 def main():
-    x = SMACrossOver()
+    x = NewSMACross([40, 80, 0.0005])
     # y = scaper()
     while True:
-        x.tick([40, 80, 0.0005])
+        x.tick()
     #     y.tick()
         time.sleep(60)
     # functions.sell(0.0005)

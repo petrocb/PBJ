@@ -29,12 +29,12 @@ def updatePastPrices(data, count):
     return data
 
 
-def buy(distance):
-    dh.buy(distance)
+def buy(sld, tpd):
+    dh.buy(sld, tpd)
 
 
-def sell(distance):
-    dh.sell(distance)
+def sell(sld, tpd):
+    dh.sell(sld, tpd)
 
 
 def close(id):
@@ -59,9 +59,10 @@ def checkSLnTP():
         dh.close()
 
 def openTrades():
-    dh.openTrades()
+    return dh.openTrades()
 
-
+def time():
+    return dh.time()
 def EMA2(p, window_LT=200, window_ST=50, signal_type='buy only'):
     alpha_LT = 2 / (window_LT + 1)
     beta_LT = 1 - alpha_LT

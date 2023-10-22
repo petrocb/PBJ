@@ -15,6 +15,7 @@ class SMACrossOver():
 
     def tick(self, cond):
         # print(cond)
+        functions.time()
         self.closes = functions.updatePastPrices(self.closes, 80)
         # print(self.closes[-1])
         self.short_ema.append(functions.sma(self.closes[-cond[0]:]))
