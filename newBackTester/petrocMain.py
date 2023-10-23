@@ -27,7 +27,13 @@ def main():
     # conditions = [[30, 10], [10, 30]]
     # print(conditions)
     # conditions = [[10, 44], [22, 99]]
-    conditions = [[30, 10, 0.0005, 0.0005]]
+    conditions = [[30, 10, 0.001, 0.001]]#
+    0.0001
+    conditions = []
+    for o in range(10):
+        for i in range(10):
+            conditions.append([30, 10, (o+1)/10000, (i+1)/10000])
+    print(conditions)
     data = []
 
     # for o in strats:

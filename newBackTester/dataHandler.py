@@ -38,8 +38,7 @@ class dataHandler:
 
     def close(self):
         self.positions.append([self.data[self.line], 'c'])
-        print(self.positions[-1])
-        print(self.positions[-2])
+
 
 
     def getPosition(self):

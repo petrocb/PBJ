@@ -52,7 +52,7 @@ def startPastPricesList(count):
     return list
 
 
-def updatePastPrices(data, count):
+def updatePastPrices(data, length):
     # print(datetime.datetime.utcnow())
     # print(datetime.datetime.utcnow() - datetime.timedelta(minutes=5))
     if data[-1][0] < (datetime.datetime.utcnow() - datetime.timedelta(minutes=1)).replace(tzinfo=datetime.timezone.utc):
@@ -74,7 +74,7 @@ def updatePastPrices(data, count):
             list[count] = [datetime.datetime.fromisoformat(prices['Date'][count]), float(i)]
             data.append(list[count])
             count += 1
-        if len(data) > count:
+        if len(data) > length:
             data.pop(0)
         # print("passed")
         # print(x)
