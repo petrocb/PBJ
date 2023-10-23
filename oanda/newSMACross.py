@@ -36,7 +36,7 @@ class NewSMACross():
 
         time = functions.time()
         # print(time)
-        if time > 7 and time < 20:
+        if time > 6 and time < 20:
             # No trades open
             if self.short_ema[1] > self.long_ema[1] and self.short_ema[0] <= self.long_ema[0] and not self.sellOpen and not self.buyOpen:
                 print("!!!!BUY!!!!")
