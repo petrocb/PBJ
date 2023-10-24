@@ -23,12 +23,9 @@ def upOrDown(data):
     return data
 
 def filter(data):
-    print(data[0][0])
-    print(data[0][0][5:7])
     newData = []
     for row in data:
-        if int(row[0][0:4]) > 2022 and int(row[0][5:7]) == 5:
-
+        if int(row[0][0:4]) > 2022: #and int(row[0][5:7]) == 5:
             newData.append(row)
 
     # newData = [row for row in data if (int(row[0][0:4]) > 2022 and int(row[0][5:7]) == 9)]

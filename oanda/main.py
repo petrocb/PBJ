@@ -8,7 +8,7 @@ import time
 import time
 from scraper import scaper
 def main():
-    x = NewSMACross([30, 10, 0.0005, 0.0006])
+    x = NewSMACross([30, 10, 0.0005, 0.0005])
     y = scaper()
     while True:
         x.tick()

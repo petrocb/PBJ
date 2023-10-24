@@ -87,7 +87,7 @@ def updatePastPrices(data, length):
 def buy(sld, tpd):
     # Place a buy trade
     instrument = "EUR_USD"  # Replace with the instrument you want to trade
-    units = 500  # Replace with the desired number of units
+    units = 10000  # Replace with the desired number of units
     data = {
         "order": {
             "instrument": instrument,
@@ -103,6 +103,7 @@ def buy(sld, tpd):
     responceSave("buy", response)
     print(response)
     id = response.json()
+    print(id)
     jsonSave("buy", id)
     id = id['orderFillTransaction']['id']
 
@@ -112,7 +113,7 @@ def buy(sld, tpd):
 def sell(sld, tpd):
     # Place a sell trade
     instrument = "EUR_USD"  # Replace with the instrument you want to trade
-    units = -500  # Replace with the desired number of units (negative for selling)
+    units = -10000  # Replace with the desired number of units (negative for selling)
     data = {
         "order": {
             "instrument": instrument,
@@ -129,6 +130,7 @@ def sell(sld, tpd):
     responceSave("sell", response)
     print(response)
     id = response.json()
+    print(id)
     jsonSave("sell", id)
     id = id['orderFillTransaction']['id']
     return id
