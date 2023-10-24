@@ -55,7 +55,7 @@ def reset():
 
 def checkSLnTP():
     if dh.checkSLnTP():
-        print("close")
+        # print("close")
         dh.close()
 
 def openTrades():
