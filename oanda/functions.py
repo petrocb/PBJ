@@ -153,6 +153,14 @@ def openTrades():
     jsonSave("open", response)
     return response
 
+
+def getDirection():
+    list = startPastPricesList(60)
+    if list[0][1] > list[-1][1]:
+        return "down"
+    else:
+        return "up"
+
 def time():
     return datetime.datetime.utcnow().hour
 
@@ -194,5 +202,4 @@ def jsonSave(loc, res):
 def checkSLnTP():
     # implements a back testing function. Not needed in live trading but added to stop errors
     pass
-
 

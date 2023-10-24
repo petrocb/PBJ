@@ -38,14 +38,14 @@ class NewSMACross():
         # print(time)
         if 6 < time < 19:
             # No trades open
-            if self.short_ema[1] > self.long_ema[1] and self.short_ema[0] <= self.long_ema[0] and not self.sellOpen and not self.buyOpen:
+            if self.short_ema[1] > self.long_ema[1] and self.short_ema[0] <= self.long_ema[0] and not self.sellOpen and not self.buyOpen and functions.getDirection() == "up":
                 print("!!!!BUY!!!!")
                 self.id = functions.buy(self.cond[2], self.cond[3])
                 self.sellOpen = False
                 self.buyOpen = True
 
             # print(self.short_ema[1] < self.long_ema[1], self.short_ema[0] >= self.long_ema[0], not self.sellOpen, not self.buyOpen)
-            if self.short_ema[1] < self.long_ema[1] and self.short_ema[0] >= self.long_ema[0] and not self.sellOpen and not self.buyOpen:
+            if self.short_ema[1] < self.long_ema[1] and self.short_ema[0] >= self.long_ema[0] and not self.sellOpen and not self.buyOpen and functions.getDirection() == "down":
                 print("!!!!SELL!!!!")
                 self.id = functions.sell(self.cond[2], self.cond[3])
                 self.sellOpen = True

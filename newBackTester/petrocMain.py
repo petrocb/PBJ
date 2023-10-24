@@ -28,8 +28,8 @@ def main():
     # print(conditions)
     # conditions = [[10, 44], [22, 99]]
     conditions = [[30, 10, 0.001, 0.001]]#
-    0.0001
     conditions = [[30, 10, 0.0005, 0.0005], [10, 30, 0.0005, 0.0005]]
+    conditions = [[30, 10, 0.0005, 0.0005]]
     # for o in range(10):
     #     for i in range(10):
     #         conditions.append([30, 10, (o+1)/10000, (i+1)/10000])
@@ -40,7 +40,7 @@ def main():
     for m in fxData:
         for i in conditions:
             o = NewSMACross(i)
-            with open('EURUSDrest.csv', newline='') as csvfile:
+            with open('EURUSD15min2020.csv', newline='') as csvfile:
                 reader = csv.reader(csvfile, delimiter=',', quotechar='|')
                 for x in reader:
                     try:

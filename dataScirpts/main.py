@@ -3,7 +3,7 @@ import pandas as pd
 import csv
 def main():
     data = []
-    with open('EURUSD.csv', 'r') as csvfile:
+    with open('EURUSD1min2020.csv', 'r') as csvfile:
         reader = csv.reader(csvfile)
         for row in reader:
             data.append(row)
