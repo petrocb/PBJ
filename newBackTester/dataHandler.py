@@ -11,7 +11,7 @@ class dataHandler:
         self.tp = 0
 
     def start(self, line):
-        with open('EURUSD15min2020.csv', newline='') as csvfile:
+        with open('EURUSD1min2020.csv', newline='') as csvfile:
             reader = csv.reader(csvfile, delimiter=',', quotechar='|')
             count = 0
             self.line = line

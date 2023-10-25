@@ -11,6 +11,7 @@ from SMACrossOver import SMACrossOver
 from SMACrossOverNoStopLoss import SMACrossOverNoStopLoss
 from testStrat import TestStrat
 from newSMACross import NewSMACross
+from newSMACross2 import NewSMACross2
 
 def main():
     runOrder = 1
@@ -29,7 +30,7 @@ def main():
     # conditions = [[10, 44], [22, 99]]
     conditions = [[30, 10, 0.001, 0.001]]#
     conditions = [[30, 10, 0.0005, 0.0005], [10, 30, 0.0005, 0.0005]]
-    conditions = [[30, 10, 0.0005, 0.0005]]
+    conditions = [[30, 10, 0.001, 0.001]]
     # for o in range(10):
     #     for i in range(10):
     #         conditions.append([30, 10, (o+1)/10000, (i+1)/10000])
@@ -39,8 +40,8 @@ def main():
     # for o in strats:
     for m in fxData:
         for i in conditions:
-            o = NewSMACross(i)
-            with open('EURUSD15min2020.csv', newline='') as csvfile:
+            o = NewSMACross2(i)
+            with open('EURUSD1min2020.csv', newline='') as csvfile:
                 reader = csv.reader(csvfile, delimiter=',', quotechar='|')
                 for x in reader:
                     try:

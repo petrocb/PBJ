@@ -61,6 +61,14 @@ def checkSLnTP():
 def openTrades():
     return dh.openTrades()
 
+
+def getDirection():
+    list = startPastPricesList(60)
+    if list[0][1] > list[-1][1]:
+        return "down"
+    else:
+        return "up"
+
 def time():
     return dh.time()
 def EMA2(p, window_LT=200, window_ST=50, signal_type='buy only'):
