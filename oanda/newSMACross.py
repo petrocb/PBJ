@@ -15,6 +15,7 @@ class NewSMACross():
         self.short_ema = [functions.sma(self.closes[-self.cond[0]:])]
         self.long_ema = [functions.sma(self.closes[-self.cond[1]:])]
         self.id = 0
+        self.direction = functions.startPastPricesList(60)
 
     def tick(self):
 
@@ -33,19 +34,20 @@ class NewSMACross():
             self.short_ema.pop(0)
         if len(self.long_ema) > 2:
             self.long_ema.pop(0)
+        self.direction = functions.updatePastPrices(self.direction, 60)
 
         time = functions.time()
         # print(time)
         if 6 < time < 19:
             # No trades open
-            if (self.short_ema[1] > self.long_ema[1]) and (self.short_ema[0] <= self.long_ema[0]) and (not self.sellOpen) and (not self.buyOpen) and (functions.getDirection() == "up"):
+            if (self.short_ema[1] > self.long_ema[1]) and (self.short_ema[0] <= self.long_ema[0]) and (not self.sellOpen) and (not self.buyOpen) and (functions.getDirection(self.direction) == "up"):
                 print("!!!!BUY!!!!")
                 self.id = functions.buy(self.cond[2], self.cond[3])
                 self.sellOpen = False
                 self.buyOpen = True
 
             # print(self.short_ema[1] < self.long_ema[1], self.short_ema[0] >= self.long_ema[0], not self.sellOpen, not self.buyOpen)
-            if (self.short_ema[1] < self.long_ema[1]) and (self.short_ema[0] >= self.long_ema[0]) and (not self.sellOpen) and (not self.buyOpen) and (functions.getDirection() == "down"):
+            if (self.short_ema[1] < self.long_ema[1]) and (self.short_ema[0] >= self.long_ema[0]) and (not self.sellOpen) and (not self.buyOpen) and (functions.getDirection(self.direction) == "down"):
                 print("!!!!SELL!!!!")
                 self.id = functions.sell(self.cond[2], self.cond[3])
                 self.sellOpen = True

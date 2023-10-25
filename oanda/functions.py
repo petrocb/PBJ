@@ -154,8 +154,8 @@ def openTrades():
     return response
 
 
-def getDirection():
-    list = startPastPricesList(60)
+def getDirection(list):
+    # list = startPastPricesList(60)
     if list[0][1] > list[-1][1]:
         return "down"
     else:
