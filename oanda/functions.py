@@ -36,9 +36,9 @@ def startPastPricesList(count, instrument, timeFrame):
                         headers={'Authorization': f'Bearer {getCred()[1]}'},
                         params={'granularity': timeFrame, 'count': count})
     responceSave("start", data)
-    # print(data)
+    print(data)
     data = data.json()
-    # print(data)
+    print(data)
     jsonSave("start", data)
     data = data['candles']
     prices = []
@@ -85,8 +85,39 @@ def updatePastPrices(data, length, instrument, timeFrame):
         pass
     return data
 
+def updatePastPrices2(data, length, instrument, timeFrame):
+    # print(datetime.datetime.utcnow())
+    # print(datetime.datetime.utcnow() - datetime.timedelta(minutes=5))
+    if data[-1][0] < (datetime.datetime.utcnow() - datetime.timedelta(minutes=30)).replace(tzinfo=datetime.timezone.utc):
+        x = requests.get(f"{getCred()[0]}/v3/accounts/{getCred()[2]}/instruments/{instrument}/candles",
+                         headers={'Authorization': f'Bearer {getCred()[1]}'},
+                         params={'granularity': timeFrame, 'count': 1})
+        responceSave("update", x)
+        x = x.json()
+        jsonSave("update", x)
+        x = x['candles']
+        prices = []
+        for i in x:
+            prices.append([i['time'], i['mid']['o'], i['mid']['h'], i['mid']['l'], i['mid']['c'], 0, 0])
+        prices = pd.DataFrame(prices)
+        prices.columns = ['Date', 'Open', 'High', 'Low', 'Close', 'Volume', 'OpenInterest']
+        list = prices['Close'].to_list()
+        count = 0
+        for i in list:
+            list[count] = [datetime.datetime.fromisoformat(prices['Date'][count]), float(i)]
+            data.append(list[count])
+            count += 1
+        if len(data) > length:
+            data.pop(0)
+        # print("passed")
+        # print(x)
+    else:
+        # print("failed")
+        pass
+    return data
 
-def buy(sld, tpd, instrument):
+
+def buy(sld, tpd, instrument, cid):
     # Place a buy trade
     instrument = instrument  # Replace with the instrument you want to trade
     units = 10000  # Replace with the desired number of units
@@ -97,7 +128,8 @@ def buy(sld, tpd, instrument):
                 "units": str(units),
                 "type": "MARKET",
                 "stopLossOnFill": {"distance": sld},
-                "takeProfitOnFill": {"distance": tpd}
+                "takeProfitOnFill": {"distance": tpd},
+                "tradeClientExtensions": {"tag": cid}
             }
         }
     elif sld == 0 and tpd == 0:
@@ -106,6 +138,7 @@ def buy(sld, tpd, instrument):
                 "instrument": instrument,
                 "units": str(units),
                 "type": "MARKET",
+                "tradeClientExtensions": {"tag": cid}
             }
         }
     response = requests.post(f"{getCred()[0]}/v3/accounts/{getCred()[2]}/orders",
@@ -121,7 +154,7 @@ def buy(sld, tpd, instrument):
     return id
 
 
-def sell(sld, tpd, instrument):
+def sell(sld, tpd, instrument, cid):
     # Place a sell trade
     instrument = instrument  # Replace with the instrument you want to trade
     units = -10000  # Replace with the desired number of units (negative for selling)
@@ -132,7 +165,8 @@ def sell(sld, tpd, instrument):
                 "units": str(units),
                 "type": "MARKET",
                 "stopLossOnFill": {"distance": sld},
-                "takeProfitOnFill": {"distance": tpd}
+                "takeProfitOnFill": {"distance": tpd},
+                "tradeClientExtensions": {"tag": cid}
             }
         }
     elif sld == 0 and tpd == 0:
@@ -141,6 +175,7 @@ def sell(sld, tpd, instrument):
                 "instrument": instrument,
                 "units": str(units),
                 "type": "MARKET",
+                "tradeClientExtensions": {"tag": cid}
             }
         }
     response = requests.post(f"{getCred()[0]}/v3/accounts/{getCred()[2]}/orders",
@@ -154,21 +189,22 @@ def sell(sld, tpd, instrument):
     id = id['orderFillTransaction']['id']
     return id
 
-def order(units):
+def order(units, cid):
     data = {
         "order": {
-            "instrument": "USD_JPY",
+            "instrument": "EUR_USD",
             "units": str(units),
             "type": "MARKET",
+            "tradeClientExtensions": {"tag": cid}
         }
     }
     response = requests.post(f"{getCred()[0]}/v3/accounts/{getCred()[2]}/orders",
                              headers={'Authorization': f'Bearer {getCred()[1]}'},
                              json=data)
     responceSave("order", response)
-    # print(response)
+    print(response)
     id = response.json()
-    # print(id)
+    print(id)
     jsonSave("order", id)
     # id = id['orderFillTransaction']['id']
     # return id
@@ -203,47 +239,61 @@ def getDirection(list):
 def trend(data):
     print(len(data))
     total = 0
-    # day
-    print("day", data[0], data[-1], data[-1][1]-data[0][1])
+    # month
+    print("month", data[0], data[-1], data[-1][1]-data[0][1])
     if data[0][1] > data[-1][1]:
         total -= 1
     else:
         total += 1
 
+    # week
+    print("week", data[1140], data[-1], data[-1][1]-data[1140][1])
+    if data[1140][1] > data[-1][1]:
+        total -= 1
+    else:
+        total += 1
+
+    # day
+    print("day", data[1296], data[-1], data[-1][1]-data[1296][1])
+    if data[1296][1] > data[-1][1]:
+        total -= 1
+    else:
+        total += 1
+
     # 4 hour
-    print("4 hour", data[240], data[-1], data[-1][1] - data[240][1])
-    if data[240][1] > data[-1][1]:
+    print("4 hour", data[1336], data[-1], data[-1][1] - data[1336][1])
+    if data[1336][1] > data[-1][1]:
         total -= 1
     else:
         total += 1
 
     # 1 hour
-    print("1 hour", data[276], data[-1], data[-1][1] - data[270][1])
-    if data[276][1] > data[-1][1]:
+    print("1 hour", data[1342], data[-1], data[-1][1] - data[1342][1])
+    if data[1342][1] > data[-1][1]:
         total -= 1
     else:
         total += 1
 
     # 30 min
-    print("30 min", data[282], data[-1], data[-1][1] - data[282][1])
-    if data[282][1] > data[-1][1]:
+    print("30 min", data[1343], data[-1], data[-1][1] - data[1343][1])
+    if data[1343][1] > data[-1][1]:
         total -= 1
     else:
         total += 1
 
-    # 15 min
-    print("15 min", data[285], data[-1], data[-1][1] - data[285][1])
-    if data[285][1] > data[-1][1]:
-        total -= 1
-    else:
-        total += 1
-
-    # 5 min
-    print("5 min", data[287], data[-1], data[-1][1] - data[287][1])
-    if data[287][1] > data[-1][1]:
-        total -= 1
-    else:
-        total += 1
+    # # 15 min
+    # print("15 min", data[285], data[-1], data[-1][1] - data[285][1])
+    # if data[285][1] > data[-1][1]:
+    #     total -= 1
+    # else:
+    #     total += 1
+    #
+    # # 5 min
+    # print("5 min", data[287], data[-1], data[-1][1] - data[287][1])
+    # if data[287][1] > data[-1][1]:
+    #     total -= 1
+    # else:
+    #     total += 1
 
     return total
 

@@ -11,17 +11,17 @@ import time
 import time
 from scraper import scaper
 def main():
-    x = NewSMACross([30, 10, 0.0005, 0.0005])
+    # x = NewSMACross([30, 10, 0.0005, 0.0005])
     # y = scaper()
     # while True:
     #     x.tick()
     #     y.tick()
     #     time.sleep(60)#
     # print(functions.openTrades())
-    # y = FollowTrend([])
+    y = FollowTrend([])
     while True:
-        x.tick()
-        # y.tick()
+        # x.tick()
+        y.tick()
         time.sleep(60)
 
 

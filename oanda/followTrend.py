@@ -7,14 +7,14 @@ class FollowTrend:
     def __init__(self, cond):
         self.cond = cond
         self.id = 0
-        self.data = functions.startPastPricesList(289, "USD_JPY", "M5")
+        self.data = functions.startPastPricesList(1345, "EUR_USD", "M30")
         self.direction = 0
         self.position = 0
         self.closed = True
 
     def tick(self):
             functions.checkSLnTP()
-            self.data = functions.updatePastPrices(self.data, 289, "USD_JPY", "M5")
+            self.data = functions.updatePastPrices2(self.data, 1345, "EUR_USD", "M30")
 
             time = functions.time()
         # if 6 < time < 23:
@@ -28,7 +28,7 @@ class FollowTrend:
                 self.position = 0
             if self.position != self.direction:
                 print(self.direction, "    ", self.position)
-                functions.order(float(self.direction) - float(self.position))
+                functions.order(float(self.direction) - float(self.position), "followTrend")
         # elif time > 19 and not self.closed:
         #     self.position = functions.openTrades()['positions']
         #     self.position = self.position['long']['units'] + self.position['short']['units']
@@ -38,5 +38,5 @@ class FollowTrend:
         #     functions.order(0 - self.position)
             with open('response.csv', 'a', newline='') as csvfile:
                 csvWriter = csv.writer(csvfile)
-                csvWriter.writerow([])
+                csvWriter.writerow([self.direction, self.position, float(self.direction - float(self.position)), self.data])
             csvfile.close()
