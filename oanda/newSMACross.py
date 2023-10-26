@@ -9,13 +9,13 @@ class NewSMACross():
         self.buyOpen = False
         self.sellOpen = False
         if cond[0] > cond[1]:
-            self.closes = functions.startPastPricesList(self.cond[0])
+            self.closes = functions.startPastPricesList(self.cond[0], 'EUR_USD', "M1")
         else:
-            self.closes = functions.startPastPricesList(self.cond[1])
+            self.closes = functions.startPastPricesList(self.cond[1], 'EUR_USD', "M1")
         self.short_ema = [functions.sma(self.closes[-self.cond[0]:])]
         self.long_ema = [functions.sma(self.closes[-self.cond[1]:])]
         self.id = 0
-        self.direction = functions.startPastPricesList(60)
+        self.direction = functions.startPastPricesList(60, 'EUR_USD', "M1")
 
     def tick(self):
 
@@ -25,16 +25,16 @@ class NewSMACross():
             self.sellOpen = False
 
         if self.cond[0] > self.cond[1]:
-            self.closes = functions.updatePastPrices(self.closes, self.cond[0])
+            self.closes = functions.updatePastPrices(self.closes, self.cond[0], 'EUR_USD', "M1")
         else:
-            self.closes = functions.updatePastPrices(self.closes, self.cond[0])
+            self.closes = functions.updatePastPrices(self.closes, self.cond[0], 'EUR_USD', "M1")
         self.short_ema.append(functions.sma(self.closes[-self.cond[0]:]))
         self.long_ema.append(functions.sma(self.closes[-self.cond[1]:]))
         if len(self.short_ema) > 2:
             self.short_ema.pop(0)
         if len(self.long_ema) > 2:
             self.long_ema.pop(0)
-        self.direction = functions.updatePastPrices(self.direction, 60)
+        self.direction = functions.updatePastPrices(self.direction, 60, 'EUR_USD', "M1")
 
         time = functions.time()
         # print(time)

@@ -11,10 +11,10 @@ def getCred():
             "101-004-25985927-001"]
 
 
-def getPrice():
+def getPrice(instrument):
     price = requests.get(f"{getCred()[0]}/v3/accounts/{getCred()[2]}/pricing",
                          headers={'Authorization': f'Bearer {getCred()[1]}'},
-                         params={'instruments': "EUR_USD"})
+                         params={'instruments': instrument})
     responceSave("price", price)
     price = price.json()
     jsonSave("price", price)
@@ -31,12 +31,14 @@ def getAsk():
     return getPrice()['prices'][0]['asks'][0]['price']
 
 
-def startPastPricesList(count):
-    data = requests.get(f"{getCred()[0]}/v3/accounts/{getCred()[2]}/instruments/EUR_USD/candles",
+def startPastPricesList(count, instrument, timeFrame):
+    data = requests.get(f"{getCred()[0]}/v3/accounts/{getCred()[2]}/instruments/{instrument}/candles",
                         headers={'Authorization': f'Bearer {getCred()[1]}'},
-                        params={'granularity': 'M1', 'count': count})
+                        params={'granularity': timeFrame, 'count': count})
     responceSave("start", data)
+    # print(data)
     data = data.json()
+    # print(data)
     jsonSave("start", data)
     data = data['candles']
     prices = []
@@ -52,13 +54,13 @@ def startPastPricesList(count):
     return list
 
 
-def updatePastPrices(data, length):
+def updatePastPrices(data, length, instrument, timeFrame):
     # print(datetime.datetime.utcnow())
     # print(datetime.datetime.utcnow() - datetime.timedelta(minutes=5))
-    if data[-1][0] < (datetime.datetime.utcnow() - datetime.timedelta(minutes=1)).replace(tzinfo=datetime.timezone.utc):
-        x = requests.get(f"{getCred()[0]}/v3/accounts/{getCred()[2]}/instruments/EUR_USD/candles",
+    if data[-1][0] < (datetime.datetime.utcnow() - datetime.timedelta(minutes=5)).replace(tzinfo=datetime.timezone.utc):
+        x = requests.get(f"{getCred()[0]}/v3/accounts/{getCred()[2]}/instruments/{instrument}/candles",
                          headers={'Authorization': f'Bearer {getCred()[1]}'},
-                         params={'granularity': 'M1', 'count': 1})
+                         params={'granularity': timeFrame, 'count': 1})
         responceSave("update", x)
         x = x.json()
         jsonSave("update", x)
@@ -84,19 +86,28 @@ def updatePastPrices(data, length):
     return data
 
 
-def buy(sld, tpd):
+def buy(sld, tpd, instrument):
     # Place a buy trade
-    instrument = "EUR_USD"  # Replace with the instrument you want to trade
+    instrument = instrument  # Replace with the instrument you want to trade
     units = 10000  # Replace with the desired number of units
-    data = {
-        "order": {
-            "instrument": instrument,
-            "units": str(units),  # Convert units to string
-            "type": "MARKET",  # You can use other order types if needed
-            "stopLossOnFill": {"distance": sld},
-            "takeProfitOnFill": {"distance": tpd}
+    if sld != 0 and tpd != 0:
+        data = {
+            "order": {
+                "instrument": instrument,
+                "units": str(units),
+                "type": "MARKET",
+                "stopLossOnFill": {"distance": sld},
+                "takeProfitOnFill": {"distance": tpd}
+            }
         }
-    }
+    elif sld == 0 and tpd == 0:
+        data = {
+            "order": {
+                "instrument": instrument,
+                "units": str(units),
+                "type": "MARKET",
+            }
+        }
     response = requests.post(f"{getCred()[0]}/v3/accounts/{getCred()[2]}/orders",
                              headers={'Authorization': f'Bearer {getCred()[1]}'},
                              json=data)
@@ -110,20 +121,28 @@ def buy(sld, tpd):
     return id
 
 
-def sell(sld, tpd):
+def sell(sld, tpd, instrument):
     # Place a sell trade
-    instrument = "EUR_USD"  # Replace with the instrument you want to trade
+    instrument = instrument  # Replace with the instrument you want to trade
     units = -10000  # Replace with the desired number of units (negative for selling)
-    data = {
-        "order": {
-            "instrument": instrument,
-            "units": str(units),  # Convert units to string
-            "type": "MARKET",  # You can use other order types if needed
-            "stopLossOnFill": {"distance": sld},
-            "takeProfitOnFill": {"distance": tpd}
-
+    if sld != 0 and tpd != 0:
+        data = {
+            "order": {
+                "instrument": instrument,
+                "units": str(units),
+                "type": "MARKET",
+                "stopLossOnFill": {"distance": sld},
+                "takeProfitOnFill": {"distance": tpd}
+            }
         }
-    }
+    elif sld == 0 and tpd == 0:
+        data = {
+            "order": {
+                "instrument": instrument,
+                "units": str(units),
+                "type": "MARKET",
+            }
+        }
     response = requests.post(f"{getCred()[0]}/v3/accounts/{getCred()[2]}/orders",
                              headers={'Authorization': f'Bearer {getCred()[1]}'},
                              json=data)
@@ -134,6 +153,25 @@ def sell(sld, tpd):
     jsonSave("sell", id)
     id = id['orderFillTransaction']['id']
     return id
+
+def order(units):
+    data = {
+        "order": {
+            "instrument": "USD_JPY",
+            "units": str(units),
+            "type": "MARKET",
+        }
+    }
+    response = requests.post(f"{getCred()[0]}/v3/accounts/{getCred()[2]}/orders",
+                             headers={'Authorization': f'Bearer {getCred()[1]}'},
+                             json=data)
+    responceSave("order", response)
+    # print(response)
+    id = response.json()
+    # print(id)
+    jsonSave("order", id)
+    # id = id['orderFillTransaction']['id']
+    # return id
 
 
 def close(trade_id):
@@ -160,6 +198,54 @@ def getDirection(list):
         return "down"
     else:
         return "up"
+
+
+def trend(data):
+    print(len(data))
+    total = 0
+    # day
+    print("day", data[0], data[-1], data[-1][1]-data[0][1])
+    if data[0][1] > data[-1][1]:
+        total -= 1
+    else:
+        total += 1
+
+    # 4 hour
+    print("4 hour", data[240], data[-1], data[-1][1] - data[240][1])
+    if data[240][1] > data[-1][1]:
+        total -= 1
+    else:
+        total += 1
+
+    # 1 hour
+    print("1 hour", data[276], data[-1], data[-1][1] - data[270][1])
+    if data[276][1] > data[-1][1]:
+        total -= 1
+    else:
+        total += 1
+
+    # 30 min
+    print("30 min", data[282], data[-1], data[-1][1] - data[282][1])
+    if data[282][1] > data[-1][1]:
+        total -= 1
+    else:
+        total += 1
+
+    # 15 min
+    print("15 min", data[285], data[-1], data[-1][1] - data[285][1])
+    if data[285][1] > data[-1][1]:
+        total -= 1
+    else:
+        total += 1
+
+    # 5 min
+    print("5 min", data[287], data[-1], data[-1][1] - data[287][1])
+    if data[287][1] > data[-1][1]:
+        total -= 1
+    else:
+        total += 1
+
+    return total
 
 def time():
     return datetime.datetime.utcnow().hour

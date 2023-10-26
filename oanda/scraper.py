@@ -10,5 +10,5 @@ class scaper():
     def tick(self):
         with open('data.csv', 'a', newline='') as csvfile:
             csvWriter = csv.writer(csvfile)
-            csvWriter.writerow([datetime.utcnow(), getPrice()])
+            csvWriter.writerow([datetime.utcnow(), getPrice("EUR_USD")])
         csvfile.close()
