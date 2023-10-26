@@ -57,7 +57,7 @@ def startPastPricesList(count, instrument, timeFrame):
 def updatePastPrices(data, length, instrument, timeFrame):
     # print(datetime.datetime.utcnow())
     # print(datetime.datetime.utcnow() - datetime.timedelta(minutes=5))
-    if data[-1][0] < (datetime.datetime.utcnow() - datetime.timedelta(minutes=5)).replace(tzinfo=datetime.timezone.utc):
+    if data[-1][0] < (datetime.datetime.utcnow() - datetime.timedelta(minutes=1)).replace(tzinfo=datetime.timezone.utc):
         x = requests.get(f"{getCred()[0]}/v3/accounts/{getCred()[2]}/instruments/{instrument}/candles",
                          headers={'Authorization': f'Bearer {getCred()[1]}'},
                          params={'granularity': timeFrame, 'count': 1})
