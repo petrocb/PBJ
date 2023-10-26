@@ -6,7 +6,7 @@ import time
 class NewSMACross():
     def __init__(self, cond):
         self.cond = cond
-        self.buyOpen = False
+        self.buyOpen = True
         self.sellOpen = False
         if cond[0] > cond[1]:
             self.closes = functions.startPastPricesList(self.cond[0], 'EUR_USD', "M1")
@@ -54,19 +54,19 @@ class NewSMACross():
                 self.buyOpen = False
 
             # Trades open
-            if self.short_ema[1] < self.long_ema[1] and self.short_ema[0] >= self.long_ema[
-                0] and self.buyOpen and not self.sellOpen:
-                # print("!!!!CLOSE!!!!")
-                self.id = functions.close(self.id)
-                self.sellOpen = False
-                self.buyOpen = False
+        if self.short_ema[1] < self.long_ema[1] and self.short_ema[0] >= self.long_ema[
+            0] and self.buyOpen and not self.sellOpen:
+            # print("!!!!CLOSE!!!!")
+            self.id = functions.close(self.id)
+            self.sellOpen = False
+            self.buyOpen = False
 
-            if self.short_ema[1] > self.long_ema[1] and self.short_ema[0] <= self.long_ema[
-                0] and self.sellOpen and not self.buyOpen:
-                # print("!!!!CLOSE!!!!")
-                self.id = functions.close(self.id)
-                self.sellOpen = False
-                self.buyOpen = False
+        if self.short_ema[1] > self.long_ema[1] and self.short_ema[0] <= self.long_ema[
+            0] and self.sellOpen and not self.buyOpen:
+            # print("!!!!CLOSE!!!!")
+            self.id = functions.close(self.id)
+            self.sellOpen = False
+            self.buyOpen = False
 
             with open('response.csv', 'a', newline='') as csvfile:
                 csvWriter = csv.writer(csvfile)
