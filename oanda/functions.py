@@ -1,19 +1,26 @@
 import pandas as pd
 import requests
 import json
-import datetime
 import numpy as np
 import csv
+import datetime
+
+def getCred(account):
+    if account == 'followTrend':
+        return ["https://api-fxpractice.oanda.com", "f4269a9c72d371dc9004bbea2244baff-bce94bf762cbb36a0d09f0ddc0fcf310",
+                "101-004-25985927-002"]
+    elif account == 'SMAFollowTrend':
+        return ["https://api-fxpractice.oanda.com", "f4269a9c72d371dc9004bbea2244baff-bce94bf762cbb36a0d09f0ddc0fcf310",
+                "101-004-25985927-003"]
+    elif account == 'SMACrossOver':
+        return ["https://api-fxpractice.oanda.com", "f4269a9c72d371dc9004bbea2244baff-bce94bf762cbb36a0d09f0ddc0fcf310",
+                "101-004-25985927-004"]
 
 
-def getCred():
-    return ["https://api-fxpractice.oanda.com", "554a05a67a483b45171693a0ded86b01-7f36009c47bba3095ed7d8cc9901486c",
-            "101-004-25985927-001"]
 
-
-def getPrice(instrument):
-    price = requests.get(f"{getCred()[0]}/v3/accounts/{getCred()[2]}/pricing",
-                         headers={'Authorization': f'Bearer {getCred()[1]}'},
+def getPrice(instrument, account):
+    price = requests.get(f"{getCred(account)[0]}/v3/accounts/{getCred(account)[2]}/pricing",
+                         headers={'Authorization': f'Bearer {getCred(account)[1]}'},
                          params={'instruments': instrument})
     responceSave("price", price)
     price = price.json()
@@ -23,22 +30,33 @@ def getPrice(instrument):
     return price
 
 
-def getBid():
-    return getPrice()['prices'][0]['bids'][0]['price']
+def getPriceSince(instrument, date, account):
+    price = requests.get(f"{getCred(account)[0]}/v3/accounts/{getCred(account)[2]}/pricing",
+                         headers={'Authorization': f'Bearer {getCred(account)[1]}'},
+                         params={'instruments': instrument,
+                                 'since': date})
+    responceSave("price", price)
+    price = price.json()
+    jsonSave("price", price)
+    # price = price['prices'][0]
+    # print(price)
+    return price
 
 
-def getAsk():
-    return getPrice()['prices'][0]['asks'][0]['price']
+def getBid(account):
+    return getPrice("EUR_USD", account)['prices'][0]['bids'][0]['price']
 
 
-def startPastPricesList(count, instrument, timeFrame):
-    data = requests.get(f"{getCred()[0]}/v3/accounts/{getCred()[2]}/instruments/{instrument}/candles",
-                        headers={'Authorization': f'Bearer {getCred()[1]}'},
+def getAsk(account):
+    return getPrice("EUR_USD", account)['prices'][0]['asks'][0]['price']
+
+
+def startPastPricesList(count, instrument, timeFrame, account):
+    data = requests.get(f"{getCred(account)[0]}/v3/accounts/{getCred(account)[2]}/instruments/{instrument}/candles",
+                        headers={'Authorization': f'Bearer {getCred(account)[1]}'},
                         params={'granularity': timeFrame, 'count': count})
     responceSave("start", data)
-    print(data)
     data = data.json()
-    print(data)
     jsonSave("start", data)
     data = data['candles']
     prices = []
@@ -54,12 +72,12 @@ def startPastPricesList(count, instrument, timeFrame):
     return list
 
 
-def updatePastPrices(data, length, instrument, timeFrame):
+def updatePastPrices(data, length, instrument, timeFrame, account):
     # print(datetime.datetime.utcnow())
     # print(datetime.datetime.utcnow() - datetime.timedelta(minutes=5))
     if data[-1][0] < (datetime.datetime.utcnow() - datetime.timedelta(minutes=1)).replace(tzinfo=datetime.timezone.utc):
-        x = requests.get(f"{getCred()[0]}/v3/accounts/{getCred()[2]}/instruments/{instrument}/candles",
-                         headers={'Authorization': f'Bearer {getCred()[1]}'},
+        x = requests.get(f"{getCred(account)[0]}/v3/accounts/{getCred(account)[2]}/instruments/{instrument}/candles",
+                         headers={'Authorization': f'Bearer {getCred(account)[1]}'},
                          params={'granularity': timeFrame, 'count': 1})
         responceSave("update", x)
         x = x.json()
@@ -85,12 +103,14 @@ def updatePastPrices(data, length, instrument, timeFrame):
         pass
     return data
 
-def updatePastPrices2(data, length, instrument, timeFrame):
+
+def updatePastPrices2(data, length, instrument, timeFrame, account):
     # print(datetime.datetime.utcnow())
     # print(datetime.datetime.utcnow() - datetime.timedelta(minutes=5))
-    if data[-1][0] < (datetime.datetime.utcnow() - datetime.timedelta(minutes=30)).replace(tzinfo=datetime.timezone.utc):
-        x = requests.get(f"{getCred()[0]}/v3/accounts/{getCred()[2]}/instruments/{instrument}/candles",
-                         headers={'Authorization': f'Bearer {getCred()[1]}'},
+    if data[-1][0] < (datetime.datetime.utcnow() - datetime.timedelta(minutes=30)).replace(
+            tzinfo=datetime.timezone.utc):
+        x = requests.get(f"{getCred(account)[0]}/v3/accounts/{getCred(account)[2]}/instruments/{instrument}/candles",
+                         headers={'Authorization': f'Bearer {getCred(account)[1]}'},
                          params={'granularity': timeFrame, 'count': 1})
         responceSave("update", x)
         x = x.json()
@@ -117,10 +137,10 @@ def updatePastPrices2(data, length, instrument, timeFrame):
     return data
 
 
-def buy(sld, tpd, instrument, cid):
+def buy(sld, tpd, instrument, cid, account):
     # Place a buy trade
     instrument = instrument  # Replace with the instrument you want to trade
-    units = 10000  # Replace with the desired number of units
+    units = 1000  # Replace with the desired number of units
     if sld != 0 and tpd != 0:
         data = {
             "order": {
@@ -141,23 +161,21 @@ def buy(sld, tpd, instrument, cid):
                 "tradeClientExtensions": {"tag": cid}
             }
         }
-    response = requests.post(f"{getCred()[0]}/v3/accounts/{getCred()[2]}/orders",
-                             headers={'Authorization': f'Bearer {getCred()[1]}'},
+    response = requests.post(f"{getCred(account)[0]}/v3/accounts/{getCred(account)[2]}/orders",
+                             headers={'Authorization': f'Bearer {getCred(account)[1]}'},
                              json=data)
     responceSave("buy", response)
-    print(response)
     id = response.json()
-    print(id)
     jsonSave("buy", id)
     id = id['orderFillTransaction']['id']
 
     return id
 
 
-def sell(sld, tpd, instrument, cid):
+def sell(sld, tpd, instrument, cid, account):
     # Place a sell trade
     instrument = instrument  # Replace with the instrument you want to trade
-    units = -10000  # Replace with the desired number of units (negative for selling)
+    units = -1000  # Replace with the desired number of units (negative for selling)
     if sld != 0 and tpd != 0:
         data = {
             "order": {
@@ -178,55 +196,80 @@ def sell(sld, tpd, instrument, cid):
                 "tradeClientExtensions": {"tag": cid}
             }
         }
-    response = requests.post(f"{getCred()[0]}/v3/accounts/{getCred()[2]}/orders",
-                             headers={'Authorization': f'Bearer {getCred()[1]}'},
+    response = requests.post(f"{getCred(account)[0]}/v3/accounts/{getCred(account)[2]}/orders",
+                             headers={'Authorization': f'Bearer {getCred(account)[1]}'},
                              json=data)
     responceSave("sell", response)
-    print(response)
     id = response.json()
-    print(id)
     jsonSave("sell", id)
     id = id['orderFillTransaction']['id']
     return id
 
-def order(units, cid):
-    data = {
-        "order": {
-            "instrument": "EUR_USD",
-            "units": str(units),
-            "type": "MARKET",
-            "tradeClientExtensions": {"tag": cid}
+
+def order(units, cid, account, sld, tpd):
+    if sld != 0 and tpd != 0:
+        data = {
+            "order": {
+                "instrument": "EUR_USD",
+                "units": str(units),
+                "type": "MARKET",
+                "stopLossOnFill": {"distance": sld},
+                "takeProfitOnFill": {"distance": tpd},
+                "tradeClientExtensions": {"tag": cid}
+            }
         }
-    }
-    response = requests.post(f"{getCred()[0]}/v3/accounts/{getCred()[2]}/orders",
-                             headers={'Authorization': f'Bearer {getCred()[1]}'},
+    elif sld == 0 and tpd == 0:
+        data = {
+            "order": {
+                "instrument": "EUR_USD",
+                "units": str(units),
+                "type": "MARKET",
+                "tradeClientExtensions": {"tag": cid}
+            }
+        }
+    response = requests.post(f"{getCred(account)[0]}/v3/accounts/{getCred(account)[2]}/orders",
+                             headers={'Authorization': f'Bearer {getCred(account)[1]}'},
                              json=data)
     responceSave("order", response)
-    print(response)
     id = response.json()
-    print(id)
     jsonSave("order", id)
     # id = id['orderFillTransaction']['id']
     # return id
 
 
-def close(trade_id):
+def close(trade_id, account):
     # Close an existing trade by trade ID
-    response = requests.put(f"{getCred()[0]}/v3/accounts/{getCred()[2]}/trades/{trade_id}/close",
-                            headers={'Authorization': f'Bearer {getCred()[1]}'})
+    response = requests.put(f"{getCred(account)[0]}/v3/accounts/{getCred(account)[2]}/trades/{trade_id}/close",
+                            headers={'Authorization': f'Bearer {getCred(account)[1]}'})
     responceSave("close", response)
     r = response.json()
     jsonSave("close", response)
     return r
 
-def openTrades():
-    response = requests.get(f"{getCred()[0]}/v3/accounts/{getCred()[2]}/openPositions",
-                            headers={'Authorization': f'Bearer {getCred()[1]}'})
-    responceSave("open", response)
+
+def getPositions(account):
+    response = requests.get(f"{getCred(account)[0]}/v3/accounts/{getCred(account)[2]}/openPositions",
+                            headers={'Authorization': f'Bearer {getCred(account)[1]}'})
+    responceSave("positions", response)
     response = response.json()
-    jsonSave("open", response)
+    jsonSave("positions", response)
     return response
 
+def getOrders(account):
+    responce = requests.get(f"{getCred(account)[0]}/v3/accounts/{getCred(account)[2]}/orders",
+                            headers={'Authorization': f'Bearer {getCred(account)[1]}'})
+    responceSave("OpenOrders", responce)
+    responce = responce.json()
+    jsonSave("OpenOrders", responce)
+    return responce
+
+def getTrades(account):
+    responce = requests.get(f"{getCred(account)[0]}/v3/accounts/{getCred(account)[2]}/openTrades",
+                            headers={'Authorization': f'Bearer {getCred(account)[1]}'})
+    responceSave("trades", responce)
+    responce = responce.json()
+    jsonSave("trades", responce)
+    return responce
 
 def getDirection(list):
     # list = startPastPricesList(60)
@@ -237,24 +280,23 @@ def getDirection(list):
 
 
 def trend(data):
-    print(len(data))
     total = 0
     # month
-    print("month", data[0], data[-1], data[-1][1]-data[0][1])
+    print("month", data[0], data[-1], data[-1][1] - data[0][1])
     if data[0][1] > data[-1][1]:
         total -= 1
     else:
         total += 1
 
     # week
-    print("week", data[1140], data[-1], data[-1][1]-data[1140][1])
+    print("week", data[1140], data[-1], data[-1][1] - data[1140][1])
     if data[1140][1] > data[-1][1]:
         total -= 1
     else:
         total += 1
 
     # day
-    print("day", data[1296], data[-1], data[-1][1]-data[1296][1])
+    print("day", data[1296], data[-1], data[-1][1] - data[1296][1])
     if data[1296][1] > data[-1][1]:
         total -= 1
     else:
@@ -318,6 +360,7 @@ def sma(data):
     list = []
     for i in data:
         list.append(i[1])
+    # print(len(list))
     return sum(list) / len(list)
 
 
@@ -335,7 +378,13 @@ def jsonSave(loc, res):
     csvfile.close()
 
 
+def generate_timestamp(year, month, day, hour, minute, second):
+    timestamp = datetime.datetime(year, month, day, hour, minute, second)
+    formatted_timestamp = timestamp.strftime("%Y-%m-%dT%H:%M:%S.%fZ")
+    print(formatted_timestamp)
+    return formatted_timestamp
+
+
 def checkSLnTP():
     # implements a back testing function. Not needed in live trading but added to stop errors
     pass
-
