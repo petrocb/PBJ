@@ -27,15 +27,16 @@ class SMAFollowTrend:
             elif i > self.data[-1][1]:
                 self.direction -= 1
 
-        print(self.data[-1][1] - self.SMA[0], self.data[-1][1] - self.SMA[1], self.data[-1][1] - self.SMA[3],
-              self.data[-1][1] - self.SMA[4], self.data[-1][1] - self.SMA[5], self.data[-1][1] - self.SMA[6],
-              self.data[-1][1] - self.SMA[7], self.data[-1][1] - self.SMA[8], self.data[-1][1] - self.SMA[9])
+        print(self.data[-1][1] - self.SMA[0], self.data[-1][1] - self.SMA[1], self.data[-1][1] - self.SMA[2],
+              self.data[-1][1] - self.SMA[3], self.data[-1][1] - self.SMA[4], self.data[-1][1] - self.SMA[5],
+              self.data[-1][1] - self.SMA[6], self.data[-1][1] - self.SMA[7], self.data[-1][1] - self.SMA[8],
+              self.data[-1][1] - self.SMA[9])
 
         print("price:", self.data[-1][1], "direction:", self.direction)
         self.direction *= 500
         self.position = functions.getPositions("SMAFollowTrend")['positions']
         if self.position:
-            float(self.position[0]['long']['units']) + float(self.position[0]['short']['units'])
+            self.position = float(self.position[0]['long']['units']) + float(self.position[0]['short']['units'])
         else:
             self.position = 0
         print(self.direction, "    ", self.position)

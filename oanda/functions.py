@@ -214,7 +214,6 @@ def order(units, cid, account, sld, tpd):
                 "units": str(units),
                 "type": "MARKET",
                 "stopLossOnFill": {"distance": sld},
-                "takeProfitOnFill": {"distance": tpd},
                 "tradeClientExtensions": {"tag": cid}
             }
         }

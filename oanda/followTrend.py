@@ -21,9 +21,9 @@ class FollowTrend:
             self.closed = False
             self.direction = functions.trend(self.data) * 500
             self.position = functions.getPositions(self.account)['positions']
+            print(self.direction, "    ", self.position)
             if self.position:
                 self.position = float(self.position[0]['long']['units']) + float(self.position[0]['short']['units'])
-                print(self.direction, "    ", self.position)
 
             else:
                 self.position = 0
