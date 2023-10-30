@@ -18,16 +18,21 @@ def getAsk():
     return 0
 
 
-def startPastPricesList(count):
+def startPastPricesList(count, instrument, timeFrame, tag):
     return dh.start(count)
 
 
-def updatePastPrices(data, count):
+def updatePastPrices(data, count, instrument, timeFrame, tag):
     data.append(dh.update())
     if len(data) > count:
         data.pop(0)
     return data
 
+def updatePastPrices2(data, count, instrument, timeFrame, tag):
+    data.append(dh.update())
+    if len(data) > count:
+        data.pop(0)
+    return data
 
 def buy(sld, tpd):
     dh.buy(sld, tpd)
@@ -41,7 +46,7 @@ def close(id):
     dh.close()
 
 
-def getPositions():
+def getPositions(tag):
     return dh.getPosition()
 
 

@@ -11,17 +11,18 @@ import time
 import time
 from scraper import scaper
 def main():
-    a = NewSMACross([30, 10, 0.005, 0.005])
-    b = FollowTrend()
-    c = SMAFollowTrend()
-    while True:
-        print("SMACross")
-        a.tick()
-        print("FollowTrend")
-        b.tick()
-        print("SMAFollowTrend")
-        c.tick()
-        time.sleep(60)
+    # a = NewSMACross([30, 10, 0.0005, 0.0005])
+#     # b = FollowTrend()
+#     # c = SMAFollowTrend()
+#     # while True:
+#     #     print("SMACross")
+#     #     a.tick()
+#     #     print("FollowTrend")
+#     #     b.tick()
+#     #     print("SMAFollowTrend")
+#     #     c.tick()
+#     #     time.sleep(60)
+    print(functions.getPositions("SMAFollowTrend"))
 
 if __name__ == "__main__":
     main()

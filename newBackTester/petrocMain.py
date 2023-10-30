@@ -12,6 +12,7 @@ from SMACrossOverNoStopLoss import SMACrossOverNoStopLoss
 from testStrat import TestStrat
 from newSMACross import NewSMACross
 from newSMACross2 import NewSMACross2
+from SMAFollowTrend import SMAFollowTrend
 
 def main():
     runOrder = 1
@@ -40,8 +41,8 @@ def main():
     # for o in strats:
     for m in fxData:
         for i in conditions:
-            o = NewSMACross2(i)
-            with open('EURUSD1min2020.csv', newline='') as csvfile:
+            o = SMAFollowTrend()
+            with open('EURUSD30min2020.csv', newline='') as csvfile:
                 reader = csv.reader(csvfile, delimiter=',', quotechar='|')
                 for x in reader:
                     try:
