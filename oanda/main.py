@@ -17,6 +17,7 @@ def main():
     c = SMAFollowTrend()
     d = SMAFollowTrendStanDiv()
     while True:
+        print(datetime.datetime.utcnow())
         print("SMACross")
         a.tick()
         print("FollowTrend")
