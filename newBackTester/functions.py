@@ -28,11 +28,13 @@ def updatePastPrices(data, count, instrument, timeFrame, tag):
         data.pop(0)
     return data
 
+
 def updatePastPrices2(data, count, instrument, timeFrame, tag):
     data.append(dh.update())
     if len(data) > count:
         data.pop(0)
     return data
+
 
 def buy(sld, tpd):
     dh.buy(sld, tpd)
@@ -44,6 +46,7 @@ def sell(sld, tpd):
 
 def order(units, account, tag, sld, tpd):
     dh.order(units, account, tag, sld, tpd)
+
 
 def close(id):
     dh.close()
@@ -66,6 +69,7 @@ def checkSLnTP():
         # print("close")
         dh.close()
 
+
 def openTrades():
     return dh.openTrades()
 
@@ -77,8 +81,11 @@ def getDirection():
     else:
         return "up"
 
+
 def time():
     return dh.time()
+
+
 def EMA2(p, window_LT=200, window_ST=50, signal_type='buy only'):
     alpha_LT = 2 / (window_LT + 1)
     beta_LT = 1 - alpha_LT
@@ -150,3 +157,7 @@ def sma(data):
         # print(i)
         list.append(i[1])
     return sum(list) / len(list)
+
+
+def getOrders():
+    return dh.getOrders()

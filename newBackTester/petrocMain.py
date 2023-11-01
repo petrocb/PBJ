@@ -1,17 +1,18 @@
-from EMACrossOver import EMACrossOver
+# from EMACrossOver import EMACrossOver
 from summary import summary
-import pandas as pd
-import numpy as np
-from functions import EMA2
-from functions import signals
+# import pandas as pd
+# import numpy as np
+# from functions import EMA2
+# from functions import signals
 import csv
 from functions import getPositions
+from functions import getOrders
 from functions import reset
-from SMACrossOver import SMACrossOver
-from SMACrossOverNoStopLoss import SMACrossOverNoStopLoss
-from testStrat import TestStrat
-from newSMACross import NewSMACross
-from newSMACross2 import NewSMACross2
+# from SMACrossOver import SMACrossOver
+# from SMACrossOverNoStopLoss import SMACrossOverNoStopLoss
+# from testStrat import TestStrat
+# from newSMACross import NewSMACross
+# from newSMACross2 import NewSMACross2
 from SMAFollowTrend import SMAFollowTrend
 
 def main():
@@ -51,7 +52,7 @@ def main():
                         print(e)
                         break
                 print(i)
-            summary(i, getPositions("notNeeded"), data, i)
+            summary(i, getOrders(), data, i)
             reset()
 
 

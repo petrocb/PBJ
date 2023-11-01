@@ -5,8 +5,12 @@ import numpy as np
 import csv
 import datetime
 
+
 def getCred(account):
-    if account == 'SMAFollowTrendSD':
+    if account == 'primary':
+        return ["https://api-fxpractice.oanda.com", "38504d5ef16387715a977fcda730ca59-0d297de89f9c5b03df5bd9aadf18da17",
+                "101-004-25985927-001"]
+    elif account == 'SMAFollowTrendSD':
         return ["https://api-fxpractice.oanda.com", "38504d5ef16387715a977fcda730ca59-0d297de89f9c5b03df5bd9aadf18da17",
                 "101-004-25985927-005"]
     elif account == 'followTrend':
@@ -246,8 +250,8 @@ def order(units, cid, account, sld, tpd, tsld):
     responceSave("order", response)
     id = response.json()
     jsonSave("order", id)
-    # id = id['orderFillTransaction']['id']
-    # return id
+    id = id['orderFillTransaction']['id']
+    return id
 
 
 def close(trade_id, account):
@@ -284,6 +288,13 @@ def getTrades(account):
     jsonSave("trades", responce)
     return responce
 
+def getTransactionsSinceID(account, id):
+    responce  = requests.get(f"{getCred(account)[0]}/v3/accounts/{getCred(account)[2]}/transactions/sinceid?id={id}",
+                             headers={'Authorization': f'Bearer {getCred(account)[1]}'})
+    responceSave("transactions", responce)
+    responce = responce.json()
+    jsonSave("transactions", responce)
+    return responce
 def getDirection(list):
     # list = startPastPricesList(60)
     if list[0][1] > list[-1][1]:
@@ -353,7 +364,7 @@ def trend(data):
     return total
 
 def time():
-    return datetime.datetime.utcnow().hour
+    return datetime.datetime.utcnow()
 
 def EMA2(p, window_LT=200):
     alpha_LT = 2 / (window_LT + 1)
