@@ -30,7 +30,7 @@ class FollowTrend:
             if self.position != self.direction:
                 print(self.direction, "    ", self.position)
                 functions.order(float(self.direction) - float(self.position), "followTrend", self.account, 0.001,
-                                0.001)
+                                0.001, 0)
         # elif ime > 19 and not self.closed:
         #     self.position = functions.openTrades()['positions']
         #     self.position = self.position['long']['units'] + self.position['short']['units']

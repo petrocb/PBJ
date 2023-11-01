@@ -35,6 +35,10 @@ class dataHandler:
         self.sl = float(self.positions[-1][0][1]) + sld
         self.tp = float(self.positions[-1][0][1]) - tpd
 
+    def order(self, units, account, tag, sld, tpd):
+        self.positions.append([self.data[self.line], units])
+        self.sl = float(self.positions[-1][0][1]) + sld
+        self.tp = float(self.positions[-1][0][1]) - tpd
 
     def close(self):
         self.positions.append([self.data[self.line], 'c'])
@@ -42,6 +46,9 @@ class dataHandler:
 
 
     def getPosition(self):
+        return {'positions': [{'long': {'units': 0}, 'short': {'units': 0}}]}
+        return {'positions': [{'instrument': 'EUR_USD', 'long': {'units': '3000', 'averagePrice': '1.06031', 'pl': '3.1974', 'resettablePL': '3.1974', 'financing': '0.0000', 'dividendAdjustment': '0.0000', 'guaranteedExecutionFees': '0.0000', 'tradeIDs': ['154', '159', '165'], 'unrealizedPL': '2.6896'}, 'short': {'units': '0', 'pl': '-4.6554', 'resettablePL': '-4.6554', 'financing': '0.0000', 'dividendAdjustment': '0.0000', 'guaranteedExecutionFees': '0.0000', 'unrealizedPL': '0.0000'}, 'pl': '-1.4580', 'resettablePL': '-1.4580', 'financing': '0.0000', 'commission': '0.0000', 'dividendAdjustment': '0.0000', 'guaranteedExecutionFees': '0.0000', 'unrealizedPL': '2.6896', 'marginUsed': '87.2080'}], 'lastTransactionID': '166'}
+        return {'positions'}
         return self.positions
 
     def setLine(self):

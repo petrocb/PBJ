@@ -19,30 +19,32 @@ def summary(cond, arr, data, conditions):
     total = 0
     winRatio = 0
     count = 0
+    print(arr)
     for i in arr:
         # print(i)
         # print(i[-1])
         # print(data['pnl'])
         # print(i[0][1])
-        if i[-1] == 's' or i[-1] == 'b':
-            price = float(i[0][1])
-            count += 1
-        elif i[-1] == 'c':
-            data['numTrades'] += 1
-            if arr[count-1][-1] == 's':
-                # data['pnl'] -= float(i[0][1]) - price
-                data['pnl'] += price - float(i[0][1])
-                if price > float(i[0][1]):
-                    data['wins'] += 1
-                else:
-                    data['losses'] += 1
-            elif arr[count-1][-1] == 'b':
-                data['pnl'] += float(i[0][1]) - price
-                if price < float(i[0][1]):
-                    data['wins'] += 1
-                else:
-                    data['losses'] += 1
-            count += 1
+        # if i[-1] == 's' or i[-1] == 'b':
+        #     price = float(i[0][1])
+        #     count += 1
+        # elif i[-1] == 'c':
+        #     data['numTrades'] += 1
+        #     if arr[count-1][-1] == 's':
+        #         # data['pnl'] -= float(i[0][1]) - price
+        #         data['pnl'] += price - float(i[0][1])
+        #         if price > float(i[0][1]):
+        #             data['wins'] += 1
+        #         else:
+        #             data['losses'] += 1
+        #     elif arr[count-1][-1] == 'b':
+        #         data['pnl'] += float(i[0][1]) - price
+        #         if price < float(i[0][1]):
+        #             data['wins'] += 1
+        #         else:
+        #             data['losses'] += 1
+        #     count += 1
+
         with open('rawdata.csv', 'a', newline='') as csvfile:
             csvWriter = csv.writer(csvfile)
             csvWriter.writerow([datetime.utcnow(), i])

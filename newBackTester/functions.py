@@ -42,6 +42,9 @@ def sell(sld, tpd):
     dh.sell(sld, tpd)
 
 
+def order(units, account, tag, sld, tpd):
+    dh.order(units, account, tag, sld, tpd)
+
 def close(id):
     dh.close()
 

@@ -6,14 +6,17 @@ import csv
 import datetime
 
 def getCred(account):
-    if account == 'followTrend':
-        return ["https://api-fxpractice.oanda.com", "f4269a9c72d371dc9004bbea2244baff-bce94bf762cbb36a0d09f0ddc0fcf310",
+    if account == 'SMAFollowTrendSD':
+        return ["https://api-fxpractice.oanda.com", "38504d5ef16387715a977fcda730ca59-0d297de89f9c5b03df5bd9aadf18da17",
+                "101-004-25985927-005"]
+    elif account == 'followTrend':
+        return ["https://api-fxpractice.oanda.com", "38504d5ef16387715a977fcda730ca59-0d297de89f9c5b03df5bd9aadf18da17",
                 "101-004-25985927-002"]
     elif account == 'SMAFollowTrend':
-        return ["https://api-fxpractice.oanda.com", "f4269a9c72d371dc9004bbea2244baff-bce94bf762cbb36a0d09f0ddc0fcf310",
+        return ["https://api-fxpractice.oanda.com", "38504d5ef16387715a977fcda730ca59-0d297de89f9c5b03df5bd9aadf18da17",
                 "101-004-25985927-003"]
     elif account == 'SMACrossOver':
-        return ["https://api-fxpractice.oanda.com", "f4269a9c72d371dc9004bbea2244baff-bce94bf762cbb36a0d09f0ddc0fcf310",
+        return ["https://api-fxpractice.oanda.com", "38504d5ef16387715a977fcda730ca59-0d297de89f9c5b03df5bd9aadf18da17",
                 "101-004-25985927-004"]
 
 
@@ -206,8 +209,8 @@ def sell(sld, tpd, instrument, cid, account):
     return id
 
 
-def order(units, cid, account, sld, tpd):
-    if sld != 0 and tpd != 0:
+def order(units, cid, account, sld, tpd, tsld):
+    if sld != 0 and tpd != 0 and tsld == 0:
         data = {
             "order": {
                 "instrument": "EUR_USD",
@@ -224,6 +227,17 @@ def order(units, cid, account, sld, tpd):
                 "units": str(units),
                 "type": "MARKET",
                 "tradeClientExtensions": {"tag": cid}
+            }
+        }
+    elif sld != 0 and tpd != 0 and tsld != 0:
+        data = {
+            "order": {
+                "instrument": "EUR_USD",
+                "units": str(units),
+                "type": "MARKET",
+                "stopLossOnFill": {"distance": sld},
+                "tradeClientExtensions": {"tag": cid},
+                "trailingStopLossOnFill": {"distance": tsld}
             }
         }
     response = requests.post(f"{getCred(account)[0]}/v3/accounts/{getCred(account)[2]}/orders",
@@ -362,7 +376,11 @@ def sma(data):
     # print(len(list))
     return sum(list) / len(list)
 
-
+def std(data):
+    newData = []
+    for i in data:
+        newData.append(i[1])
+    return (np.std(newData))/2
 def responceSave(loc, res):
     with open('response.csv', 'a', newline='') as csvfile:
         csvWriter = csv.writer(csvfile)
