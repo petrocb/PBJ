@@ -10,9 +10,10 @@ class dataHandler:
         self.data = []
         self.sl = 0
         self.tp = 0
+        self.position = 0
 
     def start(self, line):
-        with open('quickData.csv', newline='') as csvfile:
+        with open('EURUSD30min2020.csv', newline='') as csvfile:
             reader = csv.reader(csvfile, delimiter=',', quotechar='|')
             count = 0
             self.line = line
@@ -39,6 +40,7 @@ class dataHandler:
 
     def order(self, units, account, tag, sld, tpd):
         self.orders.append([self.data[self.line], units])
+        self.position += units
         self.sl = 99# float(self.positions[-1][0][1]) + sld
         self.tp = 99#float(self.positions[-1][0][1]) - tpd
 
@@ -46,7 +48,8 @@ class dataHandler:
         self.positions.append([self.data[self.line], 'c'])
 
     def getPosition(self):
-        return {'positions': [{'long': {'units': 0}, 'short': {'units': 0}}]}
+
+        return {'positions': [{'long': {'units': self.position}, 'short': {'units': 0}}]}
         return {'positions': [{'instrument': 'EUR_USD',
                                'long': {'units': '3000', 'averagePrice': '1.06031', 'pl': '3.1974',
                                         'resettablePL': '3.1974', 'financing': '0.0000', 'dividendAdjustment': '0.0000',
@@ -106,5 +109,4 @@ class dataHandler:
         #     return []
 
     def getOrders(self):
-        print(self.orders)
         return self.orders

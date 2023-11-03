@@ -1,6 +1,6 @@
 from datetime import datetime
 import csv
-def summary(cond, arr, data, conditions):
+def summary(cond, arr):
     # print("Starting summary")
     if cond == [40, 50]:
         pass
@@ -19,9 +19,9 @@ def summary(cond, arr, data, conditions):
     total = 0
     winRatio = 0
     count = 0
-    print(arr)
     for i in arr:
-        # print(i)
+
+        print(i)
         # print(i[-1])
         # print(data['pnl'])
         # print(i[0][1])
@@ -45,25 +45,25 @@ def summary(cond, arr, data, conditions):
         #             data['losses'] += 1
         #     count += 1
 
-        with open('rawdata.csv', 'a', newline='') as csvfile:
-            csvWriter = csv.writer(csvfile)
-            csvWriter.writerow([datetime.utcnow(), i])
-        csvfile.close()
-    try:
-        data['winRatio'] = data['wins'] / data['numTrades']
-    except ZeroDivisionError:
-        pass
+    #     with open('rawdata.csv', 'a', newline='') as csvfile:
+    #         csvWriter = csv.writer(csvfile)
+    #         csvWriter.writerow([datetime.utcnow(), i])
+    #     csvfile.close()
+    # try:
+    #     data['winRatio'] = data['wins'] / data['numTrades']
+    # except ZeroDivisionError:
+    #     pass
             # else:
             #     winRatio -= 1
 
-    try:
-        winRatio = round(winRatio/(len(arr)/2), 2)
-    except ZeroDivisionError:
-        pass
-    with open('output.csv', 'a', newline='') as csvfile:
-        csvWriter = csv.writer(csvfile)
-        csvWriter.writerow([datetime.utcnow(), conditions, data])
-    csvfile.close()
+    # try:
+    #     winRatio = round(winRatio/(len(arr)/2), 2)
+    # except ZeroDivisionError:
+    #     pass
+    # with open('output.csv', 'a', newline='') as csvfile:
+    #     csvWriter = csv.writer(csvfile)
+    #     csvWriter.writerow([datetime.utcnow(), conditions, data])
+    # csvfile.close()
     # print(total)
     # print(winRatio)
     # initial_value = 10000  # Replace this with your actual initial account value

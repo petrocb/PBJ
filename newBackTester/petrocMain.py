@@ -43,7 +43,7 @@ def main():
     for m in fxData:
         for i in conditions:
             o = SMAFollowTrend()
-            with open('quickData.csv', newline='') as csvfile:
+            with open('EURUSD30min2020.csv', newline='') as csvfile:
                 reader = csv.reader(csvfile, delimiter=',', quotechar='|')
                 for x in reader:
                     try:
@@ -51,8 +51,8 @@ def main():
                     except IndexError as e:
                         print(e)
                         break
-                print(i)
-            summary(i, getOrders(), data, i)
+                # print(i)
+            summary(i, getOrders())
             reset()
 
 
