@@ -41,8 +41,8 @@ class dataHandler:
     def order(self, units, account, tag, sld, tpd):
         self.orders.append([self.data[self.line], units])
         self.position += units
-        self.sl = 99# float(self.positions[-1][0][1]) + sld
-        self.tp = 99#float(self.positions[-1][0][1]) - tpd
+        self.sl = 0.001# float(self.positions[-1][0][1]) + sld
+        self.tp = 0.001#float(self.positions[-1][0][1]) - tpd
 
     def close(self):
         self.positions.append([self.data[self.line], 'c'])
@@ -77,16 +77,17 @@ class dataHandler:
         return self.data[self.line][0].hour
 
     def checkSLnTP(self):
-        try:
-            if (self.data[self.line][1] < self.sl and self.positions[-1][-1] == 'b') or \
-                    (self.data[self.line][1] > self.sl and self.positions[-1][-1] == 's') or \
-                    (self.data[self.line][1] > self.tp and self.positions[-1][-1] == 'b') or \
-                    (self.data[self.line][1] < self.tp and self.positions[-1][-1] == 's'):
-                return True
-            else:
-                return False
-        except IndexError:
-            return False
+        pass
+        # try:
+        #     if (self.data[self.line][1] < self.sl and self.positions[-1][-1] == 'b') or \
+        #             (self.data[self.line][1] > self.sl and self.positions[-1][-1] == 's') or \
+        #             (self.data[self.line][1] > self.tp and self.positions[-1][-1] == 'b') or \
+        #             (self.data[self.line][1] < self.tp and self.positions[-1][-1] == 's'):
+        #         return True
+        #     else:
+        #         return False
+        # except IndexError:
+        #     return False
 
     def openTrades(self):
         try:
@@ -110,3 +111,6 @@ class dataHandler:
 
     def getOrders(self):
         return self.orders
+
+    def getTransactionsSinceID(self):
+        pass

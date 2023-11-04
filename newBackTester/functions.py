@@ -161,3 +161,6 @@ def sma(data):
 
 def getOrders():
     return dh.getOrders()
+
+def getTransactionsSinceID():
+    pass

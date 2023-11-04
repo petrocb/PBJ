@@ -14,6 +14,7 @@ from functions import reset
 # from newSMACross import NewSMACross
 # from newSMACross2 import NewSMACross2
 from SMAFollowTrend import SMAFollowTrend
+from SMAFollowTrendStanDivCoolOff import SMAFollowTrendStanDivCoolOff
 
 def main():
     runOrder = 1
