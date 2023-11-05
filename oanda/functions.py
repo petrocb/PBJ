@@ -8,21 +8,23 @@ import datetime
 
 def getCred(account):
     if account == 'primary':
-        return ["https://api-fxpractice.oanda.com", "38504d5ef16387715a977fcda730ca59-0d297de89f9c5b03df5bd9aadf18da17",
+        return ["https://api-fxpractice.oanda.com", "2a35930fb4d1eaf4b032d8822367d6ab-2563dd26343f638eb8366e58a0e8718c",
                 "101-004-25985927-001"]
     elif account == 'SMAFollowTrendSD':
-        return ["https://api-fxpractice.oanda.com", "38504d5ef16387715a977fcda730ca59-0d297de89f9c5b03df5bd9aadf18da17",
+        return ["https://api-fxpractice.oanda.com", "2a35930fb4d1eaf4b032d8822367d6ab-2563dd26343f638eb8366e58a0e8718c",
                 "101-004-25985927-005"]
     elif account == 'followTrend':
-        return ["https://api-fxpractice.oanda.com", "38504d5ef16387715a977fcda730ca59-0d297de89f9c5b03df5bd9aadf18da17",
+        return ["https://api-fxpractice.oanda.com", "2a35930fb4d1eaf4b032d8822367d6ab-2563dd26343f638eb8366e58a0e8718c",
                 "101-004-25985927-002"]
     elif account == 'SMAFollowTrend':
-        return ["https://api-fxpractice.oanda.com", "38504d5ef16387715a977fcda730ca59-0d297de89f9c5b03df5bd9aadf18da17",
+        return ["https://api-fxpractice.oanda.com", "2a35930fb4d1eaf4b032d8822367d6ab-2563dd26343f638eb8366e58a0e8718c",
                 "101-004-25985927-003"]
     elif account == 'SMACrossOver':
-        return ["https://api-fxpractice.oanda.com", "38504d5ef16387715a977fcda730ca59-0d297de89f9c5b03df5bd9aadf18da17",
+        return ["https://api-fxpractice.oanda.com", "2a35930fb4d1eaf4b032d8822367d6ab-2563dd26343f638eb8366e58a0e8718c",
                 "101-004-25985927-004"]
-
+    elif account == 'onceSMAFollowSD':
+        return ["https://api-fxpractice.oanda.com", "2a35930fb4d1eaf4b032d8822367d6ab-2563dd26343f638eb8366e58a0e8718c",
+                "101-004-25985927-006"]
 
 
 def getPrice(instrument, account):
@@ -294,6 +296,19 @@ def getTransactionsSinceID(account, id):
     responceSave("transactions", responce)
     responce = responce.json()
     jsonSave("transactions", responce)
+    return responce
+
+def getTransactionsSinceDate(account, date):
+    responce  = requests.get(f"{getCred(account)[0]}/v3/accounts/{getCred(account)[2]}/transactions/?from={datetime.date.strftime(date,'%Y-%m-%dT')}",
+                             headers={'Authorization': f'Bearer {getCred(account)[1]}'})
+    responceSave("transactionsDate", responce)
+    responce = responce.json()
+    jsonSave("transactionsDate", responce)
+    new = responce['pages'][-1]
+    responce = requests.get(new, headers={'Authorization': f'Bearer {getCred(account)[1]}'})
+    responceSave("transactionsDate", responce)
+    responce = responce.json()
+    jsonSave("transactionsDate", responce)
     return responce
 def getDirection(list):
     # list = startPastPricesList(60)
