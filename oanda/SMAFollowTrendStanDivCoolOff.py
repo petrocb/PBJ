@@ -61,12 +61,12 @@ class SMAFollowTrendStanDivCoolOff:
         print("price:", self.data[-1][1], "direction:", self.direction)
         self.direction *= 500
         self.position = functions.getPositions("primary")['positions']
-        if self.position and functions.time() > self.coolOffTime:
+        if self.position:
             self.position = float(self.position[0]['long']['units']) + float(self.position[0]['short']['units'])
         else:
             self.position = 0
         print(self.direction, "    ", self.position)
-        if self.position != self.direction:
+        if self.position != self.direction and functions.time() > self.coolOffTime:
             self.id = functions.order(float(self.direction) - float(self.position), "primary", "primary", 0.001, 0.001, 0.001)
         with open('response.csv', 'a', newline='') as csvfile:
             csvWriter = csv.writer(csvfile)
