@@ -75,7 +75,7 @@ class oncesMAFollowSD:
         else:
             self.position = 0
         print(self.direction, "    ", self.position)
-        if self.position != self.direction and functions.time().hour > 8 and self.tradingAllowed:
+        if self.position != self.direction and 17 > functions.time().hour > 8 and self.tradingAllowed:
             functions.order(float(self.direction) - float(self.position), "onceSMAFollowSD",
                             "onceSMAFollowSD", 0.001, 0.001, 0.001)
         with open('response.csv', 'a', newline='') as csvfile:
