@@ -18,7 +18,10 @@ class oncesMAFollowSD:
 
     def tick(self):
         functions.checkSLnTP()
-        transactions = functions.getTransactionsSinceDate("onceSMAFollowSD", datetime.date.today())['transactions']
+        try:
+            transactions = functions.getTransactionsSinceDate("onceSMAFollowSD", datetime.date.today())['transactions']
+        except KeyError:
+            pass
         for i in transactions:
             try:
                 if i['reason'] == "STOP_LOSS_ORDER" or i['reason'] == "TRAILING_STOP_LOSS_ORDER":
