@@ -20,14 +20,12 @@ class oncesMAFollowSD:
         functions.checkSLnTP()
         try:
             transactions = functions.getTransactionsSinceDate("onceSMAFollowSD", datetime.date.today())['transactions']
-        except KeyError:
-            pass
-        for i in transactions:
-            try:
+            for i in transactions:
+
                 if i['reason'] == "STOP_LOSS_ORDER" or i['reason'] == "TRAILING_STOP_LOSS_ORDER":
                     self.tradingAllowed = False
-            except KeyError:
-                pass
+        except KeyError:
+            pass
         self.data = functions.updatePastPrices2(self.data, 4097, "EUR_USD", "M30", "onceSMAFollowSD")
         self.SMA = [functions.sma(self.data[-8:]), functions.sma(self.data[-16:]), functions.sma(self.data[-32:]),
                     functions.sma(self.data[-64:]), functions.sma(self.data[-128:]), functions.sma(self.data[-256:]),
