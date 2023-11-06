@@ -304,11 +304,14 @@ def getTransactionsSinceDate(account, date):
     responceSave("transactionsDate", responce)
     responce = responce.json()
     jsonSave("transactionsDate", responce)
-    new = responce['pages'][-1]
-    responce = requests.get(new, headers={'Authorization': f'Bearer {getCred(account)[1]}'})
-    responceSave("transactionsDate", responce)
-    responce = responce.json()
-    jsonSave("transactionsDate", responce)
+    try:
+        new = responce['pages'][-1]
+        responce = requests.get(new, headers={'Authorization': f'Bearer {getCred(account)[1]}'})
+        responceSave("transactionsDate", responce)
+        responce = responce.json()
+        jsonSave("transactionsDate", responce)
+    except IndexError:
+        pass
     return responce
 def getDirection(list):
     # list = startPastPricesList(60)
