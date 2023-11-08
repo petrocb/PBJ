@@ -25,6 +25,8 @@ def getCred(account):
     elif account == 'onceSMAFollowSD':
         return ["https://api-fxpractice.oanda.com", "2a35930fb4d1eaf4b032d8822367d6ab-2563dd26343f638eb8366e58a0e8718c",
                 "101-004-25985927-006"]
+    elif account == 'backTest':
+        return ["http://127.0.0.1:8000/api/", "1", "1"]
 
 
 def getPrice(instrument, account):
