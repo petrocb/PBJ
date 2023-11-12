@@ -9,6 +9,9 @@ from dataHandler import dataHandler
 
 dh = dataHandler()
 
+def update(account):
+    if account == "test":
+        dh.update
 
 def getCred(account):
     if account == 'primary':
@@ -40,9 +43,10 @@ def getPrice(instrument, account):
         price = requests.get(f"{getCred(account)[0]}/v3/accounts/{getCred(account)[2]}/pricing",
                              headers={'Authorization': f'Bearer {getCred(account)[1]}'},
                              params={'instruments': instrument})
-    print(price)
-    responceSave("price", price)
-    price = price.json()
+    # print(price)
+    # print(type(price))
+        responceSave("price", price)
+        price = price.json()
     jsonSave("price", price)
     # price = price['prices'][0]
     # print(price)
@@ -71,11 +75,14 @@ def getAsk(account):
 
 
 def startPastPricesList(count, instrument, timeFrame, account):
-    data = requests.get(f"{getCred(account)[0]}/v3/accounts/{getCred(account)[2]}/instruments/{instrument}/candles",
-                        headers={'Authorization': f'Bearer {getCred(account)[1]}'},
-                        params={'granularity': timeFrame, 'count': count})
-    responceSave("start", data)
-    data = data.json()
+    if account == "test":
+        data = dh.startPastPriceList()
+    else:
+        data = requests.get(f"{getCred(account)[0]}/v3/accounts/{getCred(account)[2]}/instruments/{instrument}/candles",
+                            headers={'Authorization': f'Bearer {getCred(account)[1]}'},
+                            params={'granularity': timeFrame, 'count': count})
+        responceSave("start", data)
+        data = data.json()
     jsonSave("start", data)
     data = data['candles']
     prices = []
@@ -126,13 +133,17 @@ def updatePastPrices(data, length, instrument, timeFrame, account):
 def updatePastPrices2(data, length, instrument, timeFrame, account):
     # print(datetime.datetime.utcnow())
     # print(datetime.datetime.utcnow() - datetime.timedelta(minutes=5))
-    if data[-1][0] < (datetime.datetime.utcnow() - datetime.timedelta(minutes=30)).replace(
-            tzinfo=datetime.timezone.utc):
-        x = requests.get(f"{getCred(account)[0]}/v3/accounts/{getCred(account)[2]}/instruments/{instrument}/candles",
-                         headers={'Authorization': f'Bearer {getCred(account)[1]}'},
-                         params={'granularity': timeFrame, 'count': 1})
-        responceSave("update", x)
-        x = x.json()
+    if account == "test":
+        dh.updatePastPrices2()
+    else:
+        if data[-1][0] < (datetime.datetime.utcnow() - datetime.timedelta(minutes=30)).replace(
+                tzinfo=datetime.timezone.utc):
+            x = requests.get(f"{getCred(account)[0]}/v3/accounts/{getCred(account)[2]}/instruments/{instrument}/candles",
+                             headers={'Authorization': f'Bearer {getCred(account)[1]}'},
+                             params={'granularity': timeFrame, 'count': 1})
+            responceSave("update", x)
+            x = x.json()
+        print(x)
         jsonSave("update", x)
         x = x['candles']
         prices = []
@@ -150,9 +161,9 @@ def updatePastPrices2(data, length, instrument, timeFrame, account):
             data.pop(0)
         # print("passed")
         # print(x)
-    else:
-        # print("failed")
-        pass
+    # else:
+    #     # print("failed")
+    #     pass
     return data
 
 
@@ -256,11 +267,14 @@ def order(units, cid, account, sld, tpd, tsld):
                 "trailingStopLossOnFill": {"distance": tsld}
             }
         }
-    response = requests.post(f"{getCred(account)[0]}/v3/accounts/{getCred(account)[2]}/orders",
-                             headers={'Authorization': f'Bearer {getCred(account)[1]}'},
-                             json=data)
-    responceSave("order", response)
-    id = response.json()
+    if account == "test":
+        id = dh.order(data)
+    else:
+        response = requests.post(f"{getCred(account)[0]}/v3/accounts/{getCred(account)[2]}/orders",
+                                 headers={'Authorization': f'Bearer {getCred(account)[1]}'},
+                                 json=data)
+        responceSave("order", response)
+        id = response.json()
     jsonSave("order", id)
     id = id['orderFillTransaction']['id']
     return id
@@ -277,10 +291,13 @@ def close(trade_id, account):
 
 
 def getPositions(account):
-    response = requests.get(f"{getCred(account)[0]}/v3/accounts/{getCred(account)[2]}/openPositions",
-                            headers={'Authorization': f'Bearer {getCred(account)[1]}'})
-    responceSave("positions", response)
-    response = response.json()
+    if account == "test":
+        response = dh.getPositions()
+    else:
+        response = requests.get(f"{getCred(account)[0]}/v3/accounts/{getCred(account)[2]}/openPositions",
+                                headers={'Authorization': f'Bearer {getCred(account)[1]}'})
+        responceSave("positions", response)
+        response = response.json()
     jsonSave("positions", response)
     return response
 

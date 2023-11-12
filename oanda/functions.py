@@ -19,7 +19,7 @@ def getCred(account):
     elif account == 'SMAFollowTrend':
         return ["https://api-fxpractice.oanda.com", "2a35930fb4d1eaf4b032d8822367d6ab-2563dd26343f638eb8366e58a0e8718c",
                 "101-004-25985927-003"]
-    elif account == 'SMACrossOver':
+    elif account == 'followSMAangle':
         return ["https://api-fxpractice.oanda.com", "2a35930fb4d1eaf4b032d8822367d6ab-2563dd26343f638eb8366e58a0e8718c",
                 "101-004-25985927-004"]
     elif account == 'onceSMAFollowSD':
@@ -254,7 +254,10 @@ def order(units, cid, account, sld, tpd, tsld):
     responceSave("order", response)
     id = response.json()
     jsonSave("order", id)
-    id = id['orderFillTransaction']['id']
+    try:
+        id = id['orderFillTransaction']['id']
+    except KeyError:
+        pass
     return id
 
 
