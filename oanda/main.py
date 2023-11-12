@@ -28,7 +28,7 @@ def main():
         if datetime.datetime.utcnow() > x + datetime.timedelta(minutes=1):
             x = datetime.datetime.utcnow()
             #         print(datetime.datetime.utcnow())
-            print(f"{Fore.rgb('100%', '0%', '0%')}SMACross")
+            print(f"{Fore.rgb('100%', '0%', '0%')}followSMAangle")
             a.tick()
             print(f"{Fore.rgb('100%', '100%', '0%')}FollowTrend")
             b.tick()
