@@ -3,6 +3,7 @@ from SMAFollowTrend import SMAFollowTrend
 from colored import Fore
 import datetime
 import time
+from summary import summary
 def main():
     # # a = followSMAangle()
     # # b = FollowTrend()
@@ -28,7 +29,12 @@ def main():
     #         # print(f"{Fore.rgb('0%', '0%', '100%')}onceFollow")
     #         # f.tick()
     #     time.sleep(10)
-    print(functions.getPositions("primary"))
+    a = SMAFollowTrend()
+    try:
+        while True:
+            a.tick()
+    except IndexError as e:
+        summary([])
 
 
 if __name__ == "__main__":

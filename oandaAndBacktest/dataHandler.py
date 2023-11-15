@@ -1,5 +1,7 @@
 import json
-# from unittest import MagicMock
+import csv
+from datetime import datetime
+from summary import summary
 
 class dataHandler:
 
@@ -9,9 +11,21 @@ class dataHandler:
         self.orders = []
         self.activity = []
         self.line = 0
+        self.id = 0
+        self.data = self.dataCSV()
+        self.length = len(self.data)
+
+    def dataCSV(self):
+        with open('EURUSD30min2020.csv', newline='') as csvfile:
+            reader = csv.reader(csvfile, delimiter=',', quotechar='|')
+            data = []
+            for i in reader:
+                data.append(i)
+        return data
 
     def update(self):
         self.line += 1
+        summary(self.activity)
 
 
     def getPrice(self):
@@ -55,16 +69,40 @@ class dataHandler:
     def getAsk(self):
         pass
 
-    def startPastPriceList(self):
-        return {'instrument': 'EUR_USD', 'granularity': 'M30', 'candles': [{'complete': True, 'volume': 2154, 'time': '2023-11-10T17:00:00.000000000Z', 'mid': {'o': '1.06694', 'h': '1.06751', 'l': '1.06641', 'c': '1.06660'}}, {'complete': True, 'volume': 2035, 'time': '2023-11-10T17:30:00.000000000Z', 'mid': {'o': '1.06658', 'h': '1.06819', 'l': '1.06658', 'c': '1.06794'}}, {'complete': True, 'volume': 1894, 'time': '2023-11-10T18:00:00.000000000Z', 'mid': {'o': '1.06793', 'h': '1.06828', 'l': '1.06730', 'c': '1.06796'}}, {'complete': True, 'volume': 1376, 'time': '2023-11-10T18:30:00.000000000Z', 'mid': {'o': '1.06797', 'h': '1.06846', 'l': '1.06787', 'c': '1.06812'}}, {'complete': True, 'volume': 1296, 'time': '2023-11-10T19:00:00.000000000Z', 'mid': {'o': '1.06812', 'h': '1.06876', 'l': '1.06808', 'c': '1.06852'}}, {'complete': True, 'volume': 1518, 'time': '2023-11-10T19:30:00.000000000Z', 'mid': {'o': '1.06853', 'h': '1.06853', 'l': '1.06788', 'c': '1.06796'}}, {'complete': True, 'volume': 1275, 'time': '2023-11-10T20:00:00.000000000Z', 'mid': {'o': '1.06796', 'h': '1.06848', 'l': '1.06772', 'c': '1.06834'}}, {'complete': True, 'volume': 1190, 'time': '2023-11-10T20:30:00.000000000Z', 'mid': {'o': '1.06836', 'h': '1.06876', 'l': '1.06836', 'c': '1.06854'}}, {'complete': True, 'volume': 613, 'time': '2023-11-10T21:00:00.000000000Z', 'mid': {'o': '1.06851', 'h': '1.06874', 'l': '1.06838', 'c': '1.06848'}}, {'complete': True, 'volume': 781, 'time': '2023-11-10T21:30:00.000000000Z', 'mid': {'o': '1.06848', 'h': '1.06863', 'l': '1.06826', 'c': '1.06847'}}]}
+    def startPastPriceList(self, count):
+        data = {'instrument': 'EUR_USD', 'granularity': 'M30', 'candles': []}
+        self.line = count
+        for i in range(count):
+            data['candles'].append({
+                'complete': True,
+                'volume': int(self.data[i][6]),
+                'time': datetime.strptime(f"{self.data[i][0]} {self.data[i][1]}", "%Y.%m.%d %H:%M").isoformat() + "Z",
+                'mid': {
+                    'o': self.data[i][2],
+                    'h': self.data[i][3],
+                    'l': self.data[i][4],
+                    'c': self.data[i][5]
+                }
+            })
 
+        return data
 
     def updatePastPrices(self):
         pass
 
     def updatePastPrices2(self):
-        return {'instrument': 'EUR_USD', 'granularity': 'M30', 'candles': [{'complete': True, 'volume': 2154, 'time': '2023-11-10T17:00:00.000000000Z', 'mid': {'o': '1.06694', 'h': '1.06751', 'l': '1.06641', 'c': '1.06660'}}, {'complete': True, 'volume': 2035, 'time': '2023-11-10T17:30:00.000000000Z', 'mid': {'o': '1.06658', 'h': '1.06819', 'l': '1.06658', 'c': '1.06794'}}, {'complete': True, 'volume': 1894, 'time': '2023-11-10T18:00:00.000000000Z', 'mid': {'o': '1.06793', 'h': '1.06828', 'l': '1.06730', 'c': '1.06796'}}, {'complete': True, 'volume': 1376, 'time': '2023-11-10T18:30:00.000000000Z', 'mid': {'o': '1.06797', 'h': '1.06846', 'l': '1.06787', 'c': '1.06812'}}, {'complete': True, 'volume': 1296, 'time': '2023-11-10T19:00:00.000000000Z', 'mid': {'o': '1.06812', 'h': '1.06876', 'l': '1.06808', 'c': '1.06852'}}, {'complete': True, 'volume': 1518, 'time': '2023-11-10T19:30:00.000000000Z', 'mid': {'o': '1.06853', 'h': '1.06853', 'l': '1.06788', 'c': '1.06796'}}, {'complete': True, 'volume': 1275, 'time': '2023-11-10T20:00:00.000000000Z', 'mid': {'o': '1.06796', 'h': '1.06848', 'l': '1.06772', 'c': '1.06834'}}, {'complete': True, 'volume': 1190, 'time': '2023-11-10T20:30:00.000000000Z', 'mid': {'o': '1.06836', 'h': '1.06876', 'l': '1.06836', 'c': '1.06854'}}, {'complete': True, 'volume': 613, 'time': '2023-11-10T21:00:00.000000000Z', 'mid': {'o': '1.06851', 'h': '1.06874', 'l': '1.06838', 'c': '1.06848'}}, {'complete': True, 'volume': 781, 'time': '2023-11-10T21:30:00.000000000Z', 'mid': {'o': '1.06848', 'h': '1.06863', 'l': '1.06826', 'c': '1.06847'}}]}
-
+        return {'instrument': 'EUR_USD', 'granularity': 'M30', 'candles': [{
+            'complete': True,
+            'volume': int(self.data[self.line][6]),
+            'time': datetime.strptime(f"{self.data[self.line][0]} {self.data[self.line][1]}",
+                                      "%Y.%m.%d %H:%M").isoformat() + "Z",
+            'mid': {
+                'o': self.data[self.line][2],
+                'h': self.data[self.line][3],
+                'l': self.data[self.line][4],
+                'c': self.data[self.line][5]
+            }
+        }]}
 
     def buy(self):
         pass
@@ -72,14 +110,37 @@ class dataHandler:
     def sell(self):
         pass
 
-    def order(self):
-        pass
+    def order(self, data):
+        # units = data['order']['units']
+        # try:
+        res = {'orderCreateTransaction': {
+            'id': '50',
+            'time': '2023-10-29T19:57:14.782155677Z',
+            'units': data['order']['units']
+        }}
+
+        try:
+            res['orderCreateTransaction']['takeProfitOnFill'] = {
+                'distance': data['order']['takeProfitOnFill']['distance'],
+                'timeInForce': 'GTC',
+            }
+        except KeyError:
+            pass
+        try:
+            res['orderCreateTransaction']['stopLossOnFill'] = {
+                'distance': data['order']['stopLossOnFill']['distance'],
+                'timeInForce': 'GTC',
+                'triggerMode': 'TOP_OF_BOOK',
+            }
+        except KeyError:
+            pass
+
 
     def close(self):
         pass
 
     def getPositions(self):
-        pass
+        return self.position
 
     def getOrders(self):
         pass

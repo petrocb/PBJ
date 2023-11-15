@@ -11,7 +11,8 @@ dh = dataHandler()
 
 def update(account):
     if account == "test":
-        dh.update
+        dh.update()
+        # dh.check
 
 def getCred(account):
     if account == 'primary':
@@ -76,7 +77,7 @@ def getAsk(account):
 
 def startPastPricesList(count, instrument, timeFrame, account):
     if account == "test":
-        data = dh.startPastPriceList()
+        data = dh.startPastPriceList(count)
     else:
         data = requests.get(f"{getCred(account)[0]}/v3/accounts/{getCred(account)[2]}/instruments/{instrument}/candles",
                             headers={'Authorization': f'Bearer {getCred(account)[1]}'},
@@ -84,6 +85,7 @@ def startPastPricesList(count, instrument, timeFrame, account):
         responceSave("start", data)
         data = data.json()
     jsonSave("start", data)
+    # print(data)
     data = data['candles']
     prices = []
     for i in data:
@@ -143,8 +145,8 @@ def updatePastPrices2(data, length, instrument, timeFrame, account):
                              params={'granularity': timeFrame, 'count': 1})
             responceSave("update", x)
             x = x.json()
-        print(x)
         jsonSave("update", x)
+        print(x)
         x = x['candles']
         prices = []
         for i in x:
