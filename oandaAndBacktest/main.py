@@ -30,11 +30,12 @@ def main():
             # print(f"{Fore.rgb('0%', '0%', '100%')}onceFollow")
             # f.tick()
     #     time.sleep(10)
-    a = SIMPLESMA()
+    a = SIMPLESMA("test","buy")
     try:
         while True:
             a.tick()
     except IndexError as e:
         summary([])
+    # print(functions.getTransactionsSinceID('primary', 10000))
 if __name__ == "__main__":
     main()
