@@ -30,7 +30,7 @@ def main():
             # print(f"{Fore.rgb('0%', '0%', '100%')}onceFollow")
             # f.tick()
     #     time.sleep(10)
-    a = SimpleSMA()
+    a = SIMPLESMA()
     try:
         while True:
             a.tick()

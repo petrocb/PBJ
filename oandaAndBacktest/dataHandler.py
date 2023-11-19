@@ -7,7 +7,16 @@ class dataHandler:
 
     def __init__(self):
         self.trades = {'trades': [], 'lastTransactionID': '0'}
-        self.position = {'positions': [], 'lastTransactionID': '12244'}
+        self.position = {'positions': [{
+                'instrument': 'EUR_USD',
+                'long': {
+                    'units': '0'
+                },
+                'short': {
+                    'units': '0'
+                }
+            }
+            ]}
         self.orders = []
         self.activity = []
         self.line = 0
@@ -113,34 +122,61 @@ class dataHandler:
     def order(self, data):
         # units = data['order']['units']
         # try:
-        res = {'orderCreateTransaction': {
-            'id': '50',
-            'time': '2023-10-29T19:57:14.782155677Z',
+        res = {'orderFillTransaction': {
+            'id': self.id,
+            'time': datetime.strptime(f"{self.data[self.line][0]} {self.data[self.line][1]}", "%Y.%m.%d %H:%M").isoformat() + "Z",
             'units': data['order']['units']
         }}
 
         try:
-            res['orderCreateTransaction']['takeProfitOnFill'] = {
+            res['orderFillTransaction']['takeProfitOnFill'] = {
                 'distance': data['order']['takeProfitOnFill']['distance'],
                 'timeInForce': 'GTC',
             }
         except KeyError:
             pass
         try:
-            res['orderCreateTransaction']['stopLossOnFill'] = {
-                'distance': data['order']['stopLossOnFill']['distance'],
-                'timeInForce': 'GTC',
-                'triggerMode': 'TOP_OF_BOOK',
+            res['orderFillTransaction']['stopLossOnFill'] = {
+                'distance': data['order']['stopLossOnFill']['distance']
             }
         except KeyError:
             pass
+
+        try:
+            res['orderFillTransaction']['stopLossOnFill'] = {
+                'distance': data['order']['stopLossOnFill']['distance']
+
+            }
+        except KeyError:
+            pass
+
+        try:
+            res['orderFillTransaction']['trailingStopLossOnFill'] = {
+                'distance': data['order']["trailingStopLossOnFill"]['distance']
+            }
+        except KeyError:
+            pass
+
+        self.id += 1
+
+        self.position = {'positions': [{
+                'instrument': 'EUR_USD',
+                'long': {
+                    'units': float(self.position['positions'][0]['long']['units']) + float(data['order']['units'])
+                },
+                'short': {
+                    'units': '0'
+                }
+            }
+            ]}
+        return res
 
 
     def close(self):
         pass
 
     def getPositions(self):
-        return self.position
+      return self.position
 
     def getOrders(self):
         pass
@@ -156,3 +192,4 @@ class dataHandler:
 
     def time(self):
         pass
+        # return datetime.strptime(f"{self.data[i][0]} {self.data[i][1]}", "%Y.%m.%d %H:%M").isoformat() + "Z"

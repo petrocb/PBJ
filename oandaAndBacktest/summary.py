@@ -3,6 +3,7 @@ import csv
 
 
 def summary(arr):
+    pass
     # # print("Starting summary")
     # if cond == [40, 50]:
     #     pass

@@ -7,7 +7,8 @@ class SIMPLESMA:
     def __init__(self):
         self.account = "test"
         self.id = 0
-        self.data = functions.startPastPricesList(2, "EUR_USD", "M5", self.account)
+        self.data = functions.startPastPricesList(9, "EUR_USD", "M5", self.account)
+        print(self.data)
         self.direction = 0
         self.position = 0
         self.SMA = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
@@ -15,7 +16,8 @@ class SIMPLESMA:
     def tick(self):
         if self.account == "test":
             functions.update(self.account)
-        self.data = functions.updatePastPrices2(self.data, 2, "EUR_USD", "M5", self.account)
+        self.data = functions.updatePastPrices2(self.data, 9, "EUR_USD", "M5", self.account)
+        print(self.data)
         self.SMA = [functions.sma(self.data[-9:])]
 
         # print(self.SMA)

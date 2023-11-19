@@ -136,7 +136,7 @@ def updatePastPrices2(data, length, instrument, timeFrame, account):
     # print(datetime.datetime.utcnow())
     # print(datetime.datetime.utcnow() - datetime.timedelta(minutes=5))
     if account == "test":
-        dh.updatePastPrices2()
+        x = dh.updatePastPrices2()
     else:
         if data[-1][0] < (datetime.datetime.utcnow() - datetime.timedelta(minutes=30)).replace(
                 tzinfo=datetime.timezone.utc):
@@ -145,22 +145,21 @@ def updatePastPrices2(data, length, instrument, timeFrame, account):
                              params={'granularity': timeFrame, 'count': 1})
             responceSave("update", x)
             x = x.json()
-        jsonSave("update", x)
-        print(x)
-        x = x['candles']
-        prices = []
-        for i in x:
-            prices.append([i['time'], i['mid']['o'], i['mid']['h'], i['mid']['l'], i['mid']['c'], 0, 0])
-        prices = pd.DataFrame(prices)
-        prices.columns = ['Date', 'Open', 'High', 'Low', 'Close', 'Volume', 'OpenInterest']
-        list = prices['Close'].to_list()
-        count = 0
-        for i in list:
-            list[count] = [datetime.datetime.fromisoformat(prices['Date'][count]), float(i)]
-            data.append(list[count])
-            count += 1
-        if len(data) > length:
-            data.pop(0)
+    jsonSave("update", x)
+    x = x['candles']
+    prices = []
+    for i in x:
+        prices.append([i['time'], i['mid']['o'], i['mid']['h'], i['mid']['l'], i['mid']['c'], 0, 0])
+    prices = pd.DataFrame(prices)
+    prices.columns = ['Date', 'Open', 'High', 'Low', 'Close', 'Volume', 'OpenInterest']
+    list = prices['Close'].to_list()
+    count = 0
+    for i in list:
+        list[count] = [datetime.datetime.fromisoformat(prices['Date'][count]), float(i)]
+        data.append(list[count])
+        count += 1
+    if len(data) > length:
+        data.pop(0)
         # print("passed")
         # print(x)
     # else:
@@ -168,74 +167,74 @@ def updatePastPrices2(data, length, instrument, timeFrame, account):
     #     pass
     return data
 
-
-def buy(sld, tpd, instrument, cid, account):
-    # Place a buy trade
-    instrument = instrument  # Replace with the instrument you want to trade
-    units = 1000  # Replace with the desired number of units
-    if sld != 0 and tpd != 0:
-        data = {
-            "order": {
-                "instrument": instrument,
-                "units": str(units),
-                "type": "MARKET",
-                "stopLossOnFill": {"distance": sld},
-                "takeProfitOnFill": {"distance": tpd},
-                "tradeClientExtensions": {"tag": cid}
-            }
-        }
-    elif sld == 0 and tpd == 0:
-        data = {
-            "order": {
-                "instrument": instrument,
-                "units": str(units),
-                "type": "MARKET",
-                "tradeClientExtensions": {"tag": cid}
-            }
-        }
-    response = requests.post(f"{getCred(account)[0]}/v3/accounts/{getCred(account)[2]}/orders",
-                             headers={'Authorization': f'Bearer {getCred(account)[1]}'},
-                             json=data)
-    responceSave("buy", response)
-    id = response.json()
-    jsonSave("buy", id)
-    id = id['orderFillTransaction']['id']
-
-    return id
-
-
-def sell(sld, tpd, instrument, cid, account):
-    # Place a sell trade
-    instrument = instrument  # Replace with the instrument you want to trade
-    units = -1000  # Replace with the desired number of units (negative for selling)
-    if sld != 0 and tpd != 0:
-        data = {
-            "order": {
-                "instrument": instrument,
-                "units": str(units),
-                "type": "MARKET",
-                "stopLossOnFill": {"distance": sld},
-                "takeProfitOnFill": {"distance": tpd},
-                "tradeClientExtensions": {"tag": cid}
-            }
-        }
-    elif sld == 0 and tpd == 0:
-        data = {
-            "order": {
-                "instrument": instrument,
-                "units": str(units),
-                "type": "MARKET",
-                "tradeClientExtensions": {"tag": cid}
-            }
-        }
-    response = requests.post(f"{getCred(account)[0]}/v3/accounts/{getCred(account)[2]}/orders",
-                             headers={'Authorization': f'Bearer {getCred(account)[1]}'},
-                             json=data)
-    responceSave("sell", response)
-    id = response.json()
-    jsonSave("sell", id)
-    id = id['orderFillTransaction']['id']
-    return id
+#
+# def buy(sld, tpd, instrument, cid, account):
+#     # Place a buy trade
+#     instrument = instrument  # Replace with the instrument you want to trade
+#     units = 1000  # Replace with the desired number of units
+#     if sld != 0 and tpd != 0:
+#         data = {
+#             "order": {
+#                 "instrument": instrument,
+#                 "units": str(units),
+#                 "type": "MARKET",
+#                 "stopLossOnFill": {"distance": sld},
+#                 "takeProfitOnFill": {"distance": tpd},
+#                 "tradeClientExtensions": {"tag": cid}
+#             }
+#         }
+#     elif sld == 0 and tpd == 0:
+#         data = {
+#             "order": {
+#                 "instrument": instrument,
+#                 "units": str(units),
+#                 "type": "MARKET",
+#                 "tradeClientExtensions": {"tag": cid}
+#             }
+#         }
+#     response = requests.post(f"{getCred(account)[0]}/v3/accounts/{getCred(account)[2]}/orders",
+#                              headers={'Authorization': f'Bearer {getCred(account)[1]}'},
+#                              json=data)
+#     responceSave("buy", response)
+#     id = response.json()
+#     jsonSave("buy", id)
+#     id = id['orderFillTransaction']['id']
+#
+#     return id
+#
+#
+# def sell(sld, tpd, instrument, cid, account):
+#     # Place a sell trade
+#     instrument = instrument  # Replace with the instrument you want to trade
+#     units = -1000  # Replace with the desired number of units (negative for selling)
+#     if sld != 0 and tpd != 0:
+#         data = {
+#             "order": {
+#                 "instrument": instrument,
+#                 "units": str(units),
+#                 "type": "MARKET",
+#                 "stopLossOnFill": {"distance": sld},
+#                 "takeProfitOnFill": {"distance": tpd},
+#                 "tradeClientExtensions": {"tag": cid}
+#             }
+#         }
+#     elif sld == 0 and tpd == 0:
+#         data = {
+#             "order": {
+#                 "instrument": instrument,
+#                 "units": str(units),
+#                 "type": "MARKET",
+#                 "tradeClientExtensions": {"tag": cid}
+#             }
+#         }
+#     response = requests.post(f"{getCred(account)[0]}/v3/accounts/{getCred(account)[2]}/orders",
+#                              headers={'Authorization': f'Bearer {getCred(account)[1]}'},
+#                              json=data)
+#     responceSave("sell", response)
+#     id = response.json()
+#     jsonSave("sell", id)
+#     id = id['orderFillTransaction']['id']
+#     return id
 
 
 def order(units, cid, account, sld, tpd, tsld):
@@ -277,10 +276,10 @@ def order(units, cid, account, sld, tpd, tsld):
                                  json=data)
         responceSave("order", response)
         id = response.json()
+    print(id)
     jsonSave("order", id)
     id = id['orderFillTransaction']['id']
     return id
-
 
 def close(trade_id, account):
     # Close an existing trade by trade ID
@@ -311,13 +310,13 @@ def getOrders(account):
     jsonSave("OpenOrders", responce)
     return responce
 
-def getTrades(account):
-    responce = requests.get(f"{getCred(account)[0]}/v3/accounts/{getCred(account)[2]}/openTrades",
-                            headers={'Authorization': f'Bearer {getCred(account)[1]}'})
-    responceSave("trades", responce)
-    responce = responce.json()
-    jsonSave("trades", responce)
-    return responce
+# def getTrades(account):
+#     responce = requests.get(f"{getCred(account)[0]}/v3/accounts/{getCred(account)[2]}/openTrades",
+#                             headers={'Authorization': f'Bearer {getCred(account)[1]}'})
+#     responceSave("trades", responce)
+#     responce = responce.json()
+#     jsonSave("trades", responce)
+#     return responce
 
 def getTransactionsSinceID(account, id):
     responce  = requests.get(f"{getCred(account)[0]}/v3/accounts/{getCred(account)[2]}/transactions/sinceid?id={id}",
@@ -453,11 +452,11 @@ def jsonSave(loc, res):
     csvfile.close()
 
 
-def generate_timestamp(year, month, day, hour, minute, second):
-    timestamp = datetime.datetime(year, month, day, hour, minute, second)
-    formatted_timestamp = timestamp.strftime("%Y-%m-%dT%H:%M:%S.%fZ")
-    print(formatted_timestamp)
-    return formatted_timestamp
+# def generate_timestamp(year, month, day, hour, minute, second):
+#     timestamp = datetime.datetime(year, month, day, hour, minute, second)
+#     formatted_timestamp = timestamp.strftime("%Y-%m-%dT%H:%M:%S.%fZ")
+#     print(formatted_timestamp)
+#     return formatted_timestamp
 
 
 def checkSLnTP():
