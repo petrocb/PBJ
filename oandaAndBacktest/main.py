@@ -5,6 +5,8 @@ import datetime
 import time
 from summary import summary
 from SimpleSMA import SIMPLESMA
+from Position import Position
+from Position import Units
 def main():
     # a = followSMAangle()
     # b = FollowTrend()
@@ -36,6 +38,10 @@ def main():
             a.tick()
     except IndexError as e:
         summary([])
+    # x = Position("test", Units("test"), Units("test"))
+    # print(x.getPosition())
+    # x.instrument = "EUR_USD"
+    # print(x.getPosition())
     # print(functions.getTransactionsSinceID('primary', 10000))
 if __name__ == "__main__":
     main()

@@ -2,23 +2,13 @@ import json
 import csv
 from datetime import datetime
 from summary import summary
+from account import Account
+from account import Order
 
 class dataHandler:
 
     def __init__(self):
-        self.trades = {'trades': [], 'lastTransactionID': '0'}
-        self.position = {'positions': [{
-                'instrument': 'EUR_USD',
-                'long': {
-                    'units': '0'
-                },
-                'short': {
-                    'units': '0'
-                }
-            }
-            ]}
-        self.orders = []
-        self.activity = []
+        self.account = Account()
         self.line = 0
         self.id = 0
         self.data = self.dataCSV()
@@ -34,8 +24,7 @@ class dataHandler:
 
     def update(self):
         self.line += 1
-        summary(self.activity)
-
+        # summary(self.activity)
 
     def getPrice(self):
         back_tester_data = {
@@ -120,63 +109,16 @@ class dataHandler:
         pass
 
     def order(self, data):
-        # units = data['order']['units']
-        # try:
-        res = {'orderFillTransaction': {
-            'id': self.id,
-            'time': datetime.strptime(f"{self.data[self.line][0]} {self.data[self.line][1]}", "%Y.%m.%d %H:%M").isoformat() + "Z",
-            'units': data['order']['units']
-        }}
-
-        try:
-            res['orderFillTransaction']['takeProfitOnFill'] = {
-                'distance': data['order']['takeProfitOnFill']['distance'],
-                'timeInForce': 'GTC',
-            }
-        except KeyError:
-            pass
-        try:
-            res['orderFillTransaction']['stopLossOnFill'] = {
-                'distance': data['order']['stopLossOnFill']['distance']
-            }
-        except KeyError:
-            pass
-
-        try:
-            res['orderFillTransaction']['stopLossOnFill'] = {
-                'distance': data['order']['stopLossOnFill']['distance']
-
-            }
-        except KeyError:
-            pass
-
-        try:
-            res['orderFillTransaction']['trailingStopLossOnFill'] = {
-                'distance': data['order']["trailingStopLossOnFill"]['distance']
-            }
-        except KeyError:
-            pass
-
+        res = Order(str(self.id), datetime.strptime(f"{self.data[self.line][0]} {self.data[self.line][1]}", "%Y.%m.%d %H:%M").isoformat() + "Z", data['order']['units']).getOrder()
+        self.account.position.long.units = str(float(self.account.position.long.units) + float(data['order']['units']))
         self.id += 1
-
-        self.position = {'positions': [{
-                'instrument': 'EUR_USD',
-                'long': {
-                    'units': float(self.position['positions'][0]['long']['units']) + float(data['order']['units'])
-                },
-                'short': {
-                    'units': '0'
-                }
-            }
-            ]}
         return res
-
 
     def close(self):
         pass
 
     def getPositions(self):
-      return self.position
+        return self.account.position.getPosition()
 
     def getOrders(self):
         pass

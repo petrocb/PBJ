@@ -9,7 +9,6 @@ class SIMPLESMA:
         self.bs = bs
         self.id = 0
         self.data = functions.startPastPricesList(9, "EUR_USD", "M5", self.account)
-        print(self.data)
         self.direction = 0
         self.position = 0
         self.SMA = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
@@ -18,7 +17,6 @@ class SIMPLESMA:
         if self.account == "test":
             functions.update(self.account)
         self.data = functions.updatePastPrices2(self.data, 20, "EUR_USD", "M5", self.account)
-        print(self.data)
         self.SMA = [functions.sma(self.data[-9:]),functions.sma(self.data[-20:])]
 
         # print(self.SMA)
@@ -39,6 +37,7 @@ class SIMPLESMA:
         print("price:", self.data[-1][1], "direction:", self.direction)
         self.direction *= 500
         self.position = functions.getPositions(self.account)['positions']
+        print(functions.getPositions(self.account))
         if self.position:
             self.position = float(self.position[0]['long']['units']) + float(self.position[0]['short']['units'])
         else:
