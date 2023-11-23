@@ -340,6 +340,15 @@ def getTransactionsSinceDate(account, date):
     except IndexError:
         pass
     return responce
+
+def getTrades(account):
+    responce = requests.get(f"{getCred(account)[0]}/v3/accounts/{getCred(account)[2]}/trades",
+                            headers={'Authorization': f'Bearer {getCred(account)[1]}'})
+    responceSave("trades", responce)
+    responce = responce.json()
+    jsonSave("trades", responce)
+    return responce
+
 def getDirection(list):
     # list = startPastPricesList(60)
     if list[0][1] > list[-1][1]:

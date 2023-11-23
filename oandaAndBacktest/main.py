@@ -32,12 +32,13 @@ def main():
             # print(f"{Fore.rgb('0%', '0%', '100%')}onceFollow")
             # f.tick()
     #     time.sleep(10)
-    a = SIMPLESMA("test","buy")
-    try:
-        while True:
-            a.tick()
-    except IndexError as e:
-        summary([])
+    # a = SIMPLESMA("test","buy")
+    # try:
+    #     while True:
+    #         a.tick()
+    # except IndexError as e:
+    #     summary([])
+    print(functions.getTrades("primary"))
     # x = Position("test", Units("test"), Units("test"))
     # print(x.getPosition())
     # x.instrument = "EUR_USD"

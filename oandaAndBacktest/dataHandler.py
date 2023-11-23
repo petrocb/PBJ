@@ -2,8 +2,8 @@ import json
 import csv
 from datetime import datetime
 from summary import summary
-from account import Account
-from account import Order
+from classes import Account
+from classes import Order
 
 class dataHandler:
 
@@ -111,6 +111,7 @@ class dataHandler:
     def order(self, data):
         res = Order(str(self.id), datetime.strptime(f"{self.data[self.line][0]} {self.data[self.line][1]}", "%Y.%m.%d %H:%M").isoformat() + "Z", data['order']['units']).getOrder()
         self.account.position.long.units = str(float(self.account.position.long.units) + float(data['order']['units']))
+        if data['order']['units'] > 0 and self.account.trades.initialUnits:
         self.id += 1
         return res
 

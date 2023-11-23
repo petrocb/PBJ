@@ -1,11 +1,13 @@
 from dataclasses import dataclass
 from dataclasses import asdict
-from typing import Optional
+from typing import Optional, List
 
 
 @dataclass
 class slTp:
     distance: str
+
+
 @dataclass
 class Order:
     id: str
@@ -18,9 +20,11 @@ class Order:
     def getOrder(self):
         return {'orderFillTransaction': asdict(self)}
 
+
 @dataclass
 class Units:
     units: str
+
 
 @dataclass
 class Position:
@@ -33,5 +37,23 @@ class Position:
         else:
             return {'positions': []}
 
+
+@dataclass
+class Activity:
+    pass
+
+@dataclass
+class Trade:
+    id: str
+    price: str
+    openTime: str
+    initialUnits: str
+@dataclass
+class Trades:
+    trades: Optional[List[Trade]] = []
+
+
 class Account:
     position: Optional[Position] = Position(Units("0"), Units("0"))
+    activty: Optional[Activity] = Activity()
+    trades: Optional[Trades] = []
