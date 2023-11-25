@@ -1,6 +1,6 @@
-import functions
 import csv
-import time
+
+import functions
 
 
 class NewSMACross():
@@ -39,14 +39,16 @@ class NewSMACross():
         time = functions.time()
         # print(time)
         # if 6 < time < 19:
-            # No trades open
-        if (self.short_ema[1] > self.long_ema[1]) and (self.short_ema[0] <= self.long_ema[0]) and (not self.sellOpen) and (not self.buyOpen) and (functions.getDirection(self.direction) == "up"):
+        # No trades open
+        if (self.short_ema[1] > self.long_ema[1]) and (self.short_ema[0] <= self.long_ema[0]) and (
+        not self.sellOpen) and (not self.buyOpen) and (functions.getDirection(self.direction) == "up"):
             print("!!!!BUY!!!!")
             self.id = functions.buy(self.cond[2], self.cond[3], "EUR_USD", "newSMACross", "SMACrossOver")
             self.sellOpen = False
             self.buyOpen = True
         # print(self.short_ema[1] < self.long_ema[1], self.short_ema[0] >= self.long_ema[0], not self.sellOpen, not self.buyOpen)
-        if (self.short_ema[1] < self.long_ema[1]) and (self.short_ema[0] >= self.long_ema[0]) and (not self.sellOpen) and (not self.buyOpen) and (functions.getDirection(self.direction) == "down"):
+        if (self.short_ema[1] < self.long_ema[1]) and (self.short_ema[0] >= self.long_ema[0]) and (
+        not self.sellOpen) and (not self.buyOpen) and (functions.getDirection(self.direction) == "down"):
             print("!!!!SELL!!!!")
             self.id = functions.sell(self.cond[2], self.cond[3], "EUR_USD", "newSMACross", "SMACrossOver")
             self.sellOpen = True
@@ -68,6 +70,8 @@ class NewSMACross():
 
         with open('response.csv', 'a', newline='') as csvfile:
             csvWriter = csv.writer(csvfile)
-            csvWriter.writerow([self.closes[-1], self.short_ema, self.long_ema, self.sellOpen, self.buyOpen, functions.getDirection(self.direction)])
+            csvWriter.writerow([self.closes[-1], self.short_ema, self.long_ema, self.sellOpen, self.buyOpen,
+                                functions.getDirection(self.direction)])
         csvfile.close()
-        print(self.closes[-1], self.short_ema, self.long_ema, self.sellOpen, self.buyOpen, functions.getDirection(self.direction))
+        print(self.closes[-1], self.short_ema, self.long_ema, self.sellOpen, self.buyOpen,
+              functions.getDirection(self.direction))

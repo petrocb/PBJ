@@ -1,18 +1,20 @@
-import pandas as pd
-import requests
-import json
-import numpy as np
 import csv
 import datetime
+
+import numpy as np
+import pandas as pd
+import requests
+
 from dataHandler import dataHandler
 
-
 dh = dataHandler()
+
 
 def update(account):
     if account == "test":
         dh.update()
         # dh.check
+
 
 def getCred(account):
     if account == 'primary':
@@ -44,8 +46,8 @@ def getPrice(instrument, account):
         price = requests.get(f"{getCred(account)[0]}/v3/accounts/{getCred(account)[2]}/pricing",
                              headers={'Authorization': f'Bearer {getCred(account)[1]}'},
                              params={'instruments': instrument})
-    # print(price)
-    # print(type(price))
+        # print(price)
+        # print(type(price))
         responceSave("price", price)
         price = price.json()
     jsonSave("price", price)
@@ -140,9 +142,10 @@ def updatePastPrices2(data, length, instrument, timeFrame, account):
     else:
         if data[-1][0] < (datetime.datetime.utcnow() - datetime.timedelta(minutes=30)).replace(
                 tzinfo=datetime.timezone.utc):
-            x = requests.get(f"{getCred(account)[0]}/v3/accounts/{getCred(account)[2]}/instruments/{instrument}/candles",
-                             headers={'Authorization': f'Bearer {getCred(account)[1]}'},
-                             params={'granularity': timeFrame, 'count': 1})
+            x = requests.get(
+                f"{getCred(account)[0]}/v3/accounts/{getCred(account)[2]}/instruments/{instrument}/candles",
+                headers={'Authorization': f'Bearer {getCred(account)[1]}'},
+                params={'granularity': timeFrame, 'count': 1})
             responceSave("update", x)
             x = x.json()
     jsonSave("update", x)
@@ -166,6 +169,7 @@ def updatePastPrices2(data, length, instrument, timeFrame, account):
     #     # print("failed")
     #     pass
     return data
+
 
 #
 # def buy(sld, tpd, instrument, cid, account):
@@ -280,6 +284,7 @@ def order(units, cid, account, sld, tpd, tsld):
     id = id['orderFillTransaction']['id']
     return id
 
+
 def close(trade_id, account):
     # Close an existing trade by trade ID
     response = requests.put(f"{getCred(account)[0]}/v3/accounts/{getCred(account)[2]}/trades/{trade_id}/close",
@@ -301,6 +306,7 @@ def getPositions(account):
     jsonSave("positions", response)
     return response
 
+
 def getOrders(account):
     responce = requests.get(f"{getCred(account)[0]}/v3/accounts/{getCred(account)[2]}/orders",
                             headers={'Authorization': f'Bearer {getCred(account)[1]}'})
@@ -308,6 +314,7 @@ def getOrders(account):
     responce = responce.json()
     jsonSave("OpenOrders", responce)
     return responce
+
 
 # def getTrades(account):
 #     responce = requests.get(f"{getCred(account)[0]}/v3/accounts/{getCred(account)[2]}/openTrades",
@@ -318,16 +325,18 @@ def getOrders(account):
 #     return responce
 
 def getTransactionsSinceID(account, id):
-    responce  = requests.get(f"{getCred(account)[0]}/v3/accounts/{getCred(account)[2]}/transactions/sinceid?id={id}",
-                             headers={'Authorization': f'Bearer {getCred(account)[1]}'})
+    responce = requests.get(f"{getCred(account)[0]}/v3/accounts/{getCred(account)[2]}/transactions/sinceid?id={id}",
+                            headers={'Authorization': f'Bearer {getCred(account)[1]}'})
     responceSave("transactions", responce)
     responce = responce.json()
     jsonSave("transactions", responce)
     return responce
 
+
 def getTransactionsSinceDate(account, date):
-    responce  = requests.get(f"{getCred(account)[0]}/v3/accounts/{getCred(account)[2]}/transactions/?from={datetime.date.strftime(date,'%Y-%m-%dT')}",
-                             headers={'Authorization': f'Bearer {getCred(account)[1]}'})
+    responce = requests.get(
+        f"{getCred(account)[0]}/v3/accounts/{getCred(account)[2]}/transactions/?from={datetime.date.strftime(date, '%Y-%m-%dT')}",
+        headers={'Authorization': f'Bearer {getCred(account)[1]}'})
     responceSave("transactionsDate", responce)
     responce = responce.json()
     jsonSave("transactionsDate", responce)
@@ -341,6 +350,7 @@ def getTransactionsSinceDate(account, date):
         pass
     return responce
 
+
 def getTrades(account):
     responce = requests.get(f"{getCred(account)[0]}/v3/accounts/{getCred(account)[2]}/trades",
                             headers={'Authorization': f'Bearer {getCred(account)[1]}'})
@@ -348,6 +358,7 @@ def getTrades(account):
     responce = responce.json()
     jsonSave("trades", responce)
     return responce
+
 
 def getDirection(list):
     # list = startPastPricesList(60)
@@ -417,8 +428,10 @@ def trend(data):
 
     return total
 
+
 def time():
     return datetime.datetime.utcnow()
+
 
 def EMA2(p, window_LT=200):
     alpha_LT = 2 / (window_LT + 1)
@@ -441,11 +454,14 @@ def sma(data):
     # print(len(list))
     return sum(list) / len(list)
 
+
 def std(data):
     newData = []
     for i in data:
         newData.append(i[1])
-    return (np.std(newData))/2
+    return (np.std(newData)) / 2
+
+
 def responceSave(loc, res):
     with open('response.csv', 'a', newline='') as csvfile:
         csvWriter = csv.writer(csvfile)

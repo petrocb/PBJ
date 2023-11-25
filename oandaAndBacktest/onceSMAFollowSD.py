@@ -1,9 +1,7 @@
+import csv
 import datetime
 
 import functions
-import csv
-import time
-import numpy
 
 
 class oncesMAFollowSD:

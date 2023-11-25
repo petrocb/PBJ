@@ -1,7 +1,3 @@
-from datetime import datetime
-import csv
-
-
 def summary(arr):
     pass
     # # print("Starting summary")

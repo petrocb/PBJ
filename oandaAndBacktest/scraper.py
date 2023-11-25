@@ -1,8 +1,9 @@
-from functions import getAsk
-from functions import getBid
-from functions import getPrice
-from datetime import datetime
 import csv
+from datetime import datetime
+
+from functions import getPrice
+
+
 class scaper():
     def __init__(self):
         pass

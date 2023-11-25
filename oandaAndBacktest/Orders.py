@@ -1,10 +1,13 @@
-from dataclasses import dataclass
 from dataclasses import asdict
+from dataclasses import dataclass
 from typing import Optional
+
 
 @dataclass
 class slTp:
     distance: str
+
+
 @dataclass
 class Orders:
     id: str

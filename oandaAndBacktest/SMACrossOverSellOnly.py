@@ -1,9 +1,10 @@
 import functions
 
+
 class SMACrossOver():
     def __init__(self):
-        self.buyOpen = False #Unsure if these need to be adjusted?
-        self.sellOpen = False #Unsure if these need to be adjusted?
+        self.buyOpen = False  # Unsure if these need to be adjusted?
+        self.sellOpen = False  # Unsure if these need to be adjusted?
         self.closes = functions.startPastPricesList()
         self.short_ema = [functions.sma(self.closes[-10:])]
         self.long_ema = [functions.sma(self.closes[-30:])]
@@ -31,7 +32,7 @@ class SMACrossOver():
             functions.close(self.id)
             self.sellOpen = False
             print("!!!!CLOSE!!!!")
-        print("closes:",self.closes)
-        print(" short:",self.short_ema,
-              " long:",self.long_ema)
-        print(" open:",self.sellOpen)
+        print("closes:", self.closes)
+        print(" short:", self.short_ema,
+              " long:", self.long_ema)
+        print(" open:", self.sellOpen)

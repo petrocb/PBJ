@@ -1,9 +1,8 @@
-import json
 import csv
 from datetime import datetime
-from summary import summary
-from classes import Account
-from classes import Order
+
+from classes import Account, Trade
+
 
 class dataHandler:
 
@@ -109,17 +108,27 @@ class dataHandler:
         pass
 
     def order(self, data):
-        res = Order(str(self.id), datetime.strptime(f"{self.data[self.line][0]} {self.data[self.line][1]}", "%Y.%m.%d %H:%M").isoformat() + "Z", data['order']['units']).getOrder()
-        self.account.position.long.units = str(float(self.account.position.long.units) + float(data['order']['units']))
-        if data['order']['units'] > 0 and self.account.trades.initialUnits:
-        self.id += 1
+        res = Trade(str(self.id), datetime.strptime(f"{self.data[self.line][0]} {self.data[self.line][1]}",
+                                                    "%Y.%m.%d %H:%M").isoformat() + "Z",
+                    data['order']['units']).getOrder()
+        #
+        # self.account.activity.append(Activity())
+        # self.account.position.long.units = str(float(self.account.position.long.units) + float(data['order']['units']))
+        # # print(data)
+        # # print(self.data[self.line])
+        # self.account.trades.modTrades(float(data['order']['units']), self.id, self.data[self.line][5], self.time(), self.account)
+        # self.id += 1
+        # print(self.account.activity.trade)
+        # return res
+        self.account.setActivity(res)
         return res
+
 
     def close(self):
         pass
 
     def getPositions(self):
-        return self.account.position.getPosition()
+        return self.account.getPosition()
 
     def getOrders(self):
         pass
@@ -134,5 +143,6 @@ class dataHandler:
         pass
 
     def time(self):
-        pass
-        # return datetime.strptime(f"{self.data[i][0]} {self.data[i][1]}", "%Y.%m.%d %H:%M").isoformat() + "Z"
+
+        return str(datetime.strptime(f"{self.data[self.line][0]} {self.data[self.line][1]}",
+                                     "%Y.%m.%d %H:%M").isoformat() + "Z")

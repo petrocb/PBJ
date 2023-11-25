@@ -1,7 +1,7 @@
-import functions
 import csv
-import time
-import numpy
+
+import functions
+
 
 class SMAFollowTrendStanDiv:
     def __init__(self):
@@ -31,17 +31,19 @@ class SMAFollowTrendStanDiv:
         for i in range(len(self.SMA)):
             # print("!!!!!", self.SMA[i] - self.sd[i], self.SMA[i] + self.sd[i], self.SMA[i] - self.sd[i] < self.data[-1][1] < self.SMA[i] + self.sd[i])
             if self.data[-1][1] > self.SMA[i] + self.sd[i]:
-                print("long", self.SMA[i] - self.sd[i], self.SMA[i] + self.sd[i], self.SMA[i] - self.sd[i] < self.data[-1][1], self.data[-1][1] < self.SMA[i] + self.sd[i],
+                print("long", self.SMA[i] - self.sd[i], self.SMA[i] + self.sd[i],
+                      self.SMA[i] - self.sd[i] < self.data[-1][1], self.data[-1][1] < self.SMA[i] + self.sd[i],
                       self.SMA[i] - self.sd[i] < self.data[-1][1] < self.SMA[i] + self.sd[i])
                 self.direction += 1
             elif self.data[-1][1] < self.SMA[i] - self.sd[i]:
-                print("short", self.SMA[i] - self.sd[i], self.SMA[i] + self.sd[i], self.SMA[i] - self.sd[i] < self.data[-1][1], self.data[-1][1] < self.SMA[i] + self.sd[i],
+                print("short", self.SMA[i] - self.sd[i], self.SMA[i] + self.sd[i],
+                      self.SMA[i] - self.sd[i] < self.data[-1][1], self.data[-1][1] < self.SMA[i] + self.sd[i],
                       self.SMA[i] - self.sd[i] < self.data[-1][1] < self.SMA[i] + self.sd[i])
                 self.direction -= 1
             else:
-                print("!!!!!", self.SMA[i] - self.sd[i], self.SMA[i] + self.sd[i], self.SMA[i] - self.sd[i] < self.data[-1][1], self.data[-1][1] < self.SMA[i] + self.sd[i],
+                print("!!!!!", self.SMA[i] - self.sd[i], self.SMA[i] + self.sd[i],
+                      self.SMA[i] - self.sd[i] < self.data[-1][1], self.data[-1][1] < self.SMA[i] + self.sd[i],
                       self.SMA[i] - self.sd[i] < self.data[-1][1] < self.SMA[i] + self.sd[i])
-
 
         # for i in self.SMA:
         #     if i < self.data[-1][1]:
@@ -63,9 +65,9 @@ class SMAFollowTrendStanDiv:
             self.position = 0
         print(self.direction, "    ", self.position)
         if self.position != self.direction:
-            functions.order(float(self.direction) - float(self.position), "SMAFollowTrendSD", "SMAFollowTrendSD", 0.001, 0.001, 0.001)
+            functions.order(float(self.direction) - float(self.position), "SMAFollowTrendSD", "SMAFollowTrendSD", 0.001,
+                            0.001, 0.001)
         with open('response.csv', 'a', newline='') as csvfile:
             csvWriter = csv.writer(csvfile)
             csvWriter.writerow([self.direction, self.position, float(self.direction - float(self.position)), self.SMA])
         csvfile.close()
-

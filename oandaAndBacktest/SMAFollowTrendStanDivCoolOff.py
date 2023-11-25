@@ -1,8 +1,9 @@
-import functions
 import csv
-import time
-import numpy
 import datetime
+
+import functions
+
+
 class SMAFollowTrendStanDivCoolOff:
     def __init__(self):
         self.id = 0
@@ -11,7 +12,7 @@ class SMAFollowTrendStanDivCoolOff:
         self.position = 0
         self.SMA = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
         self.sd = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
-        self.coolOffTime = datetime.datetime(2020,1,1,0,0,0,0)
+        self.coolOffTime = datetime.datetime(2020, 1, 1, 0, 0, 0, 0)
         self.id = 11170
 
     def tick(self):
@@ -21,7 +22,8 @@ class SMAFollowTrendStanDivCoolOff:
             try:
                 if i['reason'] == "STOP_LOSS_ORDER" or i['reason'] == "TRAILING_STOP_LOSS_ORDER":
                     i['time'] = i['time'][:19]
-                    self.coolOffTime = datetime.datetime.strptime(i['time'], "%Y-%m-%dT%H:%M:%S") + datetime.timedelta(hours=1)
+                    self.coolOffTime = datetime.datetime.strptime(i['time'], "%Y-%m-%dT%H:%M:%S") + datetime.timedelta(
+                        hours=1)
             except KeyError:
                 pass
         print("cool off", self.coolOffTime)
@@ -42,15 +44,18 @@ class SMAFollowTrendStanDivCoolOff:
         for i in range(len(self.SMA)):
             # print("!!!!!", self.SMA[i] - self.sd[i], self.SMA[i] + self.sd[i], self.SMA[i] - self.sd[i] < self.data[-1][1] < self.SMA[i] + self.sd[i])
             if self.data[-1][1] > self.SMA[i] + self.sd[i]:
-                print("long", self.SMA[i] - self.sd[i], self.SMA[i] + self.sd[i], self.SMA[i] - self.sd[i] < self.data[-1][1], self.data[-1][1] < self.SMA[i] + self.sd[i],
+                print("long", self.SMA[i] - self.sd[i], self.SMA[i] + self.sd[i],
+                      self.SMA[i] - self.sd[i] < self.data[-1][1], self.data[-1][1] < self.SMA[i] + self.sd[i],
                       self.SMA[i] - self.sd[i] < self.data[-1][1] < self.SMA[i] + self.sd[i])
                 self.direction += 1
             elif self.data[-1][1] < self.SMA[i] - self.sd[i]:
-                print("short", self.SMA[i] - self.sd[i], self.SMA[i] + self.sd[i], self.SMA[i] - self.sd[i] < self.data[-1][1], self.data[-1][1] < self.SMA[i] + self.sd[i],
+                print("short", self.SMA[i] - self.sd[i], self.SMA[i] + self.sd[i],
+                      self.SMA[i] - self.sd[i] < self.data[-1][1], self.data[-1][1] < self.SMA[i] + self.sd[i],
                       self.SMA[i] - self.sd[i] < self.data[-1][1] < self.SMA[i] + self.sd[i])
                 self.direction -= 1
             else:
-                print("!!!!!", self.SMA[i] - self.sd[i], self.SMA[i] + self.sd[i], self.SMA[i] - self.sd[i] < self.data[-1][1], self.data[-1][1] < self.SMA[i] + self.sd[i],
+                print("!!!!!", self.SMA[i] - self.sd[i], self.SMA[i] + self.sd[i],
+                      self.SMA[i] - self.sd[i] < self.data[-1][1], self.data[-1][1] < self.SMA[i] + self.sd[i],
                       self.SMA[i] - self.sd[i] < self.data[-1][1] < self.SMA[i] + self.sd[i])
 
         print(self.data[-1][1] - self.SMA[0], self.data[-1][1] - self.SMA[1], self.data[-1][1] - self.SMA[2],
@@ -67,7 +72,8 @@ class SMAFollowTrendStanDivCoolOff:
             self.position = 0
         print(self.direction, "    ", self.position)
         if self.position != self.direction and functions.time() > self.coolOffTime:
-            self.id = functions.order(float(self.direction) - float(self.position), "primary", "primary", 0.001, 0.001, 0.001)
+            self.id = functions.order(float(self.direction) - float(self.position), "primary", "primary", 0.001, 0.001,
+                                      0.001)
         with open('response.csv', 'a', newline='') as csvfile:
             csvWriter = csv.writer(csvfile)
             csvWriter.writerow([self.direction, self.position, float(self.direction - float(self.position)), self.SMA])

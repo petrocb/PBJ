@@ -1,12 +1,8 @@
-import functions
-from SMAFollowTrend import SMAFollowTrend
 # from colored import Fore
-import datetime
-import time
-from summary import summary
 from SimpleSMA import SIMPLESMA
-from Position import Position
-from Position import Units
+from summary import summary
+
+
 def main():
     # a = followSMAangle()
     # b = FollowTrend()
@@ -18,31 +14,33 @@ def main():
     # while True:
     #     if datetime.datetime.utcnow() > x + datetime.timedelta(minutes=1):
     #         x = functions.time()
-            #         print(datetime.datetime.utcnow())
-            # print(f"{Fore.rgb('100%', '0%', '0%')}SMACross")
-            # a.tick()
-            # print(f"{Fore.rgb('100%', '100%', '0%')}FollowTrend")
-            # b.tick()
-            # print(f"{Fore.rgb('100%', '0%', '100%')}SMAFollowTrend")
-            # c.tick()
-            # print(f"{Fore.rgb('0%', '100%', '0%')}SMAFollowTrendSD")
-            # d.tick()
-            # print(f"{Fore.rgb('0%', '100%', '100%')}SMAFollowTrendSDCoolOff")
-            # e.tick()
-            # print(f"{Fore.rgb('0%', '0%', '100%')}onceFollow")
-            # f.tick()
+    #         print(datetime.datetime.utcnow())
+    # print(f"{Fore.rgb('100%', '0%', '0%')}SMACross")
+    # a.tick()
+    # print(f"{Fore.rgb('100%', '100%', '0%')}FollowTrend")
+    # b.tick()
+    # print(f"{Fore.rgb('100%', '0%', '100%')}SMAFollowTrend")
+    # c.tick()
+    # print(f"{Fore.rgb('0%', '100%', '0%')}SMAFollowTrendSD")
+    # d.tick()
+    # print(f"{Fore.rgb('0%', '100%', '100%')}SMAFollowTrendSDCoolOff")
+    # e.tick()
+    # print(f"{Fore.rgb('0%', '0%', '100%')}onceFollow")
+    # f.tick()
     #     time.sleep(10)
-    # a = SIMPLESMA("test","buy")
-    # try:
-    #     while True:
-    #         a.tick()
-    # except IndexError as e:
-    #     summary([])
-    print(functions.getTrades("primary"))
+    a = SIMPLESMA("test", "sell")
+    try:
+        while True:
+            a.tick()
+    except IndexError as e:
+        summary([])
+    # print(functions.getTrades("primary"))
     # x = Position("test", Units("test"), Units("test"))
     # print(x.getPosition())
     # x.instrument = "EUR_USD"
     # print(x.getPosition())
     # print(functions.getTransactionsSinceID('primary', 10000))
+
+
 if __name__ == "__main__":
     main()

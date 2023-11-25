@@ -1,6 +1,6 @@
-import functions
 import csv
-import time
+
+import functions
 
 
 class SMAFollowTrend:
@@ -43,10 +43,10 @@ class SMAFollowTrend:
             self.position = 0
         print(self.direction, "    ", self.position)
         if self.position != self.direction:
-            functions.order(float(self.direction) - float(self.position), self.account, self.account, 0.001, 0.001, 0.001)
+            functions.order(float(self.direction) - float(self.position), self.account, self.account, 0.001, 0.001,
+                            0.001)
         with open('response.csv', 'a', newline='') as csvfile:
             csvWriter = csv.writer(csvfile)
             csvWriter.writerow([self.direction, self.position, float(self.direction - float(self.position)), self.SMA])
         csvfile.close()
         print(functions.getPositions("test"))
-

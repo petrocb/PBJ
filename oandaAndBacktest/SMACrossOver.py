@@ -1,6 +1,6 @@
-import functions
 import csv
-import time
+
+import functions
 
 
 class SMACrossOver():
@@ -43,7 +43,8 @@ class SMACrossOver():
             self.buyOpen = True
             self.stopLoss = self.closes[-1][1] - cond[2]
 
-        if functions.getPositions(self.account)['positions'] == [] and self.buyOpen or functions.getPositions()['positions'] == [] and self.sellOpen:
+        if functions.getPositions(self.account)['positions'] == [] and self.buyOpen or functions.getPositions()[
+            'positions'] == [] and self.sellOpen:
             self.buyOpen = False
             self.sellOpen = False
 
