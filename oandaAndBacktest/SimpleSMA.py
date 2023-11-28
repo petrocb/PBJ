@@ -15,7 +15,7 @@ class SIMPLESMA:
 
     def tick(self):
         if self.account == "test":
-            functions.update(self.account)
+            functions.update()
         self.data = functions.updatePastPrices2(self.data, 20, "EUR_USD", "M5", self.account)
         self.SMA = [functions.sma(self.data[-9:]), functions.sma(self.data[-20:])]
 
@@ -42,7 +42,7 @@ class SIMPLESMA:
             self.position = float(self.position[0]['long']['units']) + float(self.position[0]['short']['units'])
         else:
             self.position = 0
-        print(self.direction, "    ", self.position)
+        # print(self.direction, "    ", self.position)
         if self.position != self.direction:
             functions.order(float(self.direction) - float(self.position), self.account, self.account, 0, 0, 0)
         with open('response.csv', 'a', newline='') as csvfile:

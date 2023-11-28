@@ -10,11 +10,8 @@ from dataHandler import dataHandler
 dh = dataHandler()
 
 
-def update(account):
-    if account == "test":
-        dh.update()
-        # dh.check
-
+def update():
+    dh.update()
 
 def getCred(account):
     if account == 'primary':
@@ -35,6 +32,9 @@ def getCred(account):
     elif account == 'onceSMAFollowSD':
         return ["https://api-fxpractice.oanda.com", "2a35930fb4d1eaf4b032d8822367d6ab-2563dd26343f638eb8366e58a0e8718c",
                 "101-004-25985927-006"]
+    elif account == 'followSMAangle':
+        return ["https://api-fxpractice.oanda.com", "2a35930fb4d1eaf4b032d8822367d6ab-2563dd26343f638eb8366e58a0e8718c",
+                "101-004-25985927-004"]
     # elif account == 'backTest':
     #     return ["http://127.0.0.1:8000/api/", "1", "1"]
 
@@ -325,10 +325,13 @@ def getOrders(account):
 #     return responce
 
 def getTransactionsSinceID(account, id):
-    responce = requests.get(f"{getCred(account)[0]}/v3/accounts/{getCred(account)[2]}/transactions/sinceid?id={id}",
-                            headers={'Authorization': f'Bearer {getCred(account)[1]}'})
-    responceSave("transactions", responce)
-    responce = responce.json()
+    if account == "test":
+        responce = dh.getTransactionsSinceID()
+    else:
+        responce = requests.get(f"{getCred(account)[0]}/v3/accounts/{getCred(account)[2]}/transactions/sinceid?id={id}",
+                                headers={'Authorization': f'Bearer {getCred(account)[1]}'})
+        responceSave("transactions", responce)
+        responce = responce.json()
     jsonSave("transactions", responce)
     return responce
 
@@ -352,10 +355,13 @@ def getTransactionsSinceDate(account, date):
 
 
 def getTrades(account):
-    responce = requests.get(f"{getCred(account)[0]}/v3/accounts/{getCred(account)[2]}/trades",
-                            headers={'Authorization': f'Bearer {getCred(account)[1]}'})
-    responceSave("trades", responce)
-    responce = responce.json()
+    if account == "test":
+        responce = dh.getTrades()
+    else:
+        responce = requests.get(f"{getCred(account)[0]}/v3/accounts/{getCred(account)[2]}/trades",
+                                headers={'Authorization': f'Bearer {getCred(account)[1]}'})
+        responceSave("trades", responce)
+        responce = responce.json()
     jsonSave("trades", responce)
     return responce
 

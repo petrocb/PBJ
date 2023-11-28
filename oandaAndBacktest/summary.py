@@ -1,5 +1,34 @@
-def summary(arr):
-    pass
+
+def summary(account):
+    profit = 0
+    print(account.getActivity().activity)
+    for i in account.getActivity().activity:
+        try:
+            profit += float(i.pl)
+        except TypeError:
+            pass
+
+    print("profit:", profit)
+    # data = {
+    #     'numObs': 0,
+    #     'numTrades': 0,
+    #     'pnl': 0,
+    #     'winRatio': 0,
+    #     'wins': 0,
+    #     'losses': 0,
+    #     'aveHoldingWindow': 0,
+    #     'maxHoldingWindow': 0,
+    #     'minHoldingWindow': 0
+    # }
+    # activity = account.getActivity()
+    # for i in act:
+
+    # position = 0
+    # for i in activity:
+    #     position += float(i.units)
+    #     if position != 0:
+    #         data['numTrades'] += 1
+
     # # print("Starting summary")
     # if cond == [40, 50]:
     #     pass

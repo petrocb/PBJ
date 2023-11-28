@@ -2,6 +2,7 @@ import csv
 from datetime import datetime
 
 from classes import Account, Trade
+from summary import summary
 
 
 class dataHandler:
@@ -23,7 +24,9 @@ class dataHandler:
 
     def update(self):
         self.line += 1
-        # summary(self.activity)
+        if self.line >= self.length:
+            print(self.account.getActivity())
+            summary(self.account)
 
     def getPrice(self):
         back_tester_data = {
@@ -108,21 +111,12 @@ class dataHandler:
         pass
 
     def order(self, data):
-        res = Trade(str(self.id), datetime.strptime(f"{self.data[self.line][0]} {self.data[self.line][1]}",
-                                                    "%Y.%m.%d %H:%M").isoformat() + "Z",
-                    data['order']['units']).getOrder()
-        #
-        # self.account.activity.append(Activity())
-        # self.account.position.long.units = str(float(self.account.position.long.units) + float(data['order']['units']))
-        # # print(data)
-        # # print(self.data[self.line])
-        # self.account.trades.modTrades(float(data['order']['units']), self.id, self.data[self.line][5], self.time(), self.account)
-        # self.id += 1
-        # print(self.account.activity.trade)
-        # return res
+        res = Trade(str(self.id), self.data[self.line][5],
+                    datetime.strptime(f"{self.data[self.line][0]} {self.data[self.line][1]}",
+                                      "%Y.%m.%d %H:%M").isoformat() + "Z", data['order']['units']).getOrder(
+            self.account.getPosition(), self.account.getTrades())
         self.account.setActivity(res)
         return res
-
 
     def close(self):
         pass
@@ -134,10 +128,10 @@ class dataHandler:
         pass
 
     def getTrades(self):
-        pass
+        return self.account.getTradesasDict()
 
     def getTransactionsSinceID(self):
-        pass
+        return self.account.getActivityDict()
 
     def getTransactionsSinceDate(self):
         pass

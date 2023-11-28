@@ -2,6 +2,8 @@
 from SimpleSMA import SIMPLESMA
 from summary import summary
 
+import functions
+
 
 def main():
     # a = followSMAangle()
@@ -33,14 +35,18 @@ def main():
         while True:
             a.tick()
     except IndexError as e:
-        summary([])
-    # print(functions.getTrades("primary"))
-    # x = Position("test", Units("test"), Units("test"))
-    # print(x.getPosition())
-    # x.instrument = "EUR_USD"
-    # print(x.getPosition())
-    # print(functions.getTransactionsSinceID('primary', 10000))
-
+        print(e)
+    # print(functions.getTransactionsSinceID("primary", 13208))
+    # print("trans", functions.getTransactionsSinceID("test", 0))
+    # print("trades", functions.getTrades("test"))
+    # print("pos", functions.getPositions("test"))
+    # print("primary", functions.getPositions("primary"))
+    # print("!!!!!!!!!!!!!!!")
+    # functions.order(1000, "test", "test", 0, 0, 0)
+    # print("trans", functions.getTransactionsSinceID("test", 0))
+    # print("trades", functions.getTrades("test"))
+    # print("pos", functions.getPositions("test"))
+    # print(functions.getTransactionsSinceID("primary", 13205))
 
 if __name__ == "__main__":
     main()
