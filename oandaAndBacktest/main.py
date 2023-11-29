@@ -1,7 +1,7 @@
 # from colored import Fore
 from SimpleSMA import SIMPLESMA
 from summary import summary
-
+from SMAFollowTrend import SMAFollowTrend
 import functions
 
 
@@ -30,7 +30,8 @@ def main():
     # print(f"{Fore.rgb('0%', '0%', '100%')}onceFollow")
     # f.tick()
     #     time.sleep(10)
-    a = SIMPLESMA("test", "sell")
+    # a = SIMPLESMA("test", "sell")
+    a = SMAFollowTrend("test")
     try:
         while True:
             a.tick()

@@ -42,6 +42,7 @@ class Trade:
     units: str
     pl: Optional[str] = None
 
+    # Decides how to process an order. If the order is extending a position or if the order is closing a position.
     def getOrder(self, position, trades):
         try:
             if (float(position['positions'][0]['long']['units']) + float(
@@ -50,15 +51,25 @@ class Trade:
                     float(position['positions'][0]['short']['units']) < 0 and float(self.units) < 0):
                 return {'orderFillTransaction': asdict(self)}
             else:
-                units = float(self.units)
-                for i in trades:
-                    units += float(i.units)
-                    if units == 0:
-                        self.pl = str(float(self.units) * (float(self.price) - float(i.price)))
-                        return {'orderFillTransaction': asdict(self)}
+                if float(self.units) > 0:
+                    if float(position['positions'][0]['short']['units']) > float(self.units):
+                        for i in trades:
+
                     else:
-                        self.pl = str(float(self.units) * (float(self.price) - float(i.price)))
-                        units += float(i.units)
+                        pass
+                elif float(self.units) < 0:
+                    pass
+
+            # else:
+            #     units = float(self.units)
+            #     for i in trades:
+            #         units += float(i.units)
+            #         if units == 0:
+            #             self.pl = str(float(self.units) * (float(self.price) - float(i.price)))
+            #             return {'orderFillTransaction': asdict(self)}
+            #         else:
+            #             self.pl = str(float(self.units) * (float(self.price) - float(i.price)))
+            #             units += float(i.units)
         except IndexError:
             return {'orderFillTransaction': asdict(self)}
 
@@ -80,7 +91,7 @@ class Activity:
 
     def setSetActivity(self, activity):
         activity = activity['orderFillTransaction']
-        self.activity.append(Trade(activity['id'], activity['price'], activity['openTime'], activity['units']))
+        self.activity.append(Trade(activity['id'], activity['price'], activity['openTime'], activity['units'], activity['pl']))
 
 
 class Account:
@@ -100,9 +111,9 @@ class Account:
         total = 0
         for i in self.getTrades():
             total += float(i.units)
-        if total < 0:
+        if total > 0:
             return Position(Units(str(total)), Units("0")).getPosition()
-        elif total > 0:
+        elif total < 0:
             return Position(Units("0"), Units(str(total))).getPosition()
         else:
             return Position(Units("0"), Units("0")).getPosition()
