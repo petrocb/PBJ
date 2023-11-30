@@ -2,6 +2,7 @@
 from SimpleSMA import SIMPLESMA
 from summary import summary
 from SMAFollowTrend import SMAFollowTrend
+from testStrat import TestStrat
 import functions
 
 
@@ -30,8 +31,7 @@ def main():
     # print(f"{Fore.rgb('0%', '0%', '100%')}onceFollow")
     # f.tick()
     #     time.sleep(10)
-    # a = SIMPLESMA("test", "sell")
-    a = SMAFollowTrend("test")
+    a = TestStrat("test")
     try:
         while True:
             a.tick()
@@ -48,6 +48,14 @@ def main():
     # print("trades", functions.getTrades("test"))
     # print("pos", functions.getPositions("test"))
     # print(functions.getTransactionsSinceID("primary", 13205))
+    # print(functions.getPositions("SMAFollowTrendSD"))
+    # print(functions.order(500, "SMAFollowTrendSD", "SMAFollowTrendSD", 0, 0, 0))
+    # print(functions.getTransactionsSinceID("SMAFollowTrendSD", 3807))
+    # print(functions.getPositions("SMAFollowTrendSD"))
+    # print(functions.order(-1000, "SMAFollowTrendSD", "SMAFollowTrendSD", 0, 0, 0))
+    # print(functions.getPositions("SMAFollowTrendSD"))
+    # print(functions.getTransactionsSinceID("SMAFollowTrendSD", 3807))
+    # print(functions.close(3798, "SMAFollowTrendSD"))
 
 if __name__ == "__main__":
     main()

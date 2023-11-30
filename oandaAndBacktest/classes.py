@@ -40,7 +40,7 @@ class Trade:
     price: str
     openTime: str
     units: str
-    pl: Optional[str] = None
+    pl: str
 
     # Decides how to process an order. If the order is extending a position or if the order is closing a position.
     def getOrder(self, position, trades):
@@ -51,14 +51,23 @@ class Trade:
                     float(position['positions'][0]['short']['units']) < 0 and float(self.units) < 0):
                 return {'orderFillTransaction': asdict(self)}
             else:
-                if float(self.units) > 0:
-                    if float(position['positions'][0]['short']['units']) > float(self.units):
-                        for i in trades:
+                unitsLeft = float(self.units)
+                # if float(self.units) > 0:
+                pl = float(self.pl)
+                for i in trades:
+                    pl += float(i.units) * (float(self.price) - float(i.price))
+                    unitsLeft -= float(i.units)
+                self.pl = str(pl)
+                return {'orderFillTransaction': asdict(self)}
 
-                    else:
-                        pass
-                elif float(self.units) < 0:
-                    pass
+                # if float(self.units) > 0:
+                #     if float(position['positions'][0]['short']['units']) > float(self.units):
+                #         for i in trades:
+                #
+                #     else:
+                #         pass
+                # elif float(self.units) < 0:
+                #     pass
 
             # else:
             #     units = float(self.units)

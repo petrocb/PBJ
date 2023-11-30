@@ -15,7 +15,7 @@ class dataHandler:
         self.length = len(self.data)
 
     def dataCSV(self):
-        with open('EURUSD30min2020.csv', newline='') as csvfile:
+        with open('testData.csv', newline='') as csvfile:
             reader = csv.reader(csvfile, delimiter=',', quotechar='|')
             data = []
             for i in reader:
@@ -23,9 +23,11 @@ class dataHandler:
         return data
 
     def update(self):
+        print(self.account.getTrades())
+        print("line",self.line)
         self.line += 1
+        print("uline",self.line)
         if self.line >= self.length:
-            print(self.account.getActivity())
             summary(self.account)
 
     def getPrice(self):
@@ -71,7 +73,6 @@ class dataHandler:
 
     def startPastPriceList(self, count):
         data = {'instrument': 'EUR_USD', 'granularity': 'M30', 'candles': []}
-        self.line = count
         for i in range(count):
             data['candles'].append({
                 'complete': True,
@@ -113,7 +114,7 @@ class dataHandler:
     def order(self, data):
         res = Trade(str(self.id), self.data[self.line][5],
                     datetime.strptime(f"{self.data[self.line][0]} {self.data[self.line][1]}",
-                                      "%Y.%m.%d %H:%M").isoformat() + "Z", data['order']['units']).getOrder(
+                                      "%Y.%m.%d %H:%M").isoformat() + "Z", data['order']['units'], "0").getOrder(
             self.account.getPosition(), self.account.getTrades())
         self.account.setActivity(res)
         return res
