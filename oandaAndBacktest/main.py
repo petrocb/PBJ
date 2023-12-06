@@ -31,12 +31,12 @@ def main():
     # print(f"{Fore.rgb('0%', '0%', '100%')}onceFollow")
     # f.tick()
     #     time.sleep(10)
-    a = TestStrat("test")
-    try:
-        while True:
-            a.tick()
-    except IndexError as e:
-        print(e)
+    # a = TestStrat("test")
+    # try:
+    #     while True:
+    #         a.tick()
+    # except IndexError as e:
+    #     print(e)
     # print(functions.getTransactionsSinceID("primary", 13208))
     # print("trans", functions.getTransactionsSinceID("test", 0))
     # print("trades", functions.getTrades("test"))
@@ -56,6 +56,8 @@ def main():
     # print(functions.getPositions("SMAFollowTrendSD"))
     # print(functions.getTransactionsSinceID("SMAFollowTrendSD", 3807))
     # print(functions.close(3798, "SMAFollowTrendSD"))
+    # print(functions.getTransactionsSinceID("SMAFollowTrendSD", 3807))
+    print(functions.getTrades("SMAFollowTrendSD"))
 
 if __name__ == "__main__":
     main()

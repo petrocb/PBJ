@@ -308,7 +308,7 @@ def getPositions(account):
 
 
 def getOrders(account):
-    responce = requests.get(f"{getCred(account)[0]}/v3/accounts/{getCred(account)[2]}/orders",
+    responce = requests.get(f"{getCred(account)[0]}/v3/accounts/{getCred(account)[2]}/orders?state=CLOSED",
                             headers={'Authorization': f'Bearer {getCred(account)[1]}'})
     responceSave("OpenOrders", responce)
     responce = responce.json()
