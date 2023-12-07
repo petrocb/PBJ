@@ -1,6 +1,29 @@
 
-def summary(account):
-    print(account)
+def summary(transactions):
+    print(transactions)
+    units = 0
+    profit = 0
+    for i in transactions:
+        if i['type'] == 'ORDER_FILL':
+            units += float(i['units'])
+            if units != 0:
+                buyPrice = float(i['fullPrice']['asks'][0]['price'])
+                inUnits = float(i['units'])
+            elif units == 0:
+                sellPrice = float(i['fullPrice']['bids'][0]['price'])
+                profit += (buyPrice - sellPrice) * inUnits
+    print("profit:", profit)
+    import csv
+    with open('summaryTransactions.csv', 'w', newline='') as csvfile:
+        spamwriter = csv.writer(csvfile, delimiter=' ',
+                                quotechar='|', quoting=csv.QUOTE_MINIMAL)
+        for i in transactions:
+            spamwriter.writerow([i])
+
+
+
+
+
     # profit = 0
     # for i in account.getActivity().activity:
     #     try:

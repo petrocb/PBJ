@@ -13,7 +13,9 @@ def main():
             a.tick()
     except IndexError as e:
         print(e)
-    # print(functions.getPositions("SMAFollowTrendSD"))
+    # print(functions.getTransactionsSinceID("SMAFollowTrendSD", 3828))
+    # print(functions.order(-500, "SMAFollowTrendSD", "SMAFollowTrendSD", 0, 0, 0))
+    # print(functions.getTransactionsSinceID("SMAFollowTrendSD", 3829))
 
 if __name__ == "__main__":
     main()
