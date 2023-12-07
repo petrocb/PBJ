@@ -34,7 +34,7 @@ class SIMPLESMA:
 
         # print("SMA", self.SMA)
 
-        # print("price:", self.data[-1][1], "direction:", self.direction)
+        print("price:", self.data[-1][1], "direction:", self.direction)
         self.direction *= 500
         self.position = functions.getPositions(self.account)['positions']
         # print(functions.getPositions(self.account))
@@ -42,7 +42,7 @@ class SIMPLESMA:
             self.position = float(self.position[0]['long']['units']) + float(self.position[0]['short']['units'])
         else:
             self.position = 0
-        # print(self.direction, "    ", self.position)
+        print(self.direction, "    ", self.position)
         if self.position != self.direction:
             functions.order(float(self.direction) - float(self.position), self.account, self.account, 0, 0, 0)
         with open('response.csv', 'a', newline='') as csvfile:

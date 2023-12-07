@@ -281,8 +281,8 @@ def order(units, cid, account, sld, tpd, tsld):
         responceSave("order", response)
         id = response.json()
     jsonSave("order", id)
-    id = id['orderFillTransaction']['id']
-    return id
+    # id = id['orderFillTransaction']['id']
+    # return id
 
 
 def close(trade_id, account):

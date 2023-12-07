@@ -1,21 +1,22 @@
 import csv
 from datetime import datetime
 
-from classes import Account, Trade
+# from newClasses import Account
 from summary import summary
 
 
 class dataHandler:
 
     def __init__(self):
-        self.account = Account()
+        # self.account = Account()
         self.line = 0
         self.id = 0
         self.data = self.dataCSV()
         self.length = len(self.data)
+        self.transactions = []
 
     def dataCSV(self):
-        with open('testData.csv', newline='') as csvfile:
+        with open('EURUSD30min2020.csv', newline='') as csvfile:
             reader = csv.reader(csvfile, delimiter=',', quotechar='|')
             data = []
             for i in reader:
@@ -25,7 +26,7 @@ class dataHandler:
     def update(self):
         self.line += 1
         if self.line >= self.length:
-            summary(self.account)
+            summary(self.transactions)
 
     def getPrice(self):
         back_tester_data = {
@@ -110,20 +111,116 @@ class dataHandler:
         pass
 
     def order(self, data):
-        print("price", self.data[self.line])
-        res = Trade(str(self.id), self.data[self.line][5],
-                    datetime.strptime(f"{self.data[self.line][0]} {self.data[self.line][1]}",
-                                      "%Y.%m.%d %H:%M").isoformat() + "Z", data['order']['units'], "0").getOrder(
-            self.account.getPosition(), self.account.getTrades())
-        self.account.setActivity(res)
-        return res
+        self.transactions.append({
+            'id': 'NOT_IMPLEMENTED',
+            'accountID': 'NOT_IMPLEMENTED',
+            'userID': 'NOT_IMPLEMENTED',
+            'batchID': 'NOT_IMPLEMENTED',
+            'requestID': 'NOT_IMPLEMENTED',
+            'time': 'NOT_IMPLEMENTED',
+            'type': 'MARKET_ORDER',
+            'instrument': 'NOT_IMPLEMENTED',
+            'units': 'NOT_IMPLEMENTED',
+            'timeInForce': 'NOT_IMPLEMENTED',
+            'positionFill': 'NOT_IMPLEMENTED',
+            'reason': 'NOT_IMPLEMENTED'
+        })
+        self.transactions.append({
+            'id': 'NOT_IMPLEMENTED',
+            'accountID': 'NOT_IMPLEMENTED',
+            'userID': 'NOT_IMPLEMENTED',
+            'batchID': 'NOT_IMPLEMENTED',
+            'requestID': 'NOT_IMPLEMENTED',
+            'time': 'NOT_IMPLEMENTED',
+            'type': 'ORDER_FILL',
+            'orderID': 'NOT_IMPLEMENTED',
+            'instrument': 'NOT_IMPLEMENTED',
+            'units': data['order']['units'],
+            'requestedUnits': 'NOT_IMPLEMENTED',
+            'price': 'NOT_IMPLEMENTED',
+            'pl': 'NOT_IMPLEMENTED',
+            'quotePL': 'NOT_IMPLEMENTED',
+            'financing': 'NOT_IMPLEMENTED',
+            'baseFinancing': 'NOT_IMPLEMENTED',
+            'commission': 'NOT_IMPLEMENTED',
+            'accountBalance': 'NOT_IMPLEMENTED',
+            'gainQuoteHomeConversionFactor': 'NOT_IMPLEMENTED',
+            'lossQuoteHomeConversionFactor': 'NOT_IMPLEMENTED',
+            'guaranteedExecutionFee': 'NOT_IMPLEMENTED',
+            'quoteGuaranteedExecutionFee': 'NOT_IMPLEMENTED',
+            'halfSpreadCost': 'NOT_IMPLEMENTED',
+            'fullVWAP': 'NOT_IMPLEMENTED',
+            'reason': 'NOT_IMPLEMENTED',
+            'fullPrice': {
+                'closeoutBid': 'NOT_IMPLEMENTED',
+                'closeoutAsk': 'NOT_IMPLEMENTED',
+                'timestamp': 'NOT_IMPLEMENTED',
+                'bids': [{
+                    'price': 'NOT_IMPLEMENTED',
+                    'liquidity': '1000000'
+                }, {
+                    'price': 'NOT_IMPLEMENTED',
+                    'liquidity': '2000000'
+                }, {
+                    'price': 'NOT_IMPLEMENTED',
+                    'liquidity': '2000000'
+                }, {
+                    'price': 'NOT_IMPLEMENTED',
+                    'liquidity': '5000000'
+                }
+                ],
+                'asks': [{
+                    'price': 'NOT_IMPLEMENTED',
+                    'liquidity': '1000000'
+                }, {
+                    'price': 'NOT_IMPLEMENTED',
+                    'liquidity': '2000000'
+                }, {
+                    'price': 'NOT_IMPLEMENTED',
+                    'liquidity': '2000000'
+                }, {
+                    'price': 'NOT_IMPLEMENTED',
+                    'liquidity': '5000000'
+                }
+                ]
+            },
+            'homeConversionFactors': {
+                'gainQuoteHome': {
+                    'factor': 'NOT_IMPLEMENTED'
+                },
+                'lossQuoteHome': {
+                    'factor': 'NOT_IMPLEMENTED'
+                },
+                'gainBaseHome': {
+                    'factor': 'NOT_IMPLEMENTED'
+                },
+                'lossBaseHome': {
+                    'factor': 'NOT_IMPLEMENTED'
+                }
+            },
+            'plHomeConversionCost': 'NOT_IMPLEMENTED',
+            'baseFinancingHomeConversionCost': 'NOT_IMPLEMENTED',
+            'guaranteedExecutionFeeHomeConversionCost': 'NOT_IMPLEMENTED',
+            'homeConversionCost': 'NOT_IMPLEMENTED'
+        })
+        # return res
 
     def close(self):
         pass
 
     def getPositions(self):
-        return self.account.getPosition()
-
+        units = 0
+        for i in self.transactions:
+            if i['type'] == "ORDER_FILL":
+                units += float(i['units'])
+        if units == 0:
+            return {'positions': [], 'lastTransactionID': 'NOT_IMPLEMENTED'}
+        elif units > 0:
+            return {'positions': [{'long': {'units': str(units)}, 'short': {'units': '0'}}],
+                    'lastTransactionID': 'NOT_IMPLEMENTED'}
+        elif units < 0:
+            return {'positions': [{'long': {'units': '0'}, 'short': {'units': str(units)}}],
+                    'lastTransactionID': 'NOT_IMPLEMENTED'}
     def getOrders(self):
         pass
 

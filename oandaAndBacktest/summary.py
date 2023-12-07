@@ -1,13 +1,14 @@
 
 def summary(account):
-    profit = 0
-    for i in account.getActivity().activity:
-        try:
-            profit += float(i.pl)
-        except TypeError as e:
-            print(e)
-
-    print("profit:", profit)
+    print(account)
+    # profit = 0
+    # for i in account.getActivity().activity:
+    #     try:
+    #         profit += float(i.pl)
+    #     except TypeError as e:
+    #         print(e)
+    #
+    # print("profit:", profit)
     # data = {
     #     'numObs': 0,
     #     'numTrades': 0,
