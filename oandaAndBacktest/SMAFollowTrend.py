@@ -29,23 +29,23 @@ class SMAFollowTrend:
             elif i > self.data[-1][1]:
                 self.direction -= 1
 
-        print(self.data[-1][1] - self.SMA[0], self.data[-1][1] - self.SMA[1], self.data[-1][1] - self.SMA[2],
-              self.data[-1][1] - self.SMA[3], self.data[-1][1] - self.SMA[4], self.data[-1][1] - self.SMA[5],
-              self.data[-1][1] - self.SMA[6], self.data[-1][1] - self.SMA[7], self.data[-1][1] - self.SMA[8],
-              self.data[-1][1] - self.SMA[9])
+        # print(self.data[-1][1] - self.SMA[0], self.data[-1][1] - self.SMA[1], self.data[-1][1] - self.SMA[2],
+        #       self.data[-1][1] - self.SMA[3], self.data[-1][1] - self.SMA[4], self.data[-1][1] - self.SMA[5],
+        #       self.data[-1][1] - self.SMA[6], self.data[-1][1] - self.SMA[7], self.data[-1][1] - self.SMA[8],
+        #       self.data[-1][1] - self.SMA[9])
 
-        print("price:", self.data[-1][1], "direction:", self.direction)
+        # print("price:", self.data[-1][1], "direction:", self.direction)
         self.direction *= 500
         self.position = functions.getPositions(self.account)['positions']
         if self.position:
             self.position = float(self.position[0]['long']['units']) + float(self.position[0]['short']['units'])
         else:
             self.position = 0
-        print(self.direction, "    ", self.position)
+        # print(self.direction, "    ", self.position)
         if self.position != self.direction:
             functions.order(float(self.direction) - float(self.position), self.account, self.account, 0,0,0)
         with open('response.csv', 'a', newline='') as csvfile:
             csvWriter = csv.writer(csvfile)
             csvWriter.writerow([self.direction, self.position, float(self.direction - float(self.position)), self.SMA])
         csvfile.close()
-        print(functions.getPositions("test"))
+        # print(functions.getPositions("test"))

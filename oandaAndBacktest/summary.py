@@ -26,7 +26,10 @@ def summary(transactions):
                         elif float(openTrades[i]['units']) > abs(float(o['units'])):
                             profit += (float(o['price']) - float(
                                 openTrades[i]['price'])) * abs(float(o['units']))
-                            openTrades[i]['units'] += str(float(openTrades[i]['units']) - abs(float(o['units'])))
+                            print(type(abs(float(o['units']))))
+                            openTrades[i]['units'] = float(openTrades[i]['units'])
+                            openTrades[i]['units'] += float(openTrades[i]['units']) - abs(float(o['units']))
+                            openTrades[i]['units'] = str(openTrades[i]['units'])
                             break
                         elif float(openTrades[i]['units']) < abs(float(o['units'])):
                             profit += (float(o['price']) - float(
