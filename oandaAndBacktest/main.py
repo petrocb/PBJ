@@ -7,7 +7,7 @@ import functions
 
 
 def main():
-    a = SIMPLESMA("test", "buy")
+    a = SMAFollowTrend("test")
     try:
         while True:
             a.tick()

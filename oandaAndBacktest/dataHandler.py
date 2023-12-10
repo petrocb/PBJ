@@ -16,7 +16,7 @@ class dataHandler:
         self.transactions = []
 
     def dataCSV(self):
-        with open('EURUSDShort.csv', newline='') as csvfile:
+        with open('EURUSD30min2020.csv', newline='') as csvfile:
             reader = csv.reader(csvfile, delimiter=',', quotechar='|')
             data = []
             for i in reader:
