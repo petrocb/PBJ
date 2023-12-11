@@ -1,47 +1,74 @@
+def floatCast(o):
+    try:
+        for key, value in o.items():
+            try:
+                o[key] = float(value)
+            except ValueError:
+                pass
+            except TypeError:
+                floatCast(o[key])
+    except AttributeError:
+        for i in o:
+            floatCast(i)
+
 def summary(transactions):
     profit = 0
     units = 0
     openTrades = []
+    x = 0
+    print(len(transactions))
     for o in transactions:
+        floatCast(o)
+
+    for o in transactions:
+        print(x)
+        x += 1
         if o['type'] == "ORDER_FILL":
             if units == 0:
-                units += float(o['units'])
+                units += o['units']
                 openTrades.append(o)
+
             elif units != 0:
-                if units > 0 and float(o['units']) > 0:
-                    units += float(o['units'])
+                if units > 0 and o['units'] > 0:
+                    units += o['units']
                     openTrades.append(o)
-                elif units < 0 and float(o['units']) < 0:
-                    units += float(o['units'])
+
+                elif units < 0 and o['units'] < 0:
+                    units += o['units']
                     openTrades.append(o)
 
                 # long pos sell trade
-                elif units > 0 > float(o['units']):
+                elif units > 0 > o['units']:
                     for i in range(len(openTrades)):
-                        if float(openTrades[i]['units']) == abs(float(o['units'])):
-                            profit += (float(o['price']) - float(
-                                openTrades[i]['price'])) * float(openTrades[0]['units'])
+                        if openTrades[i]['units'] == abs(o['units']):
+                            profit += (o['price'] - openTrades[i]['price']) * abs(openTrades[i]['units'])
                             openTrades.pop(i)
                             break
-                        elif float(openTrades[i]['units']) > abs(float(o['units'])):
-                            profit += (float(o['price']) - float(
-                                openTrades[i]['price'])) * abs(float(o['units']))
-                            print(type(abs(float(o['units']))))
-                            openTrades[i]['units'] = float(openTrades[i]['units'])
-                            openTrades[i]['units'] += float(openTrades[i]['units']) - abs(float(o['units']))
-                            openTrades[i]['units'] = str(openTrades[i]['units'])
+                        elif openTrades[i]['units'] > abs(o['units']):
+                            profit += (o['price'] - openTrades[i]['price']) * abs(o['units'])
+                            openTrades[i]['units'] += o['units']
                             break
-                        elif float(openTrades[i]['units']) < abs(float(o['units'])):
-                            profit += (float(o['price']) - float(
-                                openTrades[i]['price'])) * abs(float(o['units']))
-                            o['units'] -= str(float(openTrades[i]['units']))
-                            openTrades.pop(i)
-                # short pos buy trade
-                elif units < 0 < float(o['units']):
-                    if float(openTrades[0]['units']) == abs(float(o['units'])):
-                        profit += (float(o['price']) - float(
-                            openTrades[0]['price'])) * float(openTrades[0]['units'])
-                        openTrades.pop(0)
+                        elif openTrades[i]['units'] < abs(o['units']):
+                            profit += (o['price'] - openTrades[i]['price']) * abs(o['units'])
+                            o['units'] += openTrades[i]['units']
+                            openTrades[i]['units'] = 0
+                            # openTrades.pop(i)
 
+                # short pos buy trade
+                elif units < 0 < o['units']:
+                    for i in range(len(openTrades)):
+                        if openTrades[i]['units'] == abs(o['units']):
+                            profit += (o['price'] - openTrades[i]['price']) * abs(openTrades[i]['units'])
+                            openTrades.pop(i)
+                            break
+                        elif openTrades[i]['units'] > abs(o['units']):
+                            profit += (o['price'] - openTrades[i]['price']) * abs(o['units'])
+                            openTrades[i]['units'] -= o['units']
+                            break
+                        elif openTrades[i]['units'] < abs(o['units']):
+                            profit += (o['price'] - openTrades[i]['price']) * abs(o['units'])
+                            o['units'] -= openTrades[i]['units']
+                            openTrades[i]['units'] = 0
+                            # openTrades.pop(i)
 
     print(profit)
