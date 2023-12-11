@@ -255,7 +255,7 @@ def order(units, cid, account, sld, tpd, tsld):
     elif sld == 0 and tpd == 0:
         data = {
             "order": {
-                "instrument": "EUR_USD",
+                "instrument": "GBP_USD",
                 "units": str(units),
                 "type": "MARKET",
                 "tradeClientExtensions": {"tag": cid}
