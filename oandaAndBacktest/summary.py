@@ -1,19 +1,47 @@
-#types of trades:
-# buy trade from no position
-# sell trade from no position
-# buy trade from long position
-# sell trade from short position
-# buy trade from short position which is equal to the oldest sell trade
-# buy trade from short position which is less than the oldest sell trade
-# buy trade from short position which is greater than the oldest sell trade
-# sell trade from long position which is equal to the oldest buy trade
-# sell trade from long position which is less than the oldest buy trade
-# sell trade from long position which is greater than the oldest buy trade
-# buy trade from short position which is equal to the whole short position
-# sell trade from long position which is equal to the whole long position
-# buy trade from short position which is greater than the whole short position
-# sell trade from long position which is greater than the whole long position
-
+# types of trades to test:
+# win from buy trade from no position 1
+# even from buy trade from no position 1
+# loss from buy trade from no position 1
+# win from sell trade from no position 1
+# even from sell trade from no position 1
+# loss from sell trade from no position 1
+# win buy trade from long position 1
+# even buy trade from long position 1
+# loss buy trade from long position 1
+# win sell trade from short position 1
+# even sell trade from short position 1
+# loss sell trade from short position
+# win buy trade from short position which is equal to the oldest sell trade
+# even buy trade from short position which is equal to the oldest sell trade
+# loss buy trade from short position which is equal to the oldest sell trade
+# win buy trade from short position which is less than the oldest sell trade
+# even buy trade from short position which is less than the oldest sell trade
+# loss buy trade from short position which is less than the oldest sell trade
+# win buy trade from short position which is greater than the oldest sell trade
+# even buy trade from short position which is greater than the oldest sell trade
+# loss buy trade from short position which is greater than the oldest sell trade
+# win sell trade from long position which is equal to the oldest buy trade
+# even sell trade from long position which is equal to the oldest buy trade
+# loss sell trade from long position which is equal to the oldest buy trade
+# win sell trade from long position which is less than the oldest buy trade
+# even sell trade from long position which is less than the oldest buy trade
+# loss sell trade from long position which is less than the oldest buy trade
+# win sell trade from long position which is greater than the oldest buy trade
+# even sell trade from long position which is greater than the oldest buy trade
+# loss sell trade from long position which is greater than the oldest buy trade
+# win buy trade from short position which is equal to the whole short position
+# even buy trade from short position which is equal to the whole short position
+# loss buy trade from short position which is equal to the whole short position
+# win sell trade from long position which is equal to the whole long position
+# even sell trade from long position which is equal to the whole long position
+# loss sell trade from long position which is equal to the whole long position
+# win buy trade from short position which is greater than the whole short position
+# even buy trade from short position which is greater than the whole short position
+# loss buy trade from short position which is greater than the whole short position
+# win sell trade from long position which is greater than the whole long position
+# even sell trade from long position which is greater than the whole long position
+# loss sell trade from long position which is greater than the whole long position
+import json
 
 def floatCast(o):
     try:
@@ -34,23 +62,30 @@ def summary(transactions):
     units = 0
     openTrades = []
     print(len(transactions))
-    # with open('transactions.json', 'w', newline='') as file:
-    #     json.dump(transactions, file, indent=4)
+    with open('transactions.json', 'w', newline='') as file:
+        json.dump(transactions, file, indent=4)
 
     for o in transactions:
         floatCast(o)
-
+    x = 0
     for o in transactions:
+        pop = 0
+        copyList = openTrades.copy()
+        x += 1
+        if x == 43:
+            print("hehehe")
         if len(openTrades) == 0:
             units = 0
         for i in range(len(openTrades)):
             units += openTrades[i]['units']
             if openTrades[i]['units'] == 0:
-                openTrades.pop(i)
-        print("units:", units)
-        print("openTrades:", openTrades)
-        print("current:", o['units'])
-        print("profit:", profit)
+                copyList.pop(i - pop)
+                pop += 1
+        openTrades = copyList.copy()
+        # print("units:", units)
+        # print("openTrades:", openTrades)
+        # print("current:", o['units'])
+        # print("profit:", profit)
         if o['type'] == "ORDER_FILL":
             if units == 0:
                 openTrades.append(o)

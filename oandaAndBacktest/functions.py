@@ -170,77 +170,6 @@ def updatePastPrices2(data, length, instrument, timeFrame, account):
     #     pass
     return data
 
-
-#
-# def buy(sld, tpd, instrument, cid, account):
-#     # Place a buy trade
-#     instrument = instrument  # Replace with the instrument you want to trade
-#     units = 1000  # Replace with the desired number of units
-#     if sld != 0 and tpd != 0:
-#         data = {
-#             "order": {
-#                 "instrument": instrument,
-#                 "units": str(units),
-#                 "type": "MARKET",
-#                 "stopLossOnFill": {"distance": sld},
-#                 "takeProfitOnFill": {"distance": tpd},
-#                 "tradeClientExtensions": {"tag": cid}
-#             }
-#         }
-#     elif sld == 0 and tpd == 0:
-#         data = {
-#             "order": {
-#                 "instrument": instrument,
-#                 "units": str(units),
-#                 "type": "MARKET",
-#                 "tradeClientExtensions": {"tag": cid}
-#             }
-#         }
-#     response = requests.post(f"{getCred(account)[0]}/v3/accounts/{getCred(account)[2]}/orders",
-#                              headers={'Authorization': f'Bearer {getCred(account)[1]}'},
-#                              json=data)
-#     responceSave("buy", response)
-#     id = response.json()
-#     jsonSave("buy", id)
-#     id = id['orderFillTransaction']['id']
-#
-#     return id
-#
-#
-# def sell(sld, tpd, instrument, cid, account):
-#     # Place a sell trade
-#     instrument = instrument  # Replace with the instrument you want to trade
-#     units = -1000  # Replace with the desired number of units (negative for selling)
-#     if sld != 0 and tpd != 0:
-#         data = {
-#             "order": {
-#                 "instrument": instrument,
-#                 "units": str(units),
-#                 "type": "MARKET",
-#                 "stopLossOnFill": {"distance": sld},
-#                 "takeProfitOnFill": {"distance": tpd},
-#                 "tradeClientExtensions": {"tag": cid}
-#             }
-#         }
-#     elif sld == 0 and tpd == 0:
-#         data = {
-#             "order": {
-#                 "instrument": instrument,
-#                 "units": str(units),
-#                 "type": "MARKET",
-#                 "tradeClientExtensions": {"tag": cid}
-#             }
-#         }
-#     response = requests.post(f"{getCred(account)[0]}/v3/accounts/{getCred(account)[2]}/orders",
-#                              headers={'Authorization': f'Bearer {getCred(account)[1]}'},
-#                              json=data)
-#     responceSave("sell", response)
-#     id = response.json()
-#     jsonSave("sell", id)
-#     id = id['orderFillTransaction']['id']
-#     return id
-
-
 def order(units, cid, account, sld, tpd, tsld):
     if sld != 0 and tpd != 0 and tsld == 0:
         data = {
@@ -480,14 +409,6 @@ def jsonSave(loc, res):
         csvWriter = csv.writer(csvfile)
         csvWriter.writerow([datetime.datetime.utcnow(), loc, res])
     csvfile.close()
-
-
-# def generate_timestamp(year, month, day, hour, minute, second):
-#     timestamp = datetime.datetime(year, month, day, hour, minute, second)
-#     formatted_timestamp = timestamp.strftime("%Y-%m-%dT%H:%M:%S.%fZ")
-#     print(formatted_timestamp)
-#     return formatted_timestamp
-
 
 def checkSLnTP():
     # implements a back testing function. Not needed in live trading but added to stop errors

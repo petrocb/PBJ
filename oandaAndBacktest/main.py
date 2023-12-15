@@ -8,17 +8,13 @@ import json
 import time
 
 def main():
-    # a = SMAFollowTrend("test")
+    a = SMAFollowTrend("test")
     # a = SIMPLESMA("test", "buy")
-    # try:
-    #     while True:
-    #         a.tick()
-    # except IndexError as e:
-    #     print(e)
-    with open("transactions.json", 'r') as f:
-        transactions = json.load(f)
-    summary(transactions)
-    # print(functions.getTransactionsSinceID("SMAFollowTrendSD", 3833))
+    try:
+        while True:
+            a.tick()
+    except IndexError as e:
+        print(e)
 
 if __name__ == "__main__":
     main()

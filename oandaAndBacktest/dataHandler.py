@@ -4,7 +4,6 @@ from datetime import datetime
 # from newClasses import Account
 from summary import summary
 
-
 class dataHandler:
 
     def __init__(self):
@@ -14,9 +13,10 @@ class dataHandler:
         self.data = self.dataCSV()
         self.length = len(self.data)
         self.transactions = []
+        self.oldTransactions = []
 
     def dataCSV(self):
-        with open('EURUSDShort.csv', newline='') as csvfile:
+        with open('EURUSD30min2020.csv', newline='') as csvfile:
             reader = csv.reader(csvfile, delimiter=',', quotechar='|')
             data = []
             for i in reader:
@@ -24,50 +24,48 @@ class dataHandler:
         return data
 
     def update(self):
+        if self.line % 1000 == 0:
+            # pass
+            print(self.data[self.line][0])
+            print(len(self.transactions))
+        units = 0
+        for i in self.transactions:
+            if i['type'] == "ORDER_FILL":
+                units += float(i['units'])
+        if units == 0:
+            for i in self.transactions:
+                self.oldTransactions.append(i)
+            self.transactions = []
+
         self.line += 1
         if self.line >= self.length:
-            summary(self.transactions)
+            for i in self.transactions:
+                self.oldTransactions.append(i)
+            summary(self.oldTransactions)
+        for o in self.transactions:
+            if o['type'] == "STOP_LOSS_ORDER":
+                for i in self.transactions:
+                    if o['batchID'] == i['batchID'] and o['id'] != i['id'] and i['type'] == "ORDER_FILL":
+                        if float(i['units']) > 0 and float(self.data[self.line][4]) < float(o['price']):
+                            self.transactions.append({
+                                'id': self.id,
+                                'batchID': self.id,
+                                # 'type': 'STOP_LOSS_ORDER',
+                                'type': 'ORDER_FILL',
+                                'units': str(-abs(float(i['units']))),
+                                'price': str(self.data[self.line][4])
+                            })
+                        elif float(i['units']) < 0 and float(self.data[self.line][3]) > float(o['price']):
+                            self.transactions.append({
+                                'id': self.id,
+                                'batchID': self.id,
+                                # 'type': 'STOP_LOSS_ORDER',
+                                'type': 'ORDER_FILL',
+                                'units': str(abs(float(i['units']))),
+                                'price': str(self.data[self.line][3])
+                            })
+                            self.id += 1
 
-    def getPrice(self):
-        back_tester_data = {
-            'time': '2023-11-08T21:02:09.328980331Z',
-            'prices': [
-                {
-                    'type': 'PRICE',
-                    'time': '2023-11-08T21:02:05.747261894Z',
-                    'bids': [
-                        {'price': '1.07100', 'liquidity': 1000000},
-                        {'price': '1.07098', 'liquidity': 2000000},
-                        # Add more bid data here
-                    ],
-                    'asks': [
-                        {'price': '1.07110', 'liquidity': 1000000},
-                        {'price': '1.07113', 'liquidity': 2000000},
-                        # Add more ask data here
-                    ],
-                    'closeoutBid': '1.07095',
-                    'closeoutAsk': '1.07115',
-                    'status': 'tradeable',
-                    'tradeable': True,
-                    'quoteHomeConversionFactors': {
-                        'positiveUnits': '0.81365641',
-                        'negativeUnits': '0.81377559',
-                    },
-                    'instrument': 'EUR_USD',
-                }
-            ]
-        }
-
-        return back_tester_data
-
-    def getPriceSince(self):
-        pass
-
-    def GetBid(self):
-        pass
-
-    def getAsk(self):
-        pass
 
     def startPastPriceList(self, count):
         data = {'instrument': 'EUR_USD', 'granularity': 'M30', 'candles': []}
@@ -87,8 +85,6 @@ class dataHandler:
 
         return data
 
-    def updatePastPrices(self):
-        pass
 
     def updatePastPrices2(self):
         return {'instrument': 'EUR_USD', 'granularity': 'M30', 'candles': [{
@@ -104,52 +100,31 @@ class dataHandler:
             }
         }]}
 
-    def buy(self):
-        pass
-
-    def sell(self):
-        pass
 
     def order(self, data):
+        batchId = self.id
         self.transactions.append({
+            'id': self.id,
+            'batchID': batchId,
             'type': 'ORDER_FILL',
             'units': data['order']['units'],
-            'price': str(self.data[self.line][5]),
-            'fullPrice': {
-                'bids': [{
-                    'price': str(float(self.data[self.line][5])-0.0001+0.0006),
-                    'liquidity': '1000000'
-                }, {
-                    'price': str(float(self.data[self.line][5])-0.0001+0.0004),
-                    'liquidity': '2000000'
-                }, {
-                    'price': str(float(self.data[self.line][5])-0.0001+0.0002),
-                    'liquidity': '2000000'
-                }, {
-                    'price': str(float(self.data[self.line][5])-0.0001),
-                    'liquidity': '5000000'
-                }
-                ],
-                'asks': [{
-                    'price': str(float(self.data[self.line][5])+0.0001),
-                    'liquidity': '1000000'
-                }, {
-                    'price': str(float(self.data[self.line][5])+0.0001-0.0002),
-                    'liquidity': '2000000'
-                }, {
-                    'price': str(float(self.data[self.line][5])+0.0001-0.0004),
-                    'liquidity': '2000000'
-                }, {
-                    'price': str(float(self.data[self.line][5])+0.0001-0.0006),
-                    'liquidity': '5000000'
-                }
-                ]
-            }
+            'price': str(self.data[self.line][5])
         })
-        # return res
+        self.id += 1
+        try:
+            if float(data['order']['units']) > 0:
+                self.transactions.append( {
+                    'id': self.id,
+                    'batchID': batchId,
+                    'type': 'STOP_LOSS_ORDER',
+                    'price': str(float(self.data[self.line][5]) - data['order']['stopLossOnFill']['distance'])
+                })
+            elif float(data['units']) < 0:
+                pass
+        except KeyError:
+            pass
 
-    def close(self):
-        pass
+        # return res
 
     def getPositions(self):
         units = 0
@@ -164,17 +139,6 @@ class dataHandler:
         elif units < 0:
             return {'positions': [{'long': {'units': '0'}, 'short': {'units': str(units)}}],
                     'lastTransactionID': 'NOT_IMPLEMENTED'}
-    def getOrders(self):
-        pass
-
-    def getTrades(self):
-        return self.account.getTradesasDict()
-
-    def getTransactionsSinceID(self):
-        return self.account.getActivityDict()
-
-    def getTransactionsSinceDate(self):
-        pass
 
     def time(self):
 

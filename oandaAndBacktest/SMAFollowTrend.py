@@ -16,9 +16,12 @@ class SMAFollowTrend:
         if self.account == "test":
             functions.update()
         self.data = functions.updatePastPrices2(self.data, 4097, "EUR_USD", "M30", self.account)
-        self.SMA = [functions.sma(self.data[-8:]), functions.sma(self.data[-16:]), functions.sma(self.data[-32:]),
-                    functions.sma(self.data[-64:]), functions.sma(self.data[-128:]), functions.sma(self.data[-256:]),
-                    functions.sma(self.data[-512:]), functions.sma(self.data[-1025:]),
+        # self.SMA = [functions.sma(self.data[-8:]), functions.sma(self.data[-16:]), functions.sma(self.data[-32:]),
+        #             functions.sma(self.data[-64:]), functions.sma(self.data[-128:]), functions.sma(self.data[-256:]),
+        #             functions.sma(self.data[-512:]), functions.sma(self.data[-1025:]),
+        #             functions.sma(self.data[-2048:]), functions.sma(self.data[-4096:])]
+
+        self.SMA = [functions.sma(self.data[-512:]), functions.sma(self.data[-1025:]),
                     functions.sma(self.data[-2048:]), functions.sma(self.data[-4096:])]
 
         # print(self.SMA)
@@ -43,7 +46,8 @@ class SMAFollowTrend:
             self.position = 0
         # print(self.direction, "    ", self.position)
         if self.position != self.direction:
-            functions.order(float(self.direction) - float(self.position), self.account, self.account, 0,0,0)
+            functions.order(float(self.direction) - float(self.position), self.account, self.account, 0.001, 0.001, 0)
+            # functions.order(float(self.direction) - float(self.position), self.account, self.account, 0, 0, 0)
         with open('response.csv', 'a', newline='') as csvfile:
             csvWriter = csv.writer(csvfile)
             csvWriter.writerow([self.direction, self.position, float(self.direction - float(self.position)), self.SMA])
