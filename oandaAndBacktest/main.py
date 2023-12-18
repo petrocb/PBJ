@@ -10,6 +10,7 @@ import time
 def main():
     a = SMAFollowTrend("test")
     # a = SIMPLESMA("test", "buy")
+    # a = TestStrat("test")
     try:
         while True:
             a.tick()

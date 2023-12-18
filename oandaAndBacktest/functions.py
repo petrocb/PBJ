@@ -12,6 +12,9 @@ dh = dataHandler()
 
 def update():
     dh.update()
+    dh.performanceImprovement()
+    dh.checkSLnTP()
+
 
 def getCred(account):
     if account == 'primary':

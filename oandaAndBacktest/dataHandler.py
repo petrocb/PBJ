@@ -4,6 +4,7 @@ from datetime import datetime
 # from newClasses import Account
 from summary import summary
 
+
 class dataHandler:
 
     def __init__(self):
@@ -28,23 +29,20 @@ class dataHandler:
             # pass
             print(self.data[self.line][0])
             print(len(self.transactions))
-        units = 0
-        for i in self.transactions:
-            if i['type'] == "ORDER_FILL":
-                units += float(i['units'])
-        if units == 0:
-            for i in self.transactions:
-                self.oldTransactions.append(i)
-            self.transactions = []
 
         self.line += 1
         if self.line >= self.length:
             for i in self.transactions:
                 self.oldTransactions.append(i)
             summary(self.oldTransactions)
+
+    def checkSLnTP(self):
         for o in self.transactions:
             if o['type'] == "STOP_LOSS_ORDER":
                 for i in self.transactions:
+                    # optimization
+                    if i['batchID'] > o['batchID']:
+                        break
                     if o['batchID'] == i['batchID'] and o['id'] != i['id'] and i['type'] == "ORDER_FILL":
                         if float(i['units']) > 0 and float(self.data[self.line][4]) < float(o['price']):
                             self.transactions.append({
@@ -53,7 +51,8 @@ class dataHandler:
                                 # 'type': 'STOP_LOSS_ORDER',
                                 'type': 'ORDER_FILL',
                                 'units': str(-abs(float(i['units']))),
-                                'price': str(self.data[self.line][4])
+                                'price': str(self.data[self.line][4]),
+                                'stop': True
                             })
                         elif float(i['units']) < 0 and float(self.data[self.line][3]) > float(o['price']):
                             self.transactions.append({
@@ -62,10 +61,38 @@ class dataHandler:
                                 # 'type': 'STOP_LOSS_ORDER',
                                 'type': 'ORDER_FILL',
                                 'units': str(abs(float(i['units']))),
-                                'price': str(self.data[self.line][3])
+                                'price': str(self.data[self.line][3]),
+                                'stop': True
                             })
                             self.id += 1
 
+    def performanceImprovement(self):
+        units = 0
+        for i in self.transactions:
+            if i['type'] == "ORDER_FILL":
+                units += float(i['units'])
+        if units == 0:
+            for i in self.transactions:
+                self.oldTransactions.append(i)
+            self.transactions = []
+        elif units > 0:
+            for i in self.transactions:
+                if i['type'] == "ORDER_FILL" and float(i['units']) < 0:
+                    cutPoint = self.transactions.index(i)
+            try:
+                for i in range(cutPoint):
+                    self.oldTransactions.append(self.transactions[i])
+            except UnboundLocalError:
+                pass
+        elif units < 0:
+            for i in self.transactions:
+                if i['type'] == "ORDER_FILL" and float(i['units']) > 0:
+                    cutPoint = self.transactions.index(i)
+            try:
+                for i in range(cutPoint):
+                    self.oldTransactions.append(self.transactions[i])
+            except UnboundLocalError:
+                pass
 
     def startPastPriceList(self, count):
         data = {'instrument': 'EUR_USD', 'granularity': 'M30', 'candles': []}
@@ -85,7 +112,6 @@ class dataHandler:
 
         return data
 
-
     def updatePastPrices2(self):
         return {'instrument': 'EUR_USD', 'granularity': 'M30', 'candles': [{
             'complete': True,
@@ -100,8 +126,8 @@ class dataHandler:
             }
         }]}
 
-
     def order(self, data):
+        self.id += 1
         batchId = self.id
         self.transactions.append({
             'id': self.id,
@@ -113,14 +139,19 @@ class dataHandler:
         self.id += 1
         try:
             if float(data['order']['units']) > 0:
-                self.transactions.append( {
+                self.transactions.append({
                     'id': self.id,
                     'batchID': batchId,
                     'type': 'STOP_LOSS_ORDER',
                     'price': str(float(self.data[self.line][5]) - data['order']['stopLossOnFill']['distance'])
                 })
             elif float(data['units']) < 0:
-                pass
+                self.transactions.append({
+                    'id': self.id,
+                    'batchID': batchId,
+                    'type': 'STOP_LOSS_ORDER',
+                    'price': str(float(self.data[self.line][5]) - data['order']['stopLossOnFill']['distance'])
+                })
         except KeyError:
             pass
 
