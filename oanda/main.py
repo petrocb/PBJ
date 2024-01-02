@@ -21,8 +21,8 @@ def main():
     b = FollowTrend()
     c = SMAFollowTrend()
     d = SMAFollowTrendStanDiv()
-    e = SMAFollowTrendStanDivCoolOff()
-    f = oncesMAFollowSD()
+    # e = SMAFollowTrendStanDivCoolOff()
+    # f = oncesMAFollowSD()
     x = datetime.datetime.utcnow() - datetime.timedelta(minutes=2)
     while True:
         if datetime.datetime.utcnow() > x + datetime.timedelta(minutes=1):
@@ -36,10 +36,10 @@ def main():
             c.tick()
             print(f"{Fore.rgb('0%', '100%', '0%')}SMAFollowTrendSD")
             d.tick()
-            print(f"{Fore.rgb('0%', '100%', '100%')}SMAFollowTrendSDCoolOff")
-            e.tick()
-            print(f"{Fore.rgb('0%', '0%', '100%')}onceFollow")
-            f.tick()
+            # print(f"{Fore.rgb('0%', '100%', '100%')}SMAFollowTrendSDCoolOff")
+            # e.tick()
+            # print(f"{Fore.rgb('0%', '0%', '100%')}onceFollow")
+            # f.tick()
         time.sleep(10)
 
 
