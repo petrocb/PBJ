@@ -42,7 +42,7 @@
 # even sell trade from long position which is greater than the whole long position
 # loss sell trade from long position which is greater than the whole long position
 import json
-
+import csv
 def floatCast(o):
     try:
         for key, value in o.items():
@@ -57,11 +57,11 @@ def floatCast(o):
             floatCast(i)
 
 
-def summary(transactions):
+def summary(time, transactions):
     profit = 0
     units = 0
     openTrades = []
-    print(len(transactions))
+    # print(len(transactions))
     with open('transactions.json', 'w', newline='') as file:
         json.dump(transactions, file, indent=4)
 
@@ -72,8 +72,6 @@ def summary(transactions):
         pop = 0
         copyList = openTrades.copy()
         x += 1
-        if x == 43:
-            print("hehehe")
         if len(openTrades) == 0:
             units = 0
         for i in range(len(openTrades)):
@@ -133,4 +131,8 @@ def summary(transactions):
                             openTrades[i]['units'] = 0
                             # openTrades.pop(i)
 
-    print(profit)
+    # print(profit)
+    with open('profit1.csv', 'a', newline='') as csvfile:
+        csvWriter = csv.writer(csvfile)
+        csvWriter.writerow([time, profit])
+    csvfile.close()
