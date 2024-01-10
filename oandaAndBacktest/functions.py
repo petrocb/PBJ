@@ -12,8 +12,8 @@ dh = dataHandler()
 
 def update():
     dh.update()
-    dh.performanceImprovement()
-    dh.checkSLnTP()
+    # dh.performanceImprovement()
+    # dh.checkSLnTP()
 
 
 def getCred(account):
@@ -78,6 +78,25 @@ def getBid(account):
 
 def getAsk(account):
     return getPrice("EUR_USD", account)['prices'][0]['asks'][0]['price']
+
+def scrapper(count, instrument, timeFrame):
+    data = requests.get(f"{getCred('primary')[0]}/v3/accounts/{getCred('primary')[2]}/instruments/{instrument}/candles",
+                        headers={'Authorization': f"Bearer {getCred('primary')[1]}"},
+                        params={'granularity': timeFrame, 'count': count})
+    responceSave("scrapper", data)
+    data = data.json()
+    jsonSave("scrapper", data)
+    data = data['candles']
+    prices = []
+    print(data)
+    for i in data:
+        prices.append([i['time'], i['mid']['o'], i['mid']['h'], i['mid']['l'], i['mid']['c'], 0, 0])
+    prices = pd.DataFrame(prices)
+    prices.columns = ['Date', 'Open', 'High', 'Low', 'Close', 'Volume', 'OpenInterest']
+    prices.to_csv("NewData/"+instrument+timeFrame+str(datetime.datetime.now()).replace(" ", "").replace(".", "")
+                  .replace("-", "").replace(":", "")+'.csv', index=False, header=False)
+
+    return prices
 
 
 def startPastPricesList(count, instrument, timeFrame, account):
@@ -174,6 +193,8 @@ def updatePastPrices2(data, length, instrument, timeFrame, account):
     return data
 
 def order(units, cid, account, sld, tpd, tsld):
+    if units == 0:
+        pass
     if sld != 0 and tpd != 0 and tsld == 0:
         data = {
             "order": {

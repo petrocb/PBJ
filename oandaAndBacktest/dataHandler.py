@@ -1,5 +1,6 @@
 import csv
 from datetime import datetime
+import copy
 
 # from newClasses import Account
 from summary import summary
@@ -17,7 +18,7 @@ class dataHandler:
         self.oldTransactions = []
 
     def dataCSV(self):
-        with open('EURUSD30min2020.csv', newline='') as csvfile:
+        with open('NewData/EUR_USDM3020240108182839765789.csv', newline='') as csvfile:
             reader = csv.reader(csvfile, delimiter=',', quotechar='|')
             data = []
             for i in reader:
@@ -25,16 +26,24 @@ class dataHandler:
         return data
 
     def update(self):
-        if self.line % 1000 == 0:
-            # pass
-            print(self.data[self.line][0])
-            print(len(self.transactions))
+        # if self.line % 1000 == 0:
+        #     # pass
+        if self.line == 41:
+            pass
+        # print("data:", self.data[self.line][0])
+        # print("transactionsl", len(self.transactions))
+        # print("transactions:", self.transactions)
+        print("line", self.line)
+        # summary(self.time(), self.transactions)
+        self.oldTransactions = copy.deepcopy(self.transactions)
+        summary(self.time(), self.oldTransactions)
 
         self.line += 1
-        if self.line >= self.length:
-            for i in self.transactions:
-                self.oldTransactions.append(i)
-            summary(self.oldTransactions)
+        if self.line >= self.length-1:
+            # for i in self.transactions:
+            #     self.oldTransactions.append(i)
+            self.oldTransactions = copy.deepcopy(self.transactions)
+            summary(self.time(), self.oldTransactions)
 
     def checkSLnTP(self):
         for o in self.transactions:
@@ -101,12 +110,13 @@ class dataHandler:
             data['candles'].append({
                 'complete': True,
                 'volume': int(self.data[i][6]),
-                'time': datetime.strptime(f"{self.data[i][0]} {self.data[i][1]}", "%Y.%m.%d %H:%M").isoformat() + "Z",
+                # 'time': datetime.strptime(f"{self.data[i][0]} {self.data[i][1]}", "%Y.%m.%d %H:%M").isoformat() + "Z",
+                'time': self.data[i][0],
                 'mid': {
-                    'o': self.data[i][2],
-                    'h': self.data[i][3],
-                    'l': self.data[i][4],
-                    'c': self.data[i][5]
+                    'o': self.data[i][1],
+                    'h': self.data[i][2],
+                    'l': self.data[i][3],
+                    'c': self.data[i][4]
                 }
             })
 
@@ -116,25 +126,29 @@ class dataHandler:
         return {'instrument': 'EUR_USD', 'granularity': 'M30', 'candles': [{
             'complete': True,
             'volume': int(self.data[self.line][6]),
-            'time': datetime.strptime(f"{self.data[self.line][0]} {self.data[self.line][1]}",
-                                      "%Y.%m.%d %H:%M").isoformat() + "Z",
+            # 'time': datetime.strptime(f"{self.data[self.line][0]} {self.data[self.line][1]}",
+            #                           "%Y.%m.%d %H:%M").isoformat() + "Z",
+            'time': self.data[self.line][0],
             'mid': {
-                'o': self.data[self.line][2],
-                'h': self.data[self.line][3],
-                'l': self.data[self.line][4],
-                'c': self.data[self.line][5]
+                'o': self.data[self.line][1],
+                'h': self.data[self.line][2],
+                'l': self.data[self.line][3],
+                'c': self.data[self.line][4]
             }
         }]}
 
     def order(self, data):
+        if self.data[self.line][5] == 1.06762:
+            pass
         self.id += 1
         batchId = self.id
         self.transactions.append({
             'id': self.id,
+            'time': self.time(),
             'batchID': batchId,
             'type': 'ORDER_FILL',
             'units': data['order']['units'],
-            'price': str(self.data[self.line][5])
+            'price': str(self.data[self.line][4])
         })
         self.id += 1
         try:
@@ -173,5 +187,6 @@ class dataHandler:
 
     def time(self):
 
-        return str(datetime.strptime(f"{self.data[self.line][0]} {self.data[self.line][1]}",
-                                     "%Y.%m.%d %H:%M").isoformat() + "Z")
+        # return str(datetime.strptime(f"{self.data[self.line][0]} {self.data[self.line][1]}",
+        #                              "%Y.%m.%d %H:%M").isoformat() + "Z")
+        return self.data[self.line][0]

@@ -3,11 +3,12 @@ import csv
 import functions
 
 
+
 class SMAFollowTrend:
     def __init__(self, account):
         self.account = account
         self.id = 0
-        self.data = functions.startPastPricesList(4097, "EUR_USD", "M30", self.account)
+        self.data = functions.startPastPricesList(17, "EUR_USD", "M30", self.account)
         self.direction = 0
         self.position = 0
         self.SMA = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
@@ -15,15 +16,15 @@ class SMAFollowTrend:
     def tick(self):
         if self.account == "test":
             functions.update()
-        self.data = functions.updatePastPrices2(self.data, 4097, "EUR_USD", "M30", self.account)
+        self.data = functions.updatePastPrices2(self.data, 17, "EUR_USD", "M30", self.account)
         # self.SMA = [functions.sma(self.data[-8:]), functions.sma(self.data[-16:]), functions.sma(self.data[-32:]),
         #             functions.sma(self.data[-64:]), functions.sma(self.data[-128:]), functions.sma(self.data[-256:]),
         #             functions.sma(self.data[-512:]), functions.sma(self.data[-1025:]),
         #             functions.sma(self.data[-2048:]), functions.sma(self.data[-4096:])]
 
-        self.SMA = [functions.sma(self.data[-512:]), functions.sma(self.data[-1025:]),
-                    functions.sma(self.data[-2048:]), functions.sma(self.data[-4096:])]
-
+        # self.SMA = [functions.sma(self.data[-512:]), functions.sma(self.data[-1025:]),
+        #             functions.sma(self.data[-2048:]), functions.sma(self.data[-4096:])]
+        self.SMA = [functions.sma(self.data[-8:]), functions.sma(self.data[-16:])]
         # print(self.SMA)
         self.direction = 0
         for i in self.SMA:
@@ -40,13 +41,19 @@ class SMAFollowTrend:
         # print("price:", self.data[-1][1], "direction:", self.direction)
         self.direction *= 500
         self.position = functions.getPositions(self.account)['positions']
+        # print("position", self.position)
+        # print("direction", self.direction)
         if self.position:
+            # print("position2",  float(self.position[0]['long']['units']) + float(self.position[0]['short']['units']))
             self.position = float(self.position[0]['long']['units']) + float(self.position[0]['short']['units'])
         else:
             self.position = 0
+
+
         # print(self.direction, "    ", self.position)
         if self.position != self.direction:
-            functions.order(float(self.direction) - float(self.position), self.account, self.account, 0.001, 0.001, 0)
+            print("order", float(self.direction) - float(self.position))
+            functions.order(float(self.direction) - float(self.position), self.account, self.account, 0, 0, 0)
             # functions.order(float(self.direction) - float(self.position), self.account, self.account, 0, 0, 0)
         with open('response.csv', 'a', newline='') as csvfile:
             csvWriter = csv.writer(csvfile)
