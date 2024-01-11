@@ -18,11 +18,17 @@ class followSMAangle:
 
         print(self.SMA)
         print(self.SMA[0] - self.SMA[1])
-        if -0.001 < self.SMA[0] - self.SMA[1] < 0.001:
+        # if -0.001 < self.SMA[0] - self.SMA[1] < 0.0001:
+        #     self.direction = 0
+        # elif self.SMA[0] - self.SMA[1] > 0.0001:
+        #     self.direction = 1000
+        # elif self.SMA[0] - self.SMA[1] < 0.0001:
+        #     self.direction = -1000
+        if self.SMA[0] - self.SMA[1] == 0:
             self.direction = 0
-        elif self.SMA[0] - self.SMA[1] > 0.001:
+        elif self.SMA[0] > self.SMA[1]:
             self.direction = 1000
-        elif self.SMA[0] - self.SMA[1] < 0.001:
+        elif self.SMA[0] < self.SMA[1] < 0.0001:
             self.direction = -1000
 
         self.position = functions.getPositions("followSMAangle")['positions']
