@@ -18,7 +18,7 @@ class dataHandler:
         self.oldTransactions = []
 
     def dataCSV(self):
-        with open('NewData/EUR_USDM3020240108182839765789.csv', newline='') as csvfile:
+        with open('NewData/EUR_USDM3020240111223422078324.csv', newline='') as csvfile:
             reader = csv.reader(csvfile, delimiter=',', quotechar='|')
             data = []
             for i in reader:
@@ -28,7 +28,7 @@ class dataHandler:
     def update(self):
         # if self.line % 1000 == 0:
         #     # pass
-        if self.line == 41:
+        if self.line == 99:
             pass
         # print("data:", self.data[self.line][0])
         # print("transactionsl", len(self.transactions))

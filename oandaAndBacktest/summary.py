@@ -92,25 +92,26 @@ def summary(time, transactions):
                         break
                     # if the current trade is equal to the open trade
                     elif abs(o['units']) == openTrades[i]['units']:
-                        profit += (openTrades[i]['price'] - o['price']) * abs(o['units'])
+                        profit += (o['price'] - openTrades[i]['price']) * abs(o['units'])
                         openTrades[i]['units'] = 0
+                        o['units'] = 0
                         break
                     # if the current trade is greater than the open trade
                     elif abs(o['units']) > openTrades[i]['units']:
-                        profit += (openTrades[i]['price'] - o['price']) * openTrades[i]['units']
+                        profit += (o['price'] - openTrades[i]['price']) * openTrades[i]['units']
                         o['units'] += openTrades[i]['units']
-
+                        openTrades[i]['units'] += o['units']
                     # if the current trade is less than the open trade
                     elif abs(o['units']) < openTrades[i]['units']:
-                        profit += (openTrades[i]['price'] - o['price']) * abs(o['units'])
+                        profit += (o['price'] - openTrades[i]['price']) * abs(o['units'])
                         openTrades[i]['units'] += o['units']
+                        o['units'] = 0
                         break
 
                     try:
                         for i in range(len(openTrades)):
                             if openTrades[i]['units'] == 0:
                                 openTrades.pop(i)
-                                break
                     except IndexError:
                         pass
             # if there are open sell trades and the current trade is a buy trade
@@ -124,21 +125,23 @@ def summary(time, transactions):
                     elif o['units'] == abs(openTrades[i]['units']):
                         profit += (openTrades[i]['price'] - o['price']) * o['units']
                         openTrades[i]['units'] = 0
+                        o['units'] = 0
                         break
                     # if the current trade is greater than the open trade
                     elif o['units'] > abs(openTrades[i]['units']):
                         profit += (openTrades[i]['price'] - o['price']) * abs(openTrades[i]['units'])
                         o['units'] += openTrades[i]['units']
+                        openTrades[i]['units'] += o['units']
                     # if the current trade is less than the open trade
                     elif o['units'] < abs(openTrades[i]['units']):
-                        profit += (openTrades[i]['price'] - o['price']) * abs(o['units'])
+                        profit += (openTrades[i]['price'] - o['price']) * o['units']
                         openTrades[i]['units'] += o['units']
+                        o['units'] = 0
                         break
                 try:
                     for i in range(len(openTrades)):
                         if openTrades[i]['units'] == 0:
                             openTrades.pop(i)
-                            break
                 except IndexError:
                     pass
 

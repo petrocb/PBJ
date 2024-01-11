@@ -80,17 +80,25 @@ def getAsk(account):
     return getPrice("EUR_USD", account)['prices'][0]['asks'][0]['price']
 
 def scrapper(count, instrument, timeFrame):
-    data = requests.get(f"{getCred('primary')[0]}/v3/accounts/{getCred('primary')[2]}/instruments/{instrument}/candles",
-                        headers={'Authorization': f"Bearer {getCred('primary')[1]}"},
-                        params={'granularity': timeFrame, 'count': count})
-    responceSave("scrapper", data)
-    data = data.json()
-    jsonSave("scrapper", data)
-    data = data['candles']
-    prices = []
-    print(data)
-    for i in data:
-        prices.append([i['time'], i['mid']['o'], i['mid']['h'], i['mid']['l'], i['mid']['c'], 0, 0])
+    list = []
+    for i in range((count + 5000) // 5000):
+        if i > 1:
+            data = requests.get(
+                f"{getCred('primary')[0]}/v3/accounts/{getCred('primary')[2]}/instruments/{instrument}/candles",
+                headers={'Authorization': f"Bearer {getCred('primary')[1]}"},
+                params={'granularity': timeFrame, 'count': count})
+        else:
+            data = requests.get(f"{getCred('primary')[0]}/v3/accounts/{getCred('primary')[2]}/instruments/{instrument}/candles",
+                                headers={'Authorization': f"Bearer {getCred('primary')[1]}"},
+                                params={'granularity': timeFrame, 'count': count})
+        responceSave("scrapper", data)
+        data = data.json()
+        jsonSave("scrapper", data)
+        data = data['candles']
+        prices = []
+        for i in data:
+            prices.append([i['time'], i['mid']['o'], i['mid']['h'], i['mid']['l'], i['mid']['c'], 0, 0])
+        list.insert(0, prices)
     prices = pd.DataFrame(prices)
     prices.columns = ['Date', 'Open', 'High', 'Low', 'Close', 'Volume', 'OpenInterest']
     prices.to_csv("NewData/"+instrument+timeFrame+str(datetime.datetime.now()).replace(" ", "").replace(".", "")

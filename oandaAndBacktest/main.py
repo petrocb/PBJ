@@ -21,7 +21,7 @@ def main():
     #     data = json.load(file)
     #
     # summary(0, data)
-    # functions.scrapper(1000, "EUR_USD", "M30")
+    # functions.scrapper(5000, "EUR_USD", "M30")
 
 if __name__ == "__main__":
     main()
