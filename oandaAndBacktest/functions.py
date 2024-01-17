@@ -12,7 +12,7 @@ dh = dataHandler()
 
 def update():
     dh.update()
-    # dh.performanceImprovement()
+    dh.performanceImprovement()
     # dh.checkSLnTP()
 
 
@@ -81,16 +81,22 @@ def getAsk(account):
 
 def scrapper(count, instrument, timeFrame):
     list = []
-    for i in range((count + 5000) // 5000):
-        if i > 1:
+    prices = []
+    for o in range((count + 5000) // 5000 - 1):
+        if count > 5000:
+            tempCount = 5000
+            count -= 5000
+        else:
+            tempCount = count
+        if o == 0:
             data = requests.get(
                 f"{getCred('primary')[0]}/v3/accounts/{getCred('primary')[2]}/instruments/{instrument}/candles",
                 headers={'Authorization': f"Bearer {getCred('primary')[1]}"},
-                params={'granularity': timeFrame, 'count': count})
+                params={'granularity': timeFrame, 'count': tempCount})
         else:
             data = requests.get(f"{getCred('primary')[0]}/v3/accounts/{getCred('primary')[2]}/instruments/{instrument}/candles",
                                 headers={'Authorization': f"Bearer {getCred('primary')[1]}"},
-                                params={'granularity': timeFrame, 'count': count})
+                                params={'granularity': timeFrame, 'count': tempCount, 'to': prices[0][0]})
         responceSave("scrapper", data)
         data = data.json()
         jsonSave("scrapper", data)
@@ -98,8 +104,8 @@ def scrapper(count, instrument, timeFrame):
         prices = []
         for i in data:
             prices.append([i['time'], i['mid']['o'], i['mid']['h'], i['mid']['l'], i['mid']['c'], 0, 0])
-        list.insert(0, prices)
-    prices = pd.DataFrame(prices)
+        list = prices + list
+    prices = pd.DataFrame(list)
     prices.columns = ['Date', 'Open', 'High', 'Low', 'Close', 'Volume', 'OpenInterest']
     prices.to_csv("NewData/"+instrument+timeFrame+str(datetime.datetime.now()).replace(" ", "").replace(".", "")
                   .replace("-", "").replace(":", "")+'.csv', index=False, header=False)
