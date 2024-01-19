@@ -14,11 +14,20 @@ def floatCast(o):
         for i in o:
             floatCast(i)
 
+def winLoss(profit, winLossArr):
+    if profit > 0:
+        winLossArr[0] += 1
+    elif profit < 0:
+        winLossArr[1] += 1
+    elif profit == 0:
+        winLossArr[2] += 1
 
 def summary(time, transactions, op, cond):
-    profit = 0
+    totalProfit = 0
     openUnits = 0
     openTrades = []
+    winLossArr = [0, 0, 0]
+
     # print(len(transactions))
     with open('transactions.json', 'w', newline='') as file:
         json.dump(transactions, file, indent=4)
@@ -34,6 +43,8 @@ def summary(time, transactions, op, cond):
         if not openTrades:
             openUnits = 0
         if o['type'] == "ORDER_FILL":
+            if o['units'] == 2000 or o['units'] == -2000:
+                pass
             # if there are no open trades append the current trade
             if openUnits == 0:
                 openTrades.append(o)
@@ -52,18 +63,24 @@ def summary(time, transactions, op, cond):
                         break
                     # if the current trade is equal to the open trade
                     elif abs(o['units']) == openTrades[i]['units']:
-                        profit += (o['price'] - openTrades[i]['price']) * abs(o['units'])
+                        profit = (o['price'] - openTrades[i]['price']) * abs(o['units'])
+                        totalProfit += profit
+                        winLoss(profit, winLossArr)
                         openTrades[i]['units'] = 0
                         o['units'] = 0
                         break
                     # if the current trade is greater than the open trade
                     elif abs(o['units']) > openTrades[i]['units']:
-                        profit += (o['price'] - openTrades[i]['price']) * openTrades[i]['units']
+                        profit = (o['price'] - openTrades[i]['price']) * openTrades[i]['units']
+                        totalProfit += profit
+                        winLoss(profit, winLossArr)
                         o['units'] += openTrades[i]['units']
                         openTrades[i]['units'] += o['units']
                     # if the current trade is less than the open trade
                     elif abs(o['units']) < openTrades[i]['units']:
-                        profit += (o['price'] - openTrades[i]['price']) * abs(o['units'])
+                        profit = (o['price'] - openTrades[i]['price']) * abs(o['units'])
+                        totalProfit += profit
+                        winLoss(profit, winLossArr)
                         openTrades[i]['units'] += o['units']
                         o['units'] = 0
                         break
@@ -83,18 +100,24 @@ def summary(time, transactions, op, cond):
                         break
                     # if the current trade is equal to the open trade
                     elif o['units'] == abs(openTrades[i]['units']):
-                        profit += (openTrades[i]['price'] - o['price']) * o['units']
+                        profit = (openTrades[i]['price'] - o['price']) * o['units']
+                        totalProfit += profit
+                        winLoss(profit, winLossArr)
                         openTrades[i]['units'] = 0
                         o['units'] = 0
                         break
                     # if the current trade is greater than the open trade
                     elif o['units'] > abs(openTrades[i]['units']):
-                        profit += (openTrades[i]['price'] - o['price']) * abs(openTrades[i]['units'])
+                        profit = (openTrades[i]['price'] - o['price']) * abs(openTrades[i]['units'])
+                        totalProfit += profit
+                        winLoss(profit, winLossArr)
                         o['units'] += openTrades[i]['units']
                         openTrades[i]['units'] += o['units']
                     # if the current trade is less than the open trade
                     elif o['units'] < abs(openTrades[i]['units']):
-                        profit += (openTrades[i]['price'] - o['price']) * o['units']
+                        profit = (openTrades[i]['price'] - o['price']) * o['units']
+                        totalProfit += profit
+                        winLoss(profit, winLossArr)
                         openTrades[i]['units'] += o['units']
                         o['units'] = 0
                         break
@@ -107,11 +130,11 @@ def summary(time, transactions, op, cond):
 
     with open('profit1.csv', 'a', newline='') as csvfile:
         csvWriter = csv.writer(csvfile)
-        csvWriter.writerow([time, profit])
+        csvWriter.writerow([time, totalProfit])
     csvfile.close()
 
     if op:
         with open('profit.csv', 'a', newline='') as csvfile:
             csvWriter = csv.writer(csvfile)
-            csvWriter.writerow([datetime.now(), cond, profit])
+            csvWriter.writerow([datetime.now(), cond, totalProfit, len(transactions), winLossArr, int(round(winLossArr[0]/(winLossArr[0]+winLossArr[1]), 2)*100)])
         csvfile.close()

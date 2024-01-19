@@ -80,6 +80,7 @@ def getAsk(account):
     return getPrice("EUR_USD", account)['prices'][0]['asks'][0]['price']
 
 def scrapper(count, instrument, timeFrame):
+    import time
     list = []
     prices = []
     for o in range((count + 5000) // 5000 - 1):
@@ -105,6 +106,8 @@ def scrapper(count, instrument, timeFrame):
         for i in data:
             prices.append([i['time'], i['mid']['o'], i['mid']['h'], i['mid']['l'], i['mid']['c'], 0, 0])
         list = prices + list
+        print(count)
+        # time.sleep(1)
     prices = pd.DataFrame(list)
     prices.columns = ['Date', 'Open', 'High', 'Low', 'Close', 'Volume', 'OpenInterest']
     prices.to_csv("NewData/"+instrument+timeFrame+str(datetime.datetime.now()).replace(" ", "").replace(".", "")

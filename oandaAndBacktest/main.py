@@ -9,11 +9,11 @@ import json
 import time
 
 def main():
-    cond = []
-    for o in range(50):
-        for i in range(50):
-            if o != i:
-                cond.append([(o + 1) * 100, (i + 1) * 100])
+    cond = [[100, 800]]
+    # for o in range(50):
+    #     for i in range(50):
+    #         if o < i:
+    #             cond.append([(o + 1) * 100, (i + 1) * 100])
     for i in cond:
         print(i)
         a = SMAFollowTrend("test", i)
@@ -28,7 +28,7 @@ def main():
     # with open('transactions.json', 'r') as file:
     #     data = json.load(file)
     #
-    # functions.scrapper(10000, "EUR_USD", "M30")
+    # functions.scrapper(10000, "EUR_USD", "H1")
 
 if __name__ == "__main__":
     main()

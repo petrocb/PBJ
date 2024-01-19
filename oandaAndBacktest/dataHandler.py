@@ -23,7 +23,7 @@ class dataHandler:
         self.oldTransactions = []
 
     def dataCSV(self):
-        with open('NewData/EUR_USDM3020240117175109580404.csv', newline='') as csvfile:
+        with open('NewData/EUR_USDM3020240118215201562541.csv', newline='') as csvfile:
             reader = csv.reader(csvfile, delimiter=',', quotechar='|')
             data = []
             for i in reader:
@@ -35,13 +35,14 @@ class dataHandler:
             pass
         # print("data:", self.data[self.line][0])
         # print("transactionsl", len(self.transactions))
-        # print("transactions:", self.transactions)
+        # # print("transactions:", self.transactions)
         #     print("line", self.line)
+        #     print("date", self.data[self.line][0])
         #     print("oldTransactions", len(self.oldTransactions))
         #     print("transactions", len(self.transactions))
         # summary(self.time(), self.transactions)
         # self.oldTransactions = copy.deepcopy(self.transactions)
-        # summary(self.time(), copy.deepcopy(self.oldTransactions), False, 0)
+        #     summary(self.time(), copy.deepcopy(self.oldTransactions), False, 0)
 
         self.line += 1
         if self.line == self.length - 1:
@@ -149,7 +150,6 @@ class dataHandler:
                 'price': str(float(self.data[self.line][4]) - 0.0001)
                 # 'price': str(float(self.data[self.line][4]))
             })
-        self.id += 1
         try:
             if float(data['order']['units']) > 0:
                 self.transactions.append({
