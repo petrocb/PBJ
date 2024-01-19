@@ -1,6 +1,7 @@
 import json
 import csv
 from datetime import datetime
+from multiprocessing import current_process
 def floatCast(o):
     try:
         for key, value in o.items():
@@ -29,7 +30,7 @@ def summary(time, transactions, op, cond):
     winLossArr = [0, 0, 0]
 
     # print(len(transactions))
-    with open('transactions.json', 'w', newline='') as file:
+    with open('poolArtifacts/'+current_process().name+'transactions.json', 'w', newline='') as file:
         json.dump(transactions, file, indent=4)
     #convert all values to floats
     for o in transactions:
@@ -128,19 +129,19 @@ def summary(time, transactions, op, cond):
                 except IndexError:
                     pass
 
-    with open('profit1.csv', 'a', newline='') as csvfile:
+    with open('poolArtifacts/'+current_process().name + 'profit1.csv', 'a', newline='') as csvfile:
         csvWriter = csv.writer(csvfile)
         csvWriter.writerow([time, totalProfit])
     csvfile.close()
 
     if op:
         profitPoints = []
-        with open ('profit1.csv', 'r') as csvfile:
+        with open ('poolArtifacts/'+current_process().name+'profit1.csv', 'r') as csvfile:
             csvReader = csv.reader(csvfile)
             for i in csvReader:
                 profitPoints.append(i)
 
-        with open('profit1.csv', 'w', newline='') as csvfile:
+        with open('poolArtifacts/'+current_process().name+'profit1.csv', 'w', newline='') as csvfile:
             csvWriter = csv.writer(csvfile)
             csvWriter.writerow([])
         with open('profit.csv', 'a', newline='') as csvfile:
