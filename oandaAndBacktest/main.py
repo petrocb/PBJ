@@ -10,10 +10,10 @@ import time
 
 def main():
     cond = [[100, 800]]
-    for o in range(50):
-        for i in range(50):
-            if o < i:
-                cond.append([(o + 1) * 100, (i + 1) * 100])
+    # for o in range(50):
+    #     for i in range(50):
+    #         if o < i:
+    #             cond.append([(o + 1) * 100, (i + 1) * 100])
     for i in cond:
         print(i)
         a = SMAFollowTrend("test", i)

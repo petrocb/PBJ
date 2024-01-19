@@ -134,7 +134,17 @@ def summary(time, transactions, op, cond):
     csvfile.close()
 
     if op:
+        profitPoints = []
+        with open ('profit1.csv', 'r') as csvfile:
+            csvReader = csv.reader(csvfile)
+            for i in csvReader:
+                profitPoints.append(i)
+
+        with open('profit1.csv', 'w', newline='') as csvfile:
+            csvWriter = csv.writer(csvfile)
+            csvWriter.writerow([])
         with open('profit.csv', 'a', newline='') as csvfile:
             csvWriter = csv.writer(csvfile)
-            csvWriter.writerow([datetime.now(), cond, totalProfit, len(transactions), winLossArr, int(round(winLossArr[0]/(winLossArr[0]+winLossArr[1]), 2)*100)])
+            csvWriter.writerow([datetime.now(), cond, totalProfit, len(transactions), winLossArr, int(round(winLossArr[0]/(winLossArr[0]+winLossArr[1]), 2)*100), profitPoints])
         csvfile.close()
+
