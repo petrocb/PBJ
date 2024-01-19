@@ -23,7 +23,7 @@ class dataHandler:
         self.oldTransactions = []
 
     def dataCSV(self):
-        with open('NewData/EUR_USDH120240118223040582822.csv', newline='') as csvfile:
+        with open('NewData/EUR_USDH120240119125725094717.csv', newline='') as csvfile:
             reader = csv.reader(csvfile, delimiter=',', quotechar='|')
             data = []
             for i in reader:
@@ -36,9 +36,9 @@ class dataHandler:
         # print("data:", self.data[self.line][0])
         # print("transactionsl", len(self.transactions))
         # # print("transactions:", self.transactions)
-            print("line", self.line)
-            print("date", self.data[self.line][0])
-            print("oldTransactions", len(self.oldTransactions))
+        #     print("line", self.line)
+        #     print("date", self.data[self.line][0])
+        #     print("oldTransactions", len(self.oldTransactions))
         #     print("transactions", len(self.transactions))
         # summary(self.time(), self.transactions)
         # self.oldTransactions = copy.deepcopy(self.transactions)
