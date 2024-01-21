@@ -335,6 +335,19 @@ def getTrades(account):
     jsonSave("trades", responce)
     return responce
 
+def getAccountSummary(account):
+    if account == "test":
+        responce = dh.getAccountSummary()
+    else:
+        responce = requests.get(f"{getCred(account)[0]}/v3/accounts/{getCred(account)[2]}/summary",
+                                headers={'Authorization': f'Bearer {getCred(account)[1]}'})
+        responceSave("summary", responce)
+        responce = responce.json()
+    jsonSave("summary", responce)
+    return responce
+
+def getBalance(account):
+    return getAccountSummary(account)['account']['balance']
 
 def getDirection(list):
     # list = startPastPricesList(60)
