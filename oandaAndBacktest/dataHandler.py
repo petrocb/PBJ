@@ -23,7 +23,7 @@ class dataHandler:
         self.oldTransactions = []
 
     def dataCSV(self):
-        with open('NewData/EUR_USDH120240119125725094717.csv', newline='') as csvfile:
+        with open('NewData/EUR_USDH120240122180903078637.csv', newline='') as csvfile:
             reader = csv.reader(csvfile, delimiter=',', quotechar='|')
             data = []
             for i in reader:

@@ -50,7 +50,7 @@ def main():
     for o in range(50):
         for i in range(50):
             if o < i:
-                conditions.append([(o + 1) * 100, (i + 1) * 100])
+                conditions.append([(o + 1) * 10, (i + 1) * 10])
     # Create a pool with the desired number of processes
     with Pool() as pool:
         # Use the pool to parallelize tasks
@@ -58,3 +58,4 @@ def main():
 
 if __name__ == "__main__":
     main()
+    # functions.scrapper(1000, "EUR_USD", "H1")

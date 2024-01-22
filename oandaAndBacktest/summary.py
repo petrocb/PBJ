@@ -146,6 +146,10 @@ def summary(time, transactions, op, cond):
             csvWriter.writerow([])
         with open('profit.csv', 'a', newline='') as csvfile:
             csvWriter = csv.writer(csvfile)
-            csvWriter.writerow([datetime.now(), cond, totalProfit, len(transactions), winLossArr, int(round(winLossArr[0]/(winLossArr[0]+winLossArr[1]), 2)*100), profitPoints])
+            try:
+                winPerc = int(round(winLossArr[0]/(winLossArr[0]+winLossArr[1]), 2)*100)
+            except ZeroDivisionError:
+                winPerc = 0
+            csvWriter.writerow([datetime.now(), cond, totalProfit, len(transactions), winLossArr, winPerc, profitPoints])
         csvfile.close()
 
