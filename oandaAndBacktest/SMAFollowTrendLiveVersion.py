@@ -42,7 +42,7 @@ class SMAFollowTrend:
         #       self.data[-1][1] - self.SMA[9])
 
         # print("price:", self.data[-1][1], "direction:", self.direction)
-        self.direction *= 500
+        self.direction *= functions.getBalance(self.account) / 2
         self.position = functions.getPositions(self.account)['positions']
         # print("position", self.position)
         # print("direction", self.direction)

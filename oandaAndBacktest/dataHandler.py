@@ -1,5 +1,6 @@
 import csv
 from datetime import datetime
+import copy
 
 # from newClasses import Account
 from summary import summary
@@ -16,8 +17,13 @@ class dataHandler:
         self.transactions = []
         self.oldTransactions = []
 
+    def refresh(self):
+        self.id = 0
+        self.transactions = []
+        self.oldTransactions = []
+
     def dataCSV(self):
-        with open('EURUSD30min2020.csv', newline='') as csvfile:
+        with open('NewData/EUR_USDH120240119125725094717.csv', newline='') as csvfile:
             reader = csv.reader(csvfile, delimiter=',', quotechar='|')
             data = []
             for i in reader:
@@ -26,15 +32,22 @@ class dataHandler:
 
     def update(self):
         if self.line % 1000 == 0:
-            # pass
-            print(self.data[self.line][0])
-            print(len(self.transactions))
+            pass
+        # print("data:", self.data[self.line][0])
+        # print("transactionsl", len(self.transactions))
+        # # print("transactions:", self.transactions)
+        #     print("line", self.line)
+        #     print("date", self.data[self.line][0])
+        #     print("oldTransactions", len(self.oldTransactions))
+        #     print("transactions", len(self.transactions))
+        # summary(self.time(), self.transactions)
+        # self.oldTransactions = copy.deepcopy(self.transactions)
+            summary(self.time(), copy.deepcopy(self.oldTransactions), False, 0)
 
         self.line += 1
-        if self.line >= self.length:
-            for i in self.transactions:
-                self.oldTransactions.append(i)
-            summary(self.oldTransactions)
+        if self.line == self.length - 1:
+            summary(self.time(), copy.deepcopy(self.oldTransactions), False, 0)
+            self.refresh()
 
     def checkSLnTP(self):
         for o in self.transactions:
@@ -68,31 +81,15 @@ class dataHandler:
 
     def performanceImprovement(self):
         units = 0
+        cutPoint = 0
         for i in self.transactions:
-            if i['type'] == "ORDER_FILL":
-                units += float(i['units'])
+            units += float(i['units'])
+
         if units == 0:
             for i in self.transactions:
                 self.oldTransactions.append(i)
             self.transactions = []
-        elif units > 0:
-            for i in self.transactions:
-                if i['type'] == "ORDER_FILL" and float(i['units']) < 0:
-                    cutPoint = self.transactions.index(i)
-            try:
-                for i in range(cutPoint):
-                    self.oldTransactions.append(self.transactions[i])
-            except UnboundLocalError:
-                pass
-        elif units < 0:
-            for i in self.transactions:
-                if i['type'] == "ORDER_FILL" and float(i['units']) > 0:
-                    cutPoint = self.transactions.index(i)
-            try:
-                for i in range(cutPoint):
-                    self.oldTransactions.append(self.transactions[i])
-            except UnboundLocalError:
-                pass
+
 
     def startPastPriceList(self, count):
         data = {'instrument': 'EUR_USD', 'granularity': 'M30', 'candles': []}
@@ -101,12 +98,13 @@ class dataHandler:
             data['candles'].append({
                 'complete': True,
                 'volume': int(self.data[i][6]),
-                'time': datetime.strptime(f"{self.data[i][0]} {self.data[i][1]}", "%Y.%m.%d %H:%M").isoformat() + "Z",
+                # 'time': datetime.strptime(f"{self.data[i][0]} {self.data[i][1]}", "%Y.%m.%d %H:%M").isoformat() + "Z",
+                'time': self.data[i][0],
                 'mid': {
-                    'o': self.data[i][2],
-                    'h': self.data[i][3],
-                    'l': self.data[i][4],
-                    'c': self.data[i][5]
+                    'o': self.data[i][1],
+                    'h': self.data[i][2],
+                    'l': self.data[i][3],
+                    'c': self.data[i][4]
                 }
             })
 
@@ -116,27 +114,42 @@ class dataHandler:
         return {'instrument': 'EUR_USD', 'granularity': 'M30', 'candles': [{
             'complete': True,
             'volume': int(self.data[self.line][6]),
-            'time': datetime.strptime(f"{self.data[self.line][0]} {self.data[self.line][1]}",
-                                      "%Y.%m.%d %H:%M").isoformat() + "Z",
+            # 'time': datetime.strptime(f"{self.data[self.line][0]} {self.data[self.line][1]}",
+            #                           "%Y.%m.%d %H:%M").isoformat() + "Z",
+            'time': self.data[self.line][0],
             'mid': {
-                'o': self.data[self.line][2],
-                'h': self.data[self.line][3],
-                'l': self.data[self.line][4],
-                'c': self.data[self.line][5]
+                'o': self.data[self.line][1],
+                'h': self.data[self.line][2],
+                'l': self.data[self.line][3],
+                'c': self.data[self.line][4]
             }
         }]}
 
     def order(self, data):
+        if self.data[self.line][5] == 1.06762:
+            pass
         self.id += 1
         batchId = self.id
-        self.transactions.append({
-            'id': self.id,
-            'batchID': batchId,
-            'type': 'ORDER_FILL',
-            'units': data['order']['units'],
-            'price': str(self.data[self.line][5])
-        })
-        self.id += 1
+        if float(data['order']['units']) > 0:
+            self.transactions.append({
+                'id': self.id,
+                'time': self.time(),
+                'batchID': batchId,
+                'type': 'ORDER_FILL',
+                'units': data['order']['units'],
+                'price': str(float(self.data[self.line][4]) + 0.0001)
+                # 'price': str(float(self.data[self.line][4]))
+            })
+        elif float(data['order']['units']) < 0:
+            self.transactions.append({
+                'id': self.id,
+                'time': self.time(),
+                'batchID': batchId,
+                'type': 'ORDER_FILL',
+                'units': data['order']['units'],
+                'price': str(float(self.data[self.line][4]) - 0.0001)
+                # 'price': str(float(self.data[self.line][4]))
+            })
         try:
             if float(data['order']['units']) > 0:
                 self.transactions.append({
@@ -173,5 +186,6 @@ class dataHandler:
 
     def time(self):
 
-        return str(datetime.strptime(f"{self.data[self.line][0]} {self.data[self.line][1]}",
-                                     "%Y.%m.%d %H:%M").isoformat() + "Z")
+        # return str(datetime.strptime(f"{self.data[self.line][0]} {self.data[self.line][1]}",
+        #                              "%Y.%m.%d %H:%M").isoformat() + "Z")
+        return self.data[self.line][0]
