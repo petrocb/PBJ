@@ -80,7 +80,7 @@ def getAsk(account):
     return getPrice("EUR_USD", account)['prices'][0]['asks'][0]['price']
 
 def scrapper(count, instrument, timeFrame):
-    import time
+    oCount = count
     list = []
     prices = []
     if count > 5000:
@@ -124,8 +124,10 @@ def scrapper(count, instrument, timeFrame):
         print(count)
     prices = pd.DataFrame(list)
     prices.columns = ['Date', 'Open', 'High', 'Low', 'Close', 'Volume', 'OpenInterest']
-    prices.to_csv("NewData/"+instrument+timeFrame+str(datetime.datetime.now()).replace(" ", "").replace(".", "")
-                  .replace("-", "").replace(":", "")+'.csv', index=False, header=False)
+    # prices.to_csv("NewData/"+instrument+timeFrame+str(datetime.datetime.now()).replace(" ", "").replace(".", "")
+    #               .replace("-", "").replace(":", "")+'.csv', index=False, header=False)
+    print(prices['Date'].iloc[-1])
+    prices.to_csv(f"NewData/{instrument}_{timeFrame}_{str(prices['Date'].iloc[-1])[:19]}_{str(prices['Date'].iloc[0])[:19]}_{oCount}".replace(".", "_").replace("-", "_").replace(":", "_")+".csv", index=False, header=False)
 
     return prices
 
@@ -432,8 +434,12 @@ def trend(data):
     return total
 
 
-def time():
-    return datetime.datetime.utcnow()
+def time(account):
+    if account == "test":
+        return dh.time()
+    else:
+        datetime.datetime.utcnow()
+
 
 
 def EMA2(p, window_LT=200):

@@ -43,14 +43,19 @@ def process_condition(condition):
     except IndexError as e:
         with open('poolArtifacts/'+current_process().name+'transactions.json', 'r') as file:
             data = json.load(file)
-        summary(0, data, True, condition)
+        summary(0, data, True, condition, "")
 
 def main():
     conditions = []
-    for o in range(50):
-        for i in range(50):
-            if o < i:
-                conditions.append([(o + 1) * 10, (i + 1) * 10])
+    # for o in range(50):
+    #     for i in range(50):
+    #         if o < i:
+    #             conditions.append([(o + 1) * 100, (i + 1) * 100])
+    # conditions = [[0, 100]]
+    for i in range(100):
+        conditions.append([0, (i + 1) * 10])
+    conditions = [[0, 1920]]
+
     # Create a pool with the desired number of processes
     with Pool() as pool:
         # Use the pool to parallelize tasks
@@ -58,4 +63,4 @@ def main():
 
 if __name__ == "__main__":
     main()
-    # functions.scrapper(1000, "EUR_USD", "H1")
+    # functions.scrapper(100000, "EUR_USD", "M5")

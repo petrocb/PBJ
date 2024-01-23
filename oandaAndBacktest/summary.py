@@ -2,6 +2,7 @@ import json
 import csv
 from datetime import datetime
 from multiprocessing import current_process
+import os
 def floatCast(o):
     try:
         for key, value in o.items():
@@ -23,7 +24,7 @@ def winLoss(profit, winLossArr):
     elif profit == 0:
         winLossArr[2] += 1
 
-def summary(time, transactions, op, cond):
+def summary(time, transactions, op, cond, dataString):
     totalProfit = 0
     openUnits = 0
     openTrades = []
@@ -128,28 +129,27 @@ def summary(time, transactions, op, cond):
                             openTrades.pop(i)
                 except IndexError:
                     pass
-
-    with open('poolArtifacts/'+current_process().name + 'profit1.csv', 'a', newline='') as csvfile:
-        csvWriter = csv.writer(csvfile)
-        csvWriter.writerow([time, totalProfit])
-    csvfile.close()
+    if not op:
+        with open('poolArtifacts/'+current_process().name + 'profit1.csv', 'a', newline='') as csvfile:
+            csvWriter = csv.writer(csvfile)
+            csvWriter.writerow([time, totalProfit, dataString])
+        csvfile.close()
 
     if op:
         profitPoints = []
         with open ('poolArtifacts/'+current_process().name+'profit1.csv', 'r') as csvfile:
             csvReader = csv.reader(csvfile)
             for i in csvReader:
-                profitPoints.append(i)
+                profitPoints.append([i[0], i[1]])
+                dataString = i[2]
 
-        with open('poolArtifacts/'+current_process().name+'profit1.csv', 'w', newline='') as csvfile:
-            csvWriter = csv.writer(csvfile)
-            csvWriter.writerow([])
-        with open('profit.csv', 'a', newline='') as csvfile:
+        os.remove(f'poolArtifacts/{current_process().name}profit1.csv')
+        with open('outputPages/profit.csv', 'a', newline='') as csvfile:
             csvWriter = csv.writer(csvfile)
             try:
                 winPerc = int(round(winLossArr[0]/(winLossArr[0]+winLossArr[1]), 2)*100)
             except ZeroDivisionError:
                 winPerc = 0
-            csvWriter.writerow([datetime.now(), cond, totalProfit, len(transactions), winLossArr, winPerc, profitPoints])
+            csvWriter.writerow([datetime.now(), cond, dataString, totalProfit, len(transactions), winLossArr, winPerc, profitPoints])
         csvfile.close()
 

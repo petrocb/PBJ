@@ -1,5 +1,5 @@
 import csv
-
+from datetime import datetime
 import functions
 
 
@@ -27,7 +27,7 @@ class SMAFollowTrend:
         # self.SMA = [functions.sma(self.data[-512:]), functions.sma(self.data[-1025:]),
         #             functions.sma(self.data[-2048:]), functions.sma(self.data[-4096:])]
         # self.SMA = [functions.sma(self.data[-8:]), functions.sma(self.data[-16:])]
-        self.SMA = [functions.sma(self.data[-self.smaLow:]), functions.sma(self.data[-self.smaHigh:])]
+        self.SMA = [functions.sma(self.data[-self.smaHigh:])]
         # print(self.SMA)
         self.direction = 0
         for i in self.SMA:
@@ -51,8 +51,9 @@ class SMAFollowTrend:
             self.position = float(self.position[0]['long']['units']) + float(self.position[0]['short']['units'])
         else:
             self.position = 0
-
-
+        # print(datetime.fromisoformat(functions.time(self.account).replace("Z", "+00:00")))
+        if datetime.fromisoformat(functions.time(self.account).replace("Z", "+00:00")).weekday() == 4:
+            self.direction = 0
         # print(self.direction, "    ", self.position)
         if self.position != self.direction:
             functions.order(float(self.direction) - float(self.position), self.account, self.account, 0, 0, 0)

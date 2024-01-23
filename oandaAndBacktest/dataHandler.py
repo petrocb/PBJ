@@ -12,6 +12,7 @@ class dataHandler:
         # self.account = Account()
         self.line = 0
         self.id = 0
+        self.dataString = "EUR_USD_M5_2024_01_23T22_15_00_2022_09_20T11_10_00_100000"
         self.data = self.dataCSV()
         self.length = len(self.data)
         self.transactions = []
@@ -23,7 +24,7 @@ class dataHandler:
         self.oldTransactions = []
 
     def dataCSV(self):
-        with open('NewData/EUR_USDH120240122180903078637.csv', newline='') as csvfile:
+        with open(f'NewData/{self.dataString}.csv', newline='') as csvfile:
             reader = csv.reader(csvfile, delimiter=',', quotechar='|')
             data = []
             for i in reader:
@@ -42,11 +43,11 @@ class dataHandler:
         #     print("transactions", len(self.transactions))
         # summary(self.time(), self.transactions)
         # self.oldTransactions = copy.deepcopy(self.transactions)
-            summary(self.time(), copy.deepcopy(self.oldTransactions), False, 0)
+            summary(self.time(), copy.deepcopy(self.oldTransactions), False, 0, self.dataString)
 
         self.line += 1
         if self.line == self.length - 1:
-            summary(self.time(), copy.deepcopy(self.oldTransactions), False, 0)
+            summary(self.time(), copy.deepcopy(self.oldTransactions), False, 0, self.dataString)
             self.refresh()
 
     def checkSLnTP(self):
@@ -188,4 +189,5 @@ class dataHandler:
 
         # return str(datetime.strptime(f"{self.data[self.line][0]} {self.data[self.line][1]}",
         #                              "%Y.%m.%d %H:%M").isoformat() + "Z")
+        # return datetime.fromisoformat(self.data[self.line][0].replace("Z", "+00:00"))
         return self.data[self.line][0]
