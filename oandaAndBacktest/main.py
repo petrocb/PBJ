@@ -1,13 +1,9 @@
 # from colored import Fore
-from SimpleSMA import SIMPLESMA
 from summary import summary
-from SMAFollowTrend import SMAFollowTrend
-from testStrat import TestStrat
-from dataScraper import DataScrapper
-import functions
+from oandaAndBacktest.strats.SMAFollowTrend import SMAFollowTrend
 import json
-import time
-from multiprocessing import Pool, Process, current_process
+from multiprocessing import Pool, current_process
+import functions
 
 # def main():
 #     cond = []
@@ -54,7 +50,7 @@ def main():
     # conditions = [[0, 100]]
     for i in range(100):
         conditions.append([0, (i + 1) * 10])
-    conditions = [[0, 1920]]
+    conditions = [[0, 100]]
 
     # Create a pool with the desired number of processes
     with Pool() as pool:
@@ -64,3 +60,6 @@ def main():
 if __name__ == "__main__":
     main()
     # functions.scrapper(100000, "EUR_USD", "M5")
+    # functions.order(100, "", "primary", 0.001, 0, 0)
+    # print(functions.getTransactionsSinceID("primary", 15242))
+    # functions.order(100, "primary", "primary", 0.001, 0, 0)

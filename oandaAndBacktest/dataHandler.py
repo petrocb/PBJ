@@ -12,7 +12,7 @@ class dataHandler:
         # self.account = Account()
         self.line = 0
         self.id = 0
-        self.dataString = "EUR_USD_M5_2024_01_23T22_15_00_2022_09_20T11_10_00_100000"
+        self.dataString = "EUR_USD_H4_2024_01_23T18_00_00_2017_08_18T17_00_00_10000.csv"
         self.data = self.dataCSV()
         self.length = len(self.data)
         self.transactions = []
@@ -24,7 +24,7 @@ class dataHandler:
         self.oldTransactions = []
 
     def dataCSV(self):
-        with open(f'NewData/{self.dataString}.csv', newline='') as csvfile:
+        with open(f'NewData/{self.dataString}', newline='') as csvfile:
             reader = csv.reader(csvfile, delimiter=',', quotechar='|')
             data = []
             for i in reader:
@@ -37,7 +37,7 @@ class dataHandler:
         # print("data:", self.data[self.line][0])
         # print("transactionsl", len(self.transactions))
         # # print("transactions:", self.transactions)
-        #     print("line", self.line)
+            print("line", self.line)
         #     print("date", self.data[self.line][0])
         #     print("oldTransactions", len(self.oldTransactions))
         #     print("transactions", len(self.transactions))
@@ -57,8 +57,9 @@ class dataHandler:
                     # optimization
                     if i['batchID'] > o['batchID']:
                         break
-                    if o['batchID'] == i['batchID'] and o['id'] != i['id'] and i['type'] == "ORDER_FILL":
-                        if float(i['units']) > 0 and float(self.data[self.line][4]) < float(o['price']):
+                    if o['batchID'] == i['batchID'] and i['type'] == "ORDER_FILL":
+                        if float(i['units']) > 0 and float(self.data[self.line][3]) < float(o['price']):
+                            self.id += 1
                             self.transactions.append({
                                 'id': self.id,
                                 'batchID': self.id,
@@ -66,9 +67,9 @@ class dataHandler:
                                 'type': 'ORDER_FILL',
                                 'units': str(-abs(float(i['units']))),
                                 'price': str(self.data[self.line][4]),
-                                'stop': True
                             })
-                        elif float(i['units']) < 0 and float(self.data[self.line][3]) > float(o['price']):
+                        elif float(i['units']) < 0 and float(self.data[self.line][2]) > float(o['price']):
+                            self.id += 1
                             self.transactions.append({
                                 'id': self.id,
                                 'batchID': self.id,
@@ -76,7 +77,6 @@ class dataHandler:
                                 'type': 'ORDER_FILL',
                                 'units': str(abs(float(i['units']))),
                                 'price': str(self.data[self.line][3]),
-                                'stop': True
                             })
                             self.id += 1
 
@@ -84,7 +84,8 @@ class dataHandler:
         units = 0
         cutPoint = 0
         for i in self.transactions:
-            units += float(i['units'])
+            if i['type'] == 'ORDER_FILL':
+                units += float(i['units'])
 
         if units == 0:
             for i in self.transactions:
@@ -157,14 +158,14 @@ class dataHandler:
                     'id': self.id,
                     'batchID': batchId,
                     'type': 'STOP_LOSS_ORDER',
-                    'price': str(float(self.data[self.line][5]) - data['order']['stopLossOnFill']['distance'])
+                    'price': str(float(self.data[self.line][4]) - data['order']['stopLossOnFill']['distance'])
                 })
-            elif float(data['units']) < 0:
+            elif float(data['order']['units']) < 0:
                 self.transactions.append({
                     'id': self.id,
                     'batchID': batchId,
                     'type': 'STOP_LOSS_ORDER',
-                    'price': str(float(self.data[self.line][5]) - data['order']['stopLossOnFill']['distance'])
+                    'price': str(float(self.data[self.line][4]) + data['order']['stopLossOnFill']['distance'])
                 })
         except KeyError:
             pass

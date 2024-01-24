@@ -48,7 +48,7 @@ class SMACrossOver():
             self.buyOpen = False
             self.sellOpen = False
 
-        with open('response.csv', 'a', newline='') as csvfile:
+        with open('../response.csv', 'a', newline='') as csvfile:
             csvWriter = csv.writer(csvfile)
             csvWriter.writerow([self.closes[-1], self.short_ema, self.long_ema, self.sellOpen, self.buyOpen])
         csvfile.close()

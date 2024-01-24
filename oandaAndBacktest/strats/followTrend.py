@@ -38,7 +38,7 @@ class FollowTrend:
         #         self.closed = True
         #
         #     functions.order(0 - self.position)
-        with open('response.csv', 'a', newline='') as csvfile:
+        with open('../response.csv', 'a', newline='') as csvfile:
             csvWriter = csv.writer(csvfile)
             csvWriter.writerow([self.direction, self.position, float(self.direction - float(self.position)), self.data])
         csvfile.close()

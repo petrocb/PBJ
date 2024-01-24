@@ -13,7 +13,7 @@ dh = dataHandler()
 def update():
     dh.update()
     dh.performanceImprovement()
-    # dh.checkSLnTP()
+    dh.checkSLnTP()
 
 
 def getCred(account):
@@ -235,7 +235,6 @@ def order(units, cid, account, sld, tpd, tsld):
                 "units": str(units),
                 "type": "MARKET",
                 "stopLossOnFill": {"distance": sld},
-                "tradeClientExtensions": {"tag": cid}
             }
         }
     elif sld == 0 and tpd == 0:
@@ -244,7 +243,6 @@ def order(units, cid, account, sld, tpd, tsld):
                 "instrument": "GBP_USD",
                 "units": str(units),
                 "type": "MARKET",
-                "tradeClientExtensions": {"tag": cid}
             }
         }
     elif sld != 0 and tpd != 0 and tsld != 0:
@@ -254,8 +252,16 @@ def order(units, cid, account, sld, tpd, tsld):
                 "units": str(units),
                 "type": "MARKET",
                 "stopLossOnFill": {"distance": sld},
-                "tradeClientExtensions": {"tag": cid},
                 "trailingStopLossOnFill": {"distance": tsld}
+            }
+        }
+    elif sld != 0 and tpd == 0 and tsld == 0:
+        data = {
+            "order": {
+                "instrument": "EUR_USD",
+                "units": str(units),
+                "type": "MARKET",
+                "stopLossOnFill": {"distance": sld},
             }
         }
     if account == "test":

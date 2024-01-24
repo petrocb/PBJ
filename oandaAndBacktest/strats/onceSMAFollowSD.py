@@ -1,20 +1,30 @@
 import csv
+import datetime
 
 import functions
 
 
-class SMAFollowTrendStanDiv:
+class oncesMAFollowSD:
     def __init__(self):
         self.id = 0
-        self.data = functions.startPastPricesList(4097, "EUR_USD", "M30", "SMAFollowTrendSD")
+        self.data = functions.startPastPricesList(4097, "EUR_USD", "M30", "onceSMAFollowSD")
         self.direction = 0
         self.position = 0
         self.SMA = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
         self.sd = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+        self.tradingAllowed = True
 
     def tick(self):
         functions.checkSLnTP()
-        self.data = functions.updatePastPrices2(self.data, 4097, "EUR_USD", "M30", "SMAFollowTrendSD")
+        try:
+            transactions = functions.getTransactionsSinceDate("onceSMAFollowSD", datetime.date.today())['transactions']
+            for i in transactions:
+
+                if i['reason'] == "STOP_LOSS_ORDER" or i['reason'] == "TRAILING_STOP_LOSS_ORDER":
+                    self.tradingAllowed = False
+        except KeyError:
+            pass
+        self.data = functions.updatePastPrices2(self.data, 4097, "EUR_USD", "M30", "onceSMAFollowSD")
         self.SMA = [functions.sma(self.data[-8:]), functions.sma(self.data[-16:]), functions.sma(self.data[-32:]),
                     functions.sma(self.data[-64:]), functions.sma(self.data[-128:]), functions.sma(self.data[-256:]),
                     functions.sma(self.data[-512:]), functions.sma(self.data[-1025:]),
@@ -58,16 +68,16 @@ class SMAFollowTrendStanDiv:
 
         print("price:", self.data[-1][1], "direction:", self.direction)
         self.direction *= 500
-        self.position = functions.getPositions("SMAFollowTrendSD")['positions']
+        self.position = functions.getPositions("onceSMAFollowSD")['positions']
         if self.position:
             self.position = float(self.position[0]['long']['units']) + float(self.position[0]['short']['units'])
         else:
             self.position = 0
         print(self.direction, "    ", self.position)
-        if self.position != self.direction:
-            functions.order(float(self.direction) - float(self.position), "SMAFollowTrendSD", "SMAFollowTrendSD", 0.001,
-                            0.001, 0.001)
-        with open('response.csv', 'a', newline='') as csvfile:
+        if self.position != self.direction and 17 > functions.time().hour > 8 and self.tradingAllowed:
+            functions.order(float(self.direction) - float(self.position), "onceSMAFollowSD",
+                            "onceSMAFollowSD", 0.001, 0.001, 0.001)
+        with open('../response.csv', 'a', newline='') as csvfile:
             csvWriter = csv.writer(csvfile)
             csvWriter.writerow([self.direction, self.position, float(self.direction - float(self.position)), self.SMA])
         csvfile.close()

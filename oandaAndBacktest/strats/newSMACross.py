@@ -68,7 +68,7 @@ class NewSMACross():
             self.sellOpen = False
             self.buyOpen = False
 
-        with open('response.csv', 'a', newline='') as csvfile:
+        with open('../response.csv', 'a', newline='') as csvfile:
             csvWriter = csv.writer(csvfile)
             csvWriter.writerow([self.closes[-1], self.short_ema, self.long_ema, self.sellOpen, self.buyOpen,
                                 functions.getDirection(self.direction)])
