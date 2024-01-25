@@ -12,7 +12,7 @@ class dataHandler:
         # self.account = Account()
         self.line = 0
         self.id = 0
-        self.dataString = "EUR_USD_H4_2024_01_23T18_00_00_2017_08_18T17_00_00_10000.csv"
+        self.dataString = "EUR_USD_S5_2024_01_24T22_23_35_2024_01_16T02_24_10_100000.csv"
         self.data = self.dataCSV()
         self.length = len(self.data)
         self.transactions = []
@@ -127,7 +127,7 @@ class dataHandler:
             }
         }]}
 
-    def order(self, data):
+    def marketOrder(self, data):
         if self.data[self.line][5] == 1.06762:
             pass
         self.id += 1
@@ -171,7 +171,8 @@ class dataHandler:
             pass
 
         # return res
-
+    def limitOrder(self, data):
+        pass
     def getPositions(self):
         units = 0
         for i in self.transactions:

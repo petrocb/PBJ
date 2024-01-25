@@ -57,7 +57,8 @@ class SMAFollowTrend:
         # print(self.direction, "    ", self.position)
         if self.position != self.direction:
             # functions.order(float(self.direction) - float(self.position), self.account, self.account, 0, 0, 0)
-            functions.order(float(self.direction) - float(self.position), self.account, self.account, 0.0001, 0, 0)
+            functions.marketOrder(float(self.direction) - float(self.position), self.account, self.account, 0.0001, 0,
+                                  0)
         with open('../response.csv', 'a', newline='') as csvfile:
             csvWriter = csv.writer(csvfile)
             csvWriter.writerow([self.direction, self.position, float(self.direction - float(self.position)), self.SMA])

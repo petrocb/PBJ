@@ -225,9 +225,7 @@ def updatePastPrices2(data, length, instrument, timeFrame, account):
     #     pass
     return data
 
-def order(units, cid, account, sld, tpd, tsld):
-    if units == 0:
-        pass
+def marketOrder(units, cid, account, sld, tpd, tsld):
     if sld != 0 and tpd != 0 and tsld == 0:
         data = {
             "order": {
@@ -265,7 +263,7 @@ def order(units, cid, account, sld, tpd, tsld):
             }
         }
     if account == "test":
-        id = dh.order(data)
+        id = dh.marketOrder(data)
     else:
         response = requests.post(f"{getCred(account)[0]}/v3/accounts/{getCred(account)[2]}/orders",
                                  headers={'Authorization': f'Bearer {getCred(account)[1]}'},
@@ -275,6 +273,29 @@ def order(units, cid, account, sld, tpd, tsld):
     jsonSave("order", id)
     # id = id['orderFillTransaction']['id']
     # return id
+
+def limitOrder(units, cid, account, price, sld, tpd):
+    if sld != 0 and tpd != 0:
+        data = {
+            "order": {
+                "instrument": "EUR_USD",
+                "units": str(units),
+                "price": str(price),
+                "type": "MARKET",
+                "stopLossOnFill": {"distance": sld},
+                "takeProfitOnFill": {"distance": tpd}
+            }
+        }
+        if account == "test":
+            id = dh.limitOrder(data)
+        else:
+            response = requests.post(f"{getCred(account)[0]}/v3/accounts/{getCred(account)[2]}/orders",
+                                     headers={'Authorization': f'Bearer {getCred(account)[1]}'},
+                                     json=data)
+
+
+
+
 
 
 def close(trade_id, account):

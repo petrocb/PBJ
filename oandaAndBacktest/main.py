@@ -50,7 +50,7 @@ def main():
     # conditions = [[0, 100]]
     for i in range(100):
         conditions.append([0, (i + 1) * 10])
-    conditions = [[0, 100]]
+    conditions = [[0, 10000]]
 
     # Create a pool with the desired number of processes
     with Pool() as pool:
@@ -58,8 +58,15 @@ def main():
         pool.map(process_condition, conditions)
 
 if __name__ == "__main__":
-    main()
-    # functions.scrapper(100000, "EUR_USD", "M5")
-    # functions.order(100, "", "primary", 0.001, 0, 0)
-    # print(functions.getTransactionsSinceID("primary", 15242))
-    # functions.order(100, "primary", "primary", 0.001, 0, 0)
+    # main()
+    # functions.scrapper(100000, "EUR_USD", "S5")
+    print(functions.getTransactionsSinceID("primary", 15256))
+    print(functions.getPositions("primary"))
+    # functions.limitOrder(500, "", "primary",  )
+    ask = float(functions.getAsk("primary"))
+    bid = float(functions.getBid("primary"))
+    print(ask, bid)
+    print(ask - bid)
+    print(ask -((ask - bid)*2), round(ask + ((ask - bid) * 4), 3), round(ask - ((ask - bid) * 3), 3))
+    functions.limitOrder(500, "", "primary", ask - ((ask - bid)*2), round(ask + ((ask - bid) * 4), 3), round(ask - ((ask - bid) * 3), 3))
+    print(functions.getTransactionsSinceID("primary", 15256))
