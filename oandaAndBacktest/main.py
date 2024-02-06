@@ -4,6 +4,7 @@ from oandaAndBacktest.strats.SMAFollowTrend import SMAFollowTrend
 import json
 from multiprocessing import Pool, current_process
 import functions
+from decimal import *
 
 # def main():
 #     cond = []
@@ -60,13 +61,26 @@ def main():
 if __name__ == "__main__":
     # main()
     # functions.scrapper(100000, "EUR_USD", "S5")
-    print(functions.getTransactionsSinceID("primary", 15256))
+    # print(functions.getTransactionsSinceID("primary", 15265))
+    # print(functions.getPositions("primary"))
+    # # functions.limitOrder(500, "", "primary",  )
+    # ask = Decimal(functions.getAsk("primary"))
+    # bid = Decimal(functions.getBid("primary"))
+    # print(ask, bid)
+    # print(ask - bid)
+    # print(ask -((ask - bid)*2), round(ask + ((ask - bid) * 4), 3), round(ask - ((ask - bid) * 3), 3))
+    # functions.limitOrder(500, "", "primary", ask - (ask - bid), ask + (ask - bid), ask - (ask - bid))
+    # print(functions.getTransactionsSinceID("primary", 15269))
     print(functions.getPositions("primary"))
-    # functions.limitOrder(500, "", "primary",  )
     ask = float(functions.getAsk("primary"))
     bid = float(functions.getBid("primary"))
-    print(ask, bid)
+    print("ask", ask)
+    print("bid", bid)
     print(ask - bid)
-    print(ask -((ask - bid)*2), round(ask + ((ask - bid) * 4), 3), round(ask - ((ask - bid) * 3), 3))
-    functions.limitOrder(500, "", "primary", ask - ((ask - bid)*2), round(ask + ((ask - bid) * 4), 3), round(ask - ((ask - bid) * 3), 3))
-    print(functions.getTransactionsSinceID("primary", 15256))
+    print(ask -((ask - bid)*2), 0.0001, 0.0001)
+    # functions.limitOrder(500, "", "primary", ask + 0.0001, 0.0001, 0.00005)
+    # functions.limitOrder(-500, "", "primary", bid - 0.0001, 0.0001, 0.00005)
+    functions.marketOrder(500,"", "primary", 0, 0, 0.001)
+    # functions.marketOrder(-500, "", "primary", 0.0003, 0.0001, 0)
+    print(functions.getTransactionsSinceID("primary", 15400))
+    print(functions.getPositions("primary"))

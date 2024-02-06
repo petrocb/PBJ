@@ -6,7 +6,7 @@ import pandas as pd
 import requests
 
 from dataHandler import dataHandler
-
+from decimal import *
 dh = dataHandler()
 
 
@@ -235,21 +235,21 @@ def marketOrder(units, cid, account, sld, tpd, tsld):
                 "stopLossOnFill": {"distance": sld},
             }
         }
-    elif sld == 0 and tpd == 0:
-        data = {
-            "order": {
-                "instrument": "GBP_USD",
-                "units": str(units),
-                "type": "MARKET",
-            }
-        }
-    elif sld != 0 and tpd != 0 and tsld != 0:
+    elif sld == 0 and tpd == 0 and tsld == 0:
         data = {
             "order": {
                 "instrument": "EUR_USD",
                 "units": str(units),
                 "type": "MARKET",
-                "stopLossOnFill": {"distance": sld},
+            }
+        }
+    elif sld == 0 and tpd == 0 and tsld != 0:
+        data = {
+            "order": {
+                "instrument": "EUR_USD",
+                "units": str(units),
+                "type": "MARKET",
+                # "stopLossOnFill": {"distance": sld},
                 "trailingStopLossOnFill": {"distance": tsld}
             }
         }
@@ -281,9 +281,9 @@ def limitOrder(units, cid, account, price, sld, tpd):
                 "instrument": "EUR_USD",
                 "units": str(units),
                 "price": str(price),
-                "type": "MARKET",
-                "stopLossOnFill": {"distance": sld},
-                "takeProfitOnFill": {"distance": tpd}
+                "type": "STOP",
+                "stopLossOnFill": {"distance": str(sld)},
+                "takeProfitOnFill": {"distance": str(tpd)}
             }
         }
         if account == "test":
