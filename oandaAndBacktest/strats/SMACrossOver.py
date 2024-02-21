@@ -1,6 +1,6 @@
 import csv
 
-import 
+from .. import functions
 
 
 class SMACrossOver():
