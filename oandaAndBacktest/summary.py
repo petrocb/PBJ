@@ -32,21 +32,24 @@ def summary(time, transactions, op, cond, dataString):
 
     # print(len(transactions))
     with open('poolArtifacts/'+current_process().name+'transactions.json', 'w', newline='') as file:
-        json.dump(transactions, file, indent=4)
+        json.dump(transactions, file)
     #convert all values to floats
     for o in transactions:
         floatCast(o)
     # main loop
     for o in transactions:
-        # refeshing openUnits
-        openUnits = 0
-        for i in openTrades:
-            openUnits += i['units']
-        if not openTrades:
-            openUnits = 0
         if o['type'] == "ORDER_FILL":
-            if o['units'] == 2000 or o['units'] == -2000:
-                pass
+            if o['units'] > 0:
+                o['price'] = o['price'] + 0.0001
+            elif o['units'] < 0:
+                o['price'] = o['price'] - 0.0001
+            # refeshing openUnits
+            openUnits = 0
+            for i in openTrades:
+                openUnits += i['units']
+            if not openTrades:
+                openUnits = 0
+
             # if there are no open trades append the current trade
             if openUnits == 0:
                 openTrades.append(o)
@@ -150,6 +153,6 @@ def summary(time, transactions, op, cond, dataString):
                 winPerc = int(round(winLossArr[0]/(winLossArr[0]+winLossArr[1]), 2)*100)
             except ZeroDivisionError:
                 winPerc = 0
-            csvWriter.writerow([datetime.now(), cond, dataString, totalProfit, len(transactions), winLossArr, winPerc, profitPoints])
+            csvWriter.writerow([datetime.now(), cond, dataString, totalProfit, len(transactions), winLossArr, winPerc, profitPoints, json.dump(transactions, csvfile)])
         csvfile.close()
 

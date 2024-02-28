@@ -12,11 +12,12 @@ class dataHandler:
         # self.account = Account()
         self.line = 0
         self.id = 0
-        self.dataString = "EUR_USD_S5_2024_01_24T22_23_35_2024_01_16T02_24_10_100000.csv"
+        self.dataString = "EUR_USD_H4_2024_01_23T18_00_00_2017_08_18T17_00_00_10000.csv"
         self.data = self.dataCSV()
         self.length = len(self.data)
         self.transactions = []
         self.oldTransactions = []
+        self.trailingStop = []
 
     def refresh(self):
         self.id = 0
@@ -37,7 +38,7 @@ class dataHandler:
         # print("data:", self.data[self.line][0])
         # print("transactionsl", len(self.transactions))
         # # print("transactions:", self.transactions)
-        #     print("line", self.line)
+            print("line", self.line)
         #     print("date", self.data[self.line][0])
         #     print("oldTransactions", len(self.oldTransactions))
         #     print("transactions", len(self.transactions))
@@ -54,31 +55,70 @@ class dataHandler:
         for o in self.transactions:
             if o['type'] == "STOP_LOSS_ORDER":
                 for i in self.transactions:
-                    # optimization
-                    if i['batchID'] > o['batchID']:
-                        break
-                    if o['batchID'] == i['batchID'] and i['type'] == "ORDER_FILL":
-                        if float(i['units']) > 0 and float(self.data[self.line][3]) < float(o['price']):
-                            self.id += 1
-                            self.transactions.append({
-                                'id': self.id,
-                                'batchID': self.id,
-                                # 'type': 'STOP_LOSS_ORDER',
-                                'type': 'ORDER_FILL',
-                                'units': str(-abs(float(i['units']))),
-                                'price': str(self.data[self.line][4]),
-                            })
-                        elif float(i['units']) < 0 and float(self.data[self.line][2]) > float(o['price']):
-                            self.id += 1
-                            self.transactions.append({
-                                'id': self.id,
-                                'batchID': self.id,
-                                # 'type': 'STOP_LOSS_ORDER',
-                                'type': 'ORDER_FILL',
-                                'units': str(abs(float(i['units']))),
-                                'price': str(self.data[self.line][3]),
-                            })
-                            self.id += 1
+                    try:
+                        # optimization
+                        if i['batchID'] > o['batchID']:
+                            break
+                        if o['batchID'] == i['batchID'] and i['type'] == "ORDER_FILL":
+                            if float(i['units']) > 0 and float(self.data[self.line][3]) < float(o['price']):
+                                self.id += 1
+                                self.transactions.append({
+                                    'id': self.id,
+                                    'batchID': self.id,
+                                    # 'type': 'STOP_LOSS_ORDER',
+                                    'type': 'ORDER_FILL',
+                                    'units': str(-abs(float(i['units']))),
+                                    'price': str(self.data[self.line][3]),
+                                })
+                            elif float(i['units']) < 0 and float(self.data[self.line][2]) > float(o['price']):
+                                self.id += 1
+                                self.transactions.append({
+                                    'id': self.id,
+                                    'batchID': self.id,
+                                    # 'type': 'STOP_LOSS_ORDER',
+                                    'type': 'ORDER_FILL',
+                                    'units': str(abs(float(i['units']))),
+                                    'price': str(self.data[self.line][2]),
+                                })
+                    except KeyError as e:
+                        if str(e) != "'price'":
+                            raise KeyError
+
+        for o in self.trailingStop:
+            for i in self.transactions:
+                if o[0] == i['batchID'] and i['type'] == "ORDER_FILL":
+                    if float(i['units']) > 0 and o[1] > float(self.data[self.line][3]):
+                        self.id += 1
+                        self.transactions.append({
+                            'id': self.id,
+                            'batchID': self.id,
+                            # 'type': 'STOP_LOSS_ORDER',
+                            'type': 'ORDER_FILL',
+                            'units': str(-abs(float(i['units']))),
+                            'price': str(self.data[self.line][3]),
+                        })
+                    elif float(i['units']) < 0 and o[2] < float(self.data[self.line][2]):
+                        self.id += 1
+                        self.transactions.append({
+                            'id': self.id,
+                            'batchID': self.id,
+                            # 'type': 'STOP_LOSS_ORDER',
+                            'type': 'ORDER_FILL',
+                            'units': str(abs(float(i['units']))),
+                            'price': str(self.data[self.line][2]),
+                        })
+
+    def updateTrailingStopLoss(self):
+        for o in self.transactions:
+            if o['type'] == "TRAILING_STOP_LOSS_ORDER":
+                for m in self.transactions:
+                    if o['type'] == "ORDER_FILL" and o['batchID'] == m['batchID']:
+                        for i in self.trailingStop:
+                            if o['batchID'] == i[0]:
+                                if float(m['units']) > 0:
+                                    i[1] = float(self.data[self.line][3]) - o['distance']
+                                elif float(m['units']) < 0:
+                                    i[2] = float(self.data[self.line][2]) + o['distance']
 
     def performanceImprovement(self):
         units = 0
@@ -128,8 +168,6 @@ class dataHandler:
         }]}
 
     def marketOrder(self, data):
-        if self.data[self.line][5] == 1.06762:
-            pass
         self.id += 1
         batchId = self.id
         if float(data['order']['units']) > 0:
@@ -139,7 +177,7 @@ class dataHandler:
                 'batchID': batchId,
                 'type': 'ORDER_FILL',
                 'units': data['order']['units'],
-                'price': str(float(self.data[self.line][4]) + 0.0001)
+                'price': str(self.data[self.line][4])
                 # 'price': str(float(self.data[self.line][4]))
             })
         elif float(data['order']['units']) < 0:
@@ -149,7 +187,7 @@ class dataHandler:
                 'batchID': batchId,
                 'type': 'ORDER_FILL',
                 'units': data['order']['units'],
-                'price': str(float(self.data[self.line][4]) - 0.0001)
+                'price': str(self.data[self.line][4])
                 # 'price': str(float(self.data[self.line][4]))
             })
         try:
@@ -167,6 +205,18 @@ class dataHandler:
                     'type': 'STOP_LOSS_ORDER',
                     'price': str(float(self.data[self.line][4]) + data['order']['stopLossOnFill']['distance'])
                 })
+        except KeyError:
+            pass
+        try:
+            self.transactions.append({
+                'id': self.id,
+                'batchID': batchId,
+                'type': 'TRAILING_STOP_LOSS_ORDER',
+                'distance':  data['order']['trailingStopLossOnFill']['distance']
+            })
+            self.trailingStop.append([batchId,
+                                      float(self.data[self.line][4]) - data['order']['trailingStopLossOnFill']['distance'],
+                                      float(self.data[self.line][4]) + data['order']['trailingStopLossOnFill']['distance']])
         except KeyError:
             pass
 

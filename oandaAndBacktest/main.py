@@ -9,6 +9,7 @@ import tkinter as tk
 import functions
 from decimal import *
 from oandaAndBacktest.strats.highResLongTrend import highResLongTrend
+from oandaAndBacktest.strats.randomDirection import randomDirection
 
 def process_condition(condition):
     print(condition)
@@ -30,18 +31,25 @@ def main():
     # with Pool() as pool:
     #     # Use the pool to parallelize tasks
     #     pool.map(process_condition, conditions)
-    a = highResLongTrend("primary")
+    # a = SMAFollowTrend("test", [10, 30])
     # a = SMAFollowTrend("primary", [10, 30])
-    while True:
-        a.tick()
-        print("tick")
-        time.sleep(10)
+    a = randomDirection("primary", 0.02, 0.1, 0.04)
+    try:
+        while True:
+            a.tick()
+            print("tick")
+            time.sleep(60)
+    except IndexError as e:
+        with open('poolArtifacts/'+current_process().name+'transactions.json', 'r') as file:
+            data = json.load(file)
+        summary(0, data, True, 0, "")
 
 
 if __name__ == "__main__":
     main()
-    # x = functions.startPastPricesList(5, "EUR_USD", "M30", "primary")
+    # x = functions.startPastPricesList(30, "EUR_USD", "D", "primary")
     # for i in x:
     #     print(i[1])
     # st = functions.std(x)
     # print(st)
+    # print(functions.getTransactionsSinceID("SMACrossOver", 3000))

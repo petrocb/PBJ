@@ -14,6 +14,7 @@ def update():
     dh.update()
     dh.performanceImprovement()
     dh.checkSLnTP()
+    dh.updateTrailingStopLoss()
 
 
 def getCred(account):
@@ -226,42 +227,20 @@ def updatePastPrices2(data, length, instrument, timeFrame, account):
     return data
 
 def marketOrder(units, cid, account, sld, tpd, tsld):
-    if sld != 0 and tpd != 0 and tsld == 0:
-        data = {
-            "order": {
-                "instrument": "EUR_USD",
-                "units": str(units),
-                "type": "MARKET",
-                "stopLossOnFill": {"distance": sld},
-            }
+    data = {
+        "order": {
+            "instrument": "EUR_USD",
+            "units": str(units),
+            "type": "MARKET",
         }
-    elif sld == 0 and tpd == 0 and tsld == 0:
-        data = {
-            "order": {
-                "instrument": "EUR_USD",
-                "units": str(units),
-                "type": "MARKET",
-            }
-        }
-    elif sld == 0 and tpd == 0 and tsld != 0:
-        data = {
-            "order": {
-                "instrument": "EUR_USD",
-                "units": str(units),
-                "type": "MARKET",
-                # "stopLossOnFill": {"distance": sld},
-                "trailingStopLossOnFill": {"distance": tsld}
-            }
-        }
-    elif sld != 0 and tpd == 0 and tsld == 0:
-        data = {
-            "order": {
-                "instrument": "EUR_USD",
-                "units": str(units),
-                "type": "MARKET",
-                "stopLossOnFill": {"distance": sld},
-            }
-        }
+    }
+    if sld != 0:
+        data['order']['stopLossOnFill'] = {"distance": str(sld)}
+    if tpd != 0:
+        data['order']['takeProfitOnFill'] = {"distance": str(tpd)}
+    if tsld != 0:
+        data['order']['trailingStopLossOnFill'] = {"distance": str(tsld)}
+
     if account == "test":
         id = dh.marketOrder(data)
     else:
