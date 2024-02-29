@@ -6,10 +6,12 @@ class randomDirection:
         self.sld = sld
         self.tpd = tpd
         self.tsld = tsld
-        self.data = functions.startPastPricesList(104, "EUR_USD", "W", self.account)
+        # self.data = functions.startPastPricesList(104, "EUR_USD", "W", self.account)
 
     def tick(self):
-        self.data = functions.updatePastPrices2(self.data, 104, "EUR_USD", "W", self.account)
+        if self.account == "test":
+            functions.update()
+        # self.data = functions.updatePastPrices2(self.data, 104, "EUR_USD", "W", self.account)
         position = functions.getPositions(self.account)['positions']
         if position:
             position = float(position[0]['long']['units']) + float(position[0]['short']['units'])
@@ -19,8 +21,4 @@ class randomDirection:
         if position == 0:
             r = randint(-1, 1)
             print("dir", r)
-            sld = round(functions.std(self.data) / 5, 5)
-            tpd = round(functions.std(self.data), 5)
-            tsld = round(functions.std(self.data) / 2.5, 5)
-            print("sld", sld, "tpd", tpd, "tsld", tsld, "units",round(r * 50/tpd))
-            functions.marketOrder(round(r * 50/tpd), self.account, self.account, sld, tpd, tsld)
+            functions.marketOrder(500 * r, self.account, self.account, self.sld, self.tpd, self.tsld)

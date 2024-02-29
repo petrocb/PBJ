@@ -33,12 +33,12 @@ def main():
     #     pool.map(process_condition, conditions)
     # a = SMAFollowTrend("test", [10, 30])
     # a = SMAFollowTrend("primary", [10, 30])
-    a = randomDirection("primary", 0.02, 0.1, 0.04)
+    a = randomDirection("test", 0.000001, 0.000001, 0.000001)
     try:
         while True:
             a.tick()
             print("tick")
-            time.sleep(60)
+            # time.sleep(60)
     except IndexError as e:
         with open('poolArtifacts/'+current_process().name+'transactions.json', 'r') as file:
             data = json.load(file)
@@ -47,9 +47,5 @@ def main():
 
 if __name__ == "__main__":
     main()
-    # x = functions.startPastPricesList(30, "EUR_USD", "D", "primary")
-    # for i in x:
-    #     print(i[1])
-    # st = functions.std(x)
-    # print(st)
-    # print(functions.getTransactionsSinceID("SMACrossOver", 3000))
+    # functions.scrapper(1000, "EUR_USD", "S5")
+    # functions.getTransactionsSinceID("primary", 15000)
