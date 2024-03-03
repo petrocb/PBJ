@@ -14,6 +14,7 @@ def update():
     dh.update()
     dh.performanceImprovement()
     dh.checkSLnTP()
+    dh.performanceImprovement()
     dh.updateTrailingStopLoss()
 
 

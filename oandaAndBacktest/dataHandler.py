@@ -11,7 +11,7 @@ class dataHandler:
         # self.account = Account()
         self.line = 0
         self.id = 0
-        self.dataString = "EUR_USD_S5_2024_02_29T20_13_50_2024_02_29T18_37_05_1000.csv"
+        self.dataString = "EUR_USD_S5_2024_03_01T21_59_00_2023_11_22T08_39_10_1000000.csv"
         self.data = self.dataCSV()
         self.length = len(self.data)
         self.transactions = []
@@ -32,7 +32,7 @@ class dataHandler:
         return data
 
     def update(self):
-        if self.line % 1000 == 0:
+        if self.line % 100000 == 0:
             pass
             # print("data:", self.data[self.line][0])
             # print("transactionsl", len(self.transactions))
@@ -51,135 +51,89 @@ class dataHandler:
             self.refresh()
 
     def checkSLnTP(self):
-        # for o in self.transactions:
-        #     if o['type'] == "STOP_LOSS_ORDER" or o['type'] == "TAKE_PROFIT_ORDER":
-        #         for i in self.transactions:
-        #             try:
-        #                 # optimization
-        #                 if i['batchID'] > o['batchID']:
-        #                     break
-        #                 if o['batchID'] == i['batchID'] and i['type'] == "ORDER_FILL":
-        #                     if o['type'] == "STOP_LOSS_ORDER" and float(i['units']) > 0 and float(self.data[self.line][3]) < float(o['price']):
-        #                         self.id += 1
-        #                         self.transactions.append({
-        #                             'id': self.id,
-        #                             'batchID': self.id,
-        #                             'type': 'ORDER_FILL',
-        #                             'units': str(-abs(float(i['units']))),
-        #                             'price': str(o['price']),
-        #                         })
-        #                     elif o['type'] == "STOP_LOSS_ORDER" and float(i['units']) < 0 and float(self.data[self.line][2]) > float(o['price']):
-        #                         self.id += 1
-        #                         self.transactions.append({
-        #                             'id': self.id,
-        #                             'batchID': self.id,
-        #                             'type': 'ORDER_FILL',
-        #                             'units': str(abs(float(i['units']))),
-        #                             'price': str(o['price']),
-        #                         })
-        #                     elif o['type'] == "TAKE_PROFIT_ORDER" and float(i['units']) > 0 and float(self.data[self.line][2]) > float(o['price']):
-        #                         self.id += 1
-        #                         self.transactions.append({
-        #                             'id': self.id,
-        #                             'batchID': self.id,
-        #                             'type': 'ORDER_FILL',
-        #                             'units': str(-abs(float(i['units']))),
-        #                             'price': str(o['price']),
-        #                         })
-        #                     elif o['type'] == "TAKE_PROFIT_ORDER" and float(i['units']) < 0 and float(self.data[self.line][3]) < float(o['price']):
-        #                         self.id += 1
-        #                         self.transactions.append({
-        #                             'id': self.id,
-        #                             'batchID': self.id,
-        #                             'type': 'ORDER_FILL',
-        #                             'units': str(abs(float(i['units']))),
-        #                             'price': str(o['price']),
-        #                         })
-        #             except KeyError as e:
-        #                 if str(e) != "'price'":
-        #                     raise KeyError
 
         for o in self.transactions:
             if o['type'] == "ORDER_FILL":
-                for i in self.transactions:
-                    if i['batchID'] == o['batchID'] and i['type'] == "STOP_LOSS_ORDER":
-                        if float(o['units']) > 0 and float(self.data[self.line][3]) < float(i['price']):
-                            self.id += 1
-                            self.transactions.append({
-                                'id': self.id,
-                                'batchID': self.id,
-                                'type': 'ORDER_FILL',
-                                'units': str(-abs(float(o['units']))),
-                                'price': str(i['price']),
-                            })
-                            break
-                        elif float(o['units']) < 0 and float(self.data[self.line][2]) > float(i['price']):
-                            self.id += 1
-                            self.transactions.append({
-                                'id': self.id,
-                                'batchID': self.id,
-                                'type': 'ORDER_FILL',
-                                'units': str(abs(float(o['units']))),
-                                'price': str(i['price']),
-                            })
-                            break
-                    elif i['batchID'] == o['batchID'] and i['type'] == "TAKE_PROFIT_ORDER":
-                        if float(o['units']) > 0 and float(self.data[self.line][2]) > float(i['price']):
-                            self.id += 1
-                            self.transactions.append({
-                                'id': self.id,
-                                'batchID': self.id,
-                                'type': 'ORDER_FILL',
-                                'units': str(-abs(float(o['units']))),
-                                'price': str(i['price']),
-                            })
-                            break
-                        elif float(o['units']) < 0 and float(self.data[self.line][3]) < float(i['price']):
-                            self.id += 1
-                            self.transactions.append({
-                                'id': self.id,
-                                'batchID': self.id,
-                                'type': 'ORDER_FILL',
-                                'units': str(abs(float(o['units']))),
-                                'price': str(i['price']),
-                            })
-                            break
+                for m in self.transactions:
+                    if m['batchID'] == o['batchID']:
+                        if m['type'] == "STOP_LOSS_ORDER":
+                            if float(o['units']) > 0 and float(self.data[self.line][3]) < float(m['price']):
+                                self.id += 1
+                                self.transactions.append({
+                                    'id': self.id,
+                                    'batchID': self.id,
+                                    'type': 'ORDER_FILL',
+                                    'units': str(-abs(float(o['units']))),
+                                    'price': str(m['price']),
+                                })
+                                break
+                            elif float(o['units']) < 0 and float(self.data[self.line][2]) > float(m['price']):
+                                self.id += 1
+                                self.transactions.append({
+                                    'id': self.id,
+                                    'batchID': self.id,
+                                    'type': 'ORDER_FILL',
+                                    'units': str(abs(float(o['units']))),
+                                    'price': str(m['price']),
+                                })
+                                break
 
+                        elif m['type'] == "TRAILING_STOP_LOSS_ORDER":
+                            for i in self.trailingStop:
+                                if o['batchID'] == i[0]:
+                                    if float(o['units']) > 0 and i[1] > float(self.data[self.line][3]):
+                                            self.id += 1
+                                            self.transactions.append({
+                                                'id': self.id,
+                                                'batchID': self.id,
+                                                'type': 'ORDER_FILL',
+                                                'units': str(-abs(float(o['units']))),
+                                                'price': str(i[1]),
+                                            })
+                                            break
+                                    if (float(o['units']) < 0 and i[2] < float(self.data[self.line][2])):
+                                        self.id += 1
+                                        self.transactions.append({
+                                            'id': self.id,
+                                            'batchID': self.id,
+                                            'type': 'ORDER_FILL',
+                                            'units': str(abs(float(o['units']))),
+                                            'price': str(i[2]),
+                                        })
+                                        break
 
-
-        # for o in self.trailingStop:
-        #     for i in self.transactions:
-        #         if o[0] == i['batchID'] and i['type'] == "ORDER_FILL":
-        #             if float(i['units']) > 0 and o[1] > float(self.data[self.line][3]):
-        #                 self.id += 1
-        #                 self.transactions.append({
-        #                     'id': self.id,
-        #                     'batchID': self.id,
-        #                     'type': 'ORDER_FILL',
-        #                     'units': str(-abs(float(i['units']))),
-        #                     'price': o[1],
-        #                 })
-        #             elif float(i['units']) < 0 and o[2] < float(self.data[self.line][2]):
-        #                 self.id += 1
-        #                 self.transactions.append({
-        #                     'id': self.id,
-        #                     'batchID': self.id,
-        #                     'type': 'ORDER_FILL',
-        #                     'units': str(abs(float(i['units']))),
-        #                     'price': o[1],
-        #                 })
-
+                        elif m['type'] == "TAKE_PROFIT_ORDER":
+                            if float(o['units']) > 0 and float(self.data[self.line][2]) > float(m['price']):
+                                self.id += 1
+                                self.transactions.append({
+                                    'id': self.id,
+                                    'batchID': self.id,
+                                    'type': 'ORDER_FILL',
+                                    'units': str(-abs(float(o['units']))),
+                                    'price': str(m['price']),
+                                })
+                                break
+                            elif float(o['units']) < 0 and float(self.data[self.line][3]) < float(m['price']):
+                                self.id += 1
+                                self.transactions.append({
+                                    'id': self.id,
+                                    'batchID': self.id,
+                                    'type': 'ORDER_FILL',
+                                    'units': str(abs(float(o['units']))),
+                                    'price': str(m['price']),
+                                })
+                                break
     def updateTrailingStopLoss(self):
         for o in self.transactions:
-            if o['type'] == "TRAILING_STOP_LOSS_ORDER":
+            if o['type'] == "ORDER_FILL":
                 for m in self.transactions:
-                    if o['type'] == "ORDER_FILL" and o['batchID'] == m['batchID']:
+                    if m['type'] == "TRAILING_STOP_LOSS_ORDER" and o['batchID'] == m['batchID']:
                         for i in self.trailingStop:
                             if o['batchID'] == i[0]:
-                                if float(m['units']) > 0:
-                                    i[1] = float(self.data[self.line][3]) - o['distance']
-                                elif float(m['units']) < 0:
-                                    i[2] = float(self.data[self.line][2]) + o['distance']
+                                if float(o['units']) > 0 and float(self.data[self.line][2]) - float(m['distance']) > i[1]:
+                                    i[1] = float(self.data[self.line][2]) - float(m['distance'])
+                                elif float(o['units']) < 0 and float(self.data[self.line][3]) + float(m['distance']) < i[2]:
+                                    i[2] = float(self.data[self.line][3]) + float(m['distance'])
 
     def performanceImprovement(self):
         units = 0

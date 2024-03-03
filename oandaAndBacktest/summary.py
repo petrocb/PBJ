@@ -153,6 +153,6 @@ def summary(time, transactions, op, cond, dataString):
                 winPerc = int(round(winLossArr[0]/(winLossArr[0]+winLossArr[1]), 2)*100)
             except ZeroDivisionError:
                 winPerc = 0
-            csvWriter.writerow([datetime.now(), cond, dataString, totalProfit, len(transactions), winLossArr, winPerc, profitPoints, json.dump(transactions, csvfile)])
+            csvWriter.writerow([datetime.now(), cond, dataString, totalProfit, len(transactions), winLossArr, winPerc, profitPoints] + transactions)
         csvfile.close()
 

@@ -17,8 +17,8 @@ class randomDirection:
             position = float(position[0]['long']['units']) + float(position[0]['short']['units'])
         else:
             position = 0
-        print("pos", position)
+        # print("pos", position)
         if position == 0:
             r = randint(-1, 1)
-            print("dir", r)
+            # print("dir", r)
             functions.marketOrder(500 * r, self.account, self.account, self.sld, self.tpd, self.tsld)
