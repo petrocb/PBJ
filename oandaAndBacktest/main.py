@@ -13,7 +13,8 @@ from oandaAndBacktest.strats.randomDirection import randomDirection
 
 def process_condition(condition):
     print(condition)
-    a = SMAFollowTrend("test", condition)
+    # a = SMAFollowTrend("test", condition)
+    a = randomDirection("test", condition[0], condition[1], condition[2])
     try:
         while True:
             a.tick()
@@ -24,25 +25,27 @@ def process_condition(condition):
 
 def main():
     conditions = []
-    # for i in range(100):
-    #     conditions.append([0, (i + 1) * 10])
-    #
-    # # Create a pool with the desired number of processes
-    # with Pool() as pool:
-    #     # Use the pool to parallelize tasks
-    #     pool.map(process_condition, conditions)
+    for o in range(10):
+        for m in range(10):
+            for i in range(10):
+                conditions.append([(o + 1) / 100, (m + 1) / 100, (i + 1) / 100])
+
+    # Create a pool with the desired number of processes
+    with Pool() as pool:
+        # Use the pool to parallelize tasks
+        pool.map(process_condition, conditions)
     # a = SMAFollowTrend("test", [10, 30])
     # a = SMAFollowTrend("primary", [10, 30])
-    a = randomDirection("test", 0.1, 0.02, 0.04)
-    try:
-        while True:
-            a.tick()
-            # print("tick")
-            # time.sleep(60)
-    except IndexError as e:
-        with open('poolArtifacts/'+current_process().name+'transactions.json', 'r') as file:
-            data = json.load(file)
-        summary(0, data, True, 0, "")
+    # a = randomDirection("test", 0.1, 0.02, 0.04)
+    # try:
+    #     while True:
+    #         a.tick()
+    #         # print("tick")
+    #         # time.sleep(60)
+    # except IndexError as e:
+    #     with open('poolArtifacts/'+current_process().name+'transactions.json', 'r') as file:
+    #         data = json.load(file)
+    #     summary(0, data, True, 0, "")
 
 
 if __name__ == "__main__":

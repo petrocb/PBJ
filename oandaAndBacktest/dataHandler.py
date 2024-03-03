@@ -37,7 +37,7 @@ class dataHandler:
             # print("data:", self.data[self.line][0])
             # print("transactionsl", len(self.transactions))
             # # print("transactions:", self.transactions)
-            print("line", self.line)
+            # print("line", self.line)
             #     print("date", self.data[self.line][0])
             #     print("oldTransactions", len(self.oldTransactions))
             #     print("transactions", len(self.transactions))
