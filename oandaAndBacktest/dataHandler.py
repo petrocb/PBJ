@@ -11,7 +11,7 @@ class dataHandler:
         # self.account = Account()
         self.line = 0
         self.id = 0
-        self.dataString = "EUR_USD_S5_2024_03_01T21_59_00_2023_11_22T08_39_10_1000000.csv"
+        self.dataString = "EUR_USD_H1_2024_03_01T21_00_00_2024_01_04T06_00_00_1000.csv"
         self.data = self.dataCSV()
         self.length = len(self.data)
         self.transactions = []
@@ -43,7 +43,7 @@ class dataHandler:
             #     print("transactions", len(self.transactions))
             # summary(self.time(), self.transactions)
             # self.oldTransactions = copy.deepcopy(self.transactions)
-            summary(self.time(), copy.deepcopy(self.oldTransactions), False, 0, self.dataString)
+        summary(self.time(), copy.deepcopy(self.oldTransactions), False, 0, self.dataString)
 
         self.line += 1
         if self.line == self.length - 1:

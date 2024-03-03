@@ -133,6 +133,7 @@ def summary(time, transactions, op, cond, dataString):
                 except IndexError:
                     pass
     if not op:
+        # print(current_process().name)
         with open('poolArtifacts/'+current_process().name + 'profit1.csv', 'a', newline='') as csvfile:
             csvWriter = csv.writer(csvfile)
             csvWriter.writerow([time, totalProfit, dataString])
@@ -140,7 +141,7 @@ def summary(time, transactions, op, cond, dataString):
 
     if op:
         profitPoints = []
-        with open ('poolArtifacts/'+current_process().name+'profit1.csv', 'r') as csvfile:
+        with open('poolArtifacts/'+current_process().name+'profit1.csv', 'r') as csvfile:
             csvReader = csv.reader(csvfile)
             for i in csvReader:
                 profitPoints.append([i[0], i[1]])

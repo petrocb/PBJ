@@ -29,6 +29,7 @@ def main():
         for m in range(10):
             for i in range(10):
                 conditions.append([(o + 1) / 100, (m + 1) / 100, (i + 1) / 100])
+    # conditions = [[0.05, 0.05, 0.05]]
 
     # Create a pool with the desired number of processes
     with Pool() as pool:
@@ -50,5 +51,5 @@ def main():
 
 if __name__ == "__main__":
     main()
-    # functions.scrapper(1000000, "EUR_USD", "S5")
+    # functions.scrapper(1000, "EUR_USD", "H1")
     # functions.getTransactionsSinceID("primary", 15000)
