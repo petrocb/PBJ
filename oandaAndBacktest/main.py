@@ -51,5 +51,5 @@ def main():
 
 if __name__ == "__main__":
     main()
-    # functions.scrapper(1000, "EUR_USD", "H1")
+    # functions.scrapper(100000, "EUR_USD", "H1")
     # functions.getTransactionsSinceID("primary", 15000)

@@ -1,5 +1,6 @@
 import copy
 import csv
+from multiprocessing import current_process
 
 # from newClasses import Account
 from summary import summary
@@ -11,7 +12,7 @@ class dataHandler:
         # self.account = Account()
         self.line = 0
         self.id = 0
-        self.dataString = "EUR_USD_H1_2024_03_01T21_00_00_2024_01_04T06_00_00_1000.csv"
+        self.dataString = "EUR_USD_D_2024_02_28T22_00_00_2020_04_23T21_00_00_1000.csv"
         self.data = self.dataCSV()
         self.length = len(self.data)
         self.transactions = []
@@ -20,6 +21,7 @@ class dataHandler:
 
     def refresh(self):
         self.id = 0
+        self.line = 0
         self.transactions = []
         self.oldTransactions = []
 
@@ -32,7 +34,9 @@ class dataHandler:
         return data
 
     def update(self):
-        if self.line % 100000 == 0:
+        # print("line", self.line)
+        if self.line % 100 == 0:
+            print(current_process().name, self.line)
             pass
             # print("data:", self.data[self.line][0])
             # print("transactionsl", len(self.transactions))
@@ -43,7 +47,7 @@ class dataHandler:
             #     print("transactions", len(self.transactions))
             # summary(self.time(), self.transactions)
             # self.oldTransactions = copy.deepcopy(self.transactions)
-        summary(self.time(), copy.deepcopy(self.oldTransactions), False, 0, self.dataString)
+            summary(self.time(), copy.deepcopy(self.oldTransactions), False, 0, self.dataString)
 
         self.line += 1
         if self.line == self.length - 1:

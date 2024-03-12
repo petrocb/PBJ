@@ -132,12 +132,11 @@ def summary(time, transactions, op, cond, dataString):
                             openTrades.pop(i)
                 except IndexError:
                     pass
-    if not op:
         # print(current_process().name)
-        with open('poolArtifacts/'+current_process().name + 'profit1.csv', 'a', newline='') as csvfile:
-            csvWriter = csv.writer(csvfile)
-            csvWriter.writerow([time, totalProfit, dataString])
-        csvfile.close()
+    with open('poolArtifacts/'+current_process().name + 'profit1.csv', 'a', newline='') as csvfile:
+        csvWriter = csv.writer(csvfile)
+        csvWriter.writerow([time, totalProfit, dataString])
+    csvfile.close()
 
     if op:
         profitPoints = []
@@ -148,12 +147,14 @@ def summary(time, transactions, op, cond, dataString):
                 dataString = i[2]
 
         os.remove(f'poolArtifacts/{current_process().name}profit1.csv')
+        os.remove(f'poolArtifacts/{current_process().name}transactions.json')
         with open('outputPages/profit.csv', 'a', newline='') as csvfile:
             csvWriter = csv.writer(csvfile)
             try:
                 winPerc = int(round(winLossArr[0]/(winLossArr[0]+winLossArr[1]), 2)*100)
             except ZeroDivisionError:
                 winPerc = 0
-            csvWriter.writerow([datetime.now(), cond, dataString, totalProfit, len(transactions), winLossArr, winPerc, profitPoints] + transactions)
+            # csvWriter.writerow([datetime.now(), cond, dataString, totalProfit, len(transactions), winLossArr, winPerc, profitPoints] + transactions)
+            csvWriter.writerow([datetime.now(), current_process().name, cond, dataString, totalProfit, len(transactions), winLossArr, winPerc, profitPoints])
         csvfile.close()
 
