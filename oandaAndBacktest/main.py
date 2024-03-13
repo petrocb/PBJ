@@ -40,6 +40,7 @@ def main():
                     conditions.append([(o + 1) / 100, (m + 1) / 100, (i + 1) / 100 + 0.04, count, setCount])
                     count += 1
                 setCount += 1
+                count = 0
     # conditions = []
     # for i in range(8):
     #     conditions.append([0.1, 0.02, 0.08])

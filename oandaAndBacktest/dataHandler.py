@@ -12,7 +12,7 @@ class dataHandler:
         # self.account = Account()
         self.line = 0
         self.id = 0
-        self.dataString = "EUR_USD_H1_2024_02_09T21_00_00_2022_07_04T02_00_00_10000.csv"
+        self.dataString = "EUR_USD_H1_2024_03_12T19_00_00_2008_06_04T15_00_00_100000.csv"
         self.data = self.dataCSV()
         self.length = len(self.data)
         self.transactions = []
@@ -35,9 +35,9 @@ class dataHandler:
         return data
 
     def update(self):
-        if self.line % 1000 == 0:
-            print(current_process().name, self.line)
-        if self.line % 1000 == 0:
+        # if self.line % 1000 == 0:
+        #     print(current_process().name, self.line)
+        if self.line % 100000 == 0:
             # print(current_process().name, self.line)
             pass
             # print("data:", self.data[self.line][0])
