@@ -1,6 +1,8 @@
 # from colored import Fore
+import os
+import shutil
 import time
-
+from pathlib import Path
 from summary import summary
 from oandaAndBacktest.strats.SMAFollowTrend import SMAFollowTrend
 import json
@@ -24,16 +26,27 @@ def process_condition(condition):
         summary(0, data, True, condition, "")
 
 def main():
+    shutil.rmtree('poolArtifacts')
+    # x= os.path.join('..', 'poolArtifacts')
+    os.mkdir('poolArtifacts')
+    # Path("/oandaAndBacktest").mkdir(parents=True, exist_ok=True)
     conditions = []
+    count = 0
+    setCount = 0
     for o in range(10):
         for m in range(10):
-            for i in range(10):
-                conditions.append([(o + 1) / 100, (m + 1) / 100, (i + 1) / 100])
-    # conditions = [[0.05, 0.05, 0.05]]
+            for i in range(6):
+                for ii in range(8):
+                    conditions.append([(o + 1) / 100, (m + 1) / 100, (i + 1) / 100 + 0.04, count, setCount])
+                    count += 1
+                setCount += 1
+    # conditions = []
+    # for i in range(8):
+    #     conditions.append([0.1, 0.02, 0.08])
 
     # Create a pool with the desired number of processes
     with Pool() as pool:
-        # Use the pool to parallelize tasks
+    #     # Use the pool to parallelize tasks
         pool.map(process_condition, conditions)
     # a = SMAFollowTrend("test", [10, 30])
     # a = SMAFollowTrend("primary", [10, 30])
