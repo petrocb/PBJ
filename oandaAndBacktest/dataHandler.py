@@ -226,7 +226,8 @@ class dataHandler:
                     'price': str(float(self.data[self.line][4]) + float(data['order']['stopLossOnFill']['distance']))
                 })
         except KeyError as e:
-            print(e)
+            # print(e)
+            pass
 
         try:
             if float(data['order']['units']) > 0:

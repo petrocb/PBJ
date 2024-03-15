@@ -12,7 +12,7 @@ import functions
 from decimal import *
 from oandaAndBacktest.strats.highResLongTrend import highResLongTrend
 from oandaAndBacktest.strats.randomDirection import randomDirection
-
+from oandaAndBacktest.strats.randomDirection2 import randomDirection2
 
 invCount = 0
 
@@ -23,13 +23,16 @@ def process_condition(condition):
     print(invCount/600*100)
     # print(condition)
     # a = SMAFollowTrend("test", condition)
-    a = randomDirection("test", condition[0], condition[1], condition[2])
+    # a = randomDirection("test", condition[0], condition[1], condition[2])
+    a = randomDirection2("test", condition[0], condition[1], condition[2])
     try:
         while True:
             a.tick()
     except IndexError as e:
         with open('poolArtifacts/'+current_process().name+'transactions.json', 'r') as file:
             data = json.load(file)
+        if current_process().name == "SpawnPoolWorker-1":
+            pass
         summary(0, data, True, condition, "")
 
 def main():
