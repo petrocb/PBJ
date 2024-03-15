@@ -13,8 +13,15 @@ from decimal import *
 from oandaAndBacktest.strats.highResLongTrend import highResLongTrend
 from oandaAndBacktest.strats.randomDirection import randomDirection
 
+
+invCount = 0
+
 def process_condition(condition):
-    print(condition)
+    global invCount
+    condition.append(invCount)
+    invCount += 1
+    print(invCount/600*100)
+    # print(condition)
     # a = SMAFollowTrend("test", condition)
     a = randomDirection("test", condition[0], condition[1], condition[2])
     try:
@@ -33,11 +40,13 @@ def main():
     conditions = []
     count = 0
     setCount = 0
+    loopCount = 0
     for o in range(10):
         for m in range(10):
             for i in range(6):
                 for ii in range(8):
-                    conditions.append([(o + 1) / 100, (m + 1) / 100, (i + 1) / 100 + 0.04, count, setCount])
+                    conditions.append([(o + 1) / 100, (m + 1) / 100, (i + 1) / 100 + 0.04, count, setCount, loopCount])
+                    loopCount += 1
                     count += 1
                 setCount += 1
                 count = 0
@@ -65,5 +74,5 @@ def main():
 
 if __name__ == "__main__":
     main()
-    # functions.scrapper(100000, "EUR_USD", "H1")
+    # functions.scrapper(1000, "EUR_USD", "D")
     # functions.getTransactionsSinceID("primary", 15000)
