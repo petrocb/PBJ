@@ -45,7 +45,8 @@ def main():
         for m in range(10):
             for i in range(6):
                 for ii in range(8):
-                    conditions.append([(o + 1) / 100, (m + 1) / 100, (i + 1) / 100 + 0.04, count, setCount, loopCount])
+                    # conditions.append([(o + 1) / 100, (m + 1) / 100, (i + 1) / 100 + 0.04, count, setCount, loopCount])
+                    conditions.append([0.09, 0.02, 0.06, count, setCount, loopCount])
                     loopCount += 1
                     count += 1
                 setCount += 1
