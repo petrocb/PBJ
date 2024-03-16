@@ -24,6 +24,7 @@ class dataHandler:
         self.line = 0
         self.transactions = []
         self.oldTransactions = []
+        self.trailingStop = []
         raise IndexError
 
     def dataCSV(self):
@@ -71,6 +72,7 @@ class dataHandler:
                                     'type': 'ORDER_FILL',
                                     'units': str(-abs(float(o['units']))),
                                     'price': str(m['price']),
+                                    'reason': 'STOP_LOSS'
                                 })
                                 break
                             elif float(o['units']) < 0 and float(self.data[self.line][2]) > float(m['price']):
@@ -81,6 +83,7 @@ class dataHandler:
                                     'type': 'ORDER_FILL',
                                     'units': str(abs(float(o['units']))),
                                     'price': str(m['price']),
+                                    'reason': 'STOP_LOSS'
                                 })
                                 break
 
@@ -95,6 +98,7 @@ class dataHandler:
                                                 'type': 'ORDER_FILL',
                                                 'units': str(-abs(float(o['units']))),
                                                 'price': str(i[1]),
+                                                'reason': 'TRAILING_STOP_LOSS'
                                             })
                                             break
                                     if (float(o['units']) < 0 and i[2] < float(self.data[self.line][2])):
@@ -105,6 +109,7 @@ class dataHandler:
                                             'type': 'ORDER_FILL',
                                             'units': str(abs(float(o['units']))),
                                             'price': str(i[2]),
+                                            'reason': 'TRAILING_STOP_LOSS'
                                         })
                                         break
 
@@ -117,6 +122,7 @@ class dataHandler:
                                     'type': 'ORDER_FILL',
                                     'units': str(-abs(float(o['units']))),
                                     'price': str(m['price']),
+                                    'reason': 'TAKE_PROFIT'
                                 })
                                 break
                             elif float(o['units']) < 0 and float(self.data[self.line][3]) < float(m['price']):
@@ -127,6 +133,7 @@ class dataHandler:
                                     'type': 'ORDER_FILL',
                                     'units': str(abs(float(o['units']))),
                                     'price': str(m['price']),
+                                    'reason': 'TAKE_PROFIT'
                                 })
                                 break
     def updateTrailingStopLoss(self):
@@ -230,6 +237,21 @@ class dataHandler:
             pass
 
         try:
+            self.transactions.append({
+                'id': self.id,
+                'batchID': batchId,
+                'type': 'TRAILING_STOP_LOSS_ORDER',
+                'distance': data['order']['trailingStopLossOnFill']['distance']
+            })
+            self.trailingStop.append([batchId,
+                                      float(self.data[self.line][4]) - float(
+                                          data['order']['trailingStopLossOnFill']['distance']),
+                                      float(self.data[self.line][4]) + float(
+                                          data['order']['trailingStopLossOnFill']['distance'])])
+        except KeyError:
+            pass
+
+        try:
             if float(data['order']['units']) > 0:
                 self.transactions.append({
                     'id': self.id,
@@ -247,20 +269,7 @@ class dataHandler:
         except KeyError:
             pass
 
-        try:
-            self.transactions.append({
-                'id': self.id,
-                'batchID': batchId,
-                'type': 'TRAILING_STOP_LOSS_ORDER',
-                'distance': data['order']['trailingStopLossOnFill']['distance']
-            })
-            self.trailingStop.append([batchId,
-                                      float(self.data[self.line][4]) - float(
-                                          data['order']['trailingStopLossOnFill']['distance']),
-                                      float(self.data[self.line][4]) + float(
-                                          data['order']['trailingStopLossOnFill']['distance'])])
-        except KeyError:
-            pass
+
 
         # return res
 
