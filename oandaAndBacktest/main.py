@@ -111,20 +111,32 @@ def main():
     shutil.rmtree('poolArtifacts')
     os.mkdir('poolArtifacts')
 
+    # conditions = []
+    # count = 0
+    # setCount = 0
+    # loopCount = 0
+    # for o in range(10):
+    #     for m in range(10):
+    #         for i in range(10):
+    #         #     for ii in range(8):
+    #                 # conditions.append([(o + 1) / 100, (m + 1) / 100, (i + 1) / 100 + 0.04, count, setCount, loopCount])
+    #             conditions.append([0.09, 0.02, 0.06, count, setCount, loopCount])
+    #             loopCount += 1
+    #             count += 1
+    #         setCount += 1
+    #         count = 0
     conditions = []
     count = 0
     setCount = 0
-    loopCount = 0
-    for o in range(10):
-        for m in range(10):
-            for i in range(10):
-            #     for ii in range(8):
-                    # conditions.append([(o + 1) / 100, (m + 1) / 100, (i + 1) / 100 + 0.04, count, setCount, loopCount])
-                conditions.append([0.09, 0.02, 0.06, count, setCount, loopCount])
-                loopCount += 1
-                count += 1
-            setCount += 1
-            count = 0
+
+    for o in range(6):
+        for m in range(6):
+            for i in range(6):
+                for ii in range(20):
+                    conditions.append(
+                        [(o + 1) / 100 + 0.04, (m + 1) / 100 + 0.04, (i + 1) / 100 + 0.04, count, setCount])
+                    count += 1
+                setCount += 1
     for i in conditions:
         process_condition(i)
     # with Pool() as pool:
