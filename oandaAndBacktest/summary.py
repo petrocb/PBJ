@@ -155,6 +155,6 @@ def summary(time, transactions, op, cond, dataString):
             except ZeroDivisionError:
                 winPerc = 0
             # csvWriter.writerow([datetime.now(), cond, dataString, totalProfit, len(transactions), winLossArr, winPerc, profitPoints] + transactions)
-            csvWriter.writerow([datetime.now(), current_process().name, cond, dataString, totalProfit, len(transactions), winLossArr, winPerc, profitPoints] + transactions)
+            csvWriter.writerow([datetime.now(), current_process().name, cond, dataString, totalProfit, len(transactions), winLossArr, winPerc, profitPoints])
         csvfile.close()
 

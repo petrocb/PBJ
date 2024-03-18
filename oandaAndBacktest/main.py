@@ -87,10 +87,11 @@
 import os
 import shutil
 from summary import summary
+import functions
 import json
 from multiprocessing import Pool, current_process
 from oandaAndBacktest.strats.randomDirection import randomDirection
-
+from oandaAndBacktest.strats.SMAFollowTrend import SMAFollowTrend
 invCount = 0
 
 def process_condition(condition):
@@ -98,7 +99,8 @@ def process_condition(condition):
     condition.append(invCount)
     invCount += 1
     print(condition)
-    a = randomDirection("test", condition[0], condition[1], condition[2])
+    # a = randomDirection("test", condition[0], condition[1], condition[2])
+    a = SMAFollowTrend("test", condition)
     try:
         while True:
             a.tick()
@@ -129,14 +131,21 @@ def main():
     count = 0
     setCount = 0
 
-    for o in range(6):
-        for m in range(6):
-            for i in range(6):
-                for ii in range(20):
-                    conditions.append(
-                        [(o + 1) / 100 + 0.04, (m + 1) / 100 + 0.04, (i + 1) / 100 + 0.04, count, setCount])
-                    count += 1
-                setCount += 1
+    # for o in range(6):
+    #     for m in range(6):
+    #         for i in range(6):
+    #             for ii in range(20):
+    #                 conditions.append(
+    #                     [(o + 1) / 100 + 0.04, (m + 1) / 100 + 0.04, (i + 1) / 100 + 0.04, count, setCount])
+    #                 count += 1
+    #             setCount += 1
+
+    for o in range(10):
+        for m in range(10):
+            for i in range(10):
+                if o < m:
+                    conditions.append([(o + 1) * 10, (m + 1) * 10, (i + 1)/100])
+
     for i in conditions:
         process_condition(i)
     # with Pool() as pool:
@@ -146,3 +155,4 @@ def main():
 
 if __name__ == "__main__":
     main()
+    # functions.scrapper(100, "EUR_USD", "H1")
