@@ -87,7 +87,7 @@
 import os
 import shutil
 import time
-
+from datetime import datetime
 from summary import summary
 import functions
 import json
@@ -151,8 +151,9 @@ def main():
     #     pool.map(process_condition, conditions)
     a = SMAFollowTrend("SMAFollowTrend", [40, 60, 0.02])
     while True:
-        a.tick()
-        time.sleep(600)
+        if datetime.now().minute == 0:
+            a.tick()
+            time.sleep(5)
 
 
 
