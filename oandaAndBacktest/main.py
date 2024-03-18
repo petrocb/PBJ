@@ -86,19 +86,18 @@
 
 import os
 import shutil
+import time
+
 from summary import summary
 import functions
 import json
 from multiprocessing import Pool, current_process
 from oandaAndBacktest.strats.randomDirection import randomDirection
 from oandaAndBacktest.strats.SMAFollowTrend import SMAFollowTrend
-invCount = 0
+
 
 def process_condition(condition):
-    global invCount
-    condition.append(invCount)
-    invCount += 1
-    print(condition)
+    print(condition[3])
     # a = randomDirection("test", condition[0], condition[1], condition[2])
     a = SMAFollowTrend("test", condition)
     try:
@@ -140,16 +139,21 @@ def main():
     #                 count += 1
     #             setCount += 1
 
-    for o in range(10):
-        for m in range(10):
-            for i in range(10):
-                if o < m:
-                    conditions.append([(o + 1) * 10, (m + 1) * 10, (i + 1)/100])
-
-    for i in conditions:
-        process_condition(i)
+    # for o in range(10):
+    #     for m in range(10):
+    #         for i in range(10):
+    #             if o < m:
+    #                 conditions.append([(o + 1) * 10, (m + 1) * 10, (i + 1)/100])
+    #
+    # for i in conditions:
+    #     process_condition(i)
     # with Pool() as pool:
     #     pool.map(process_condition, conditions)
+    a = SMAFollowTrend("SMAFollowTrend", [40, 60, 0.02])
+    while True:
+        a.tick()
+        time.sleep(600)
+
 
 
 

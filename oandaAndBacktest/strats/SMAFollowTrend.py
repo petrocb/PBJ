@@ -68,4 +68,4 @@ class SMAFollowTrend:
             csvWriter = csv.writer(csvfile)
             csvWriter.writerow([self.direction, self.position, float(self.direction - float(self.position)), self.SMA])
         csvfile.close()
-        # print(functions.getPositions("test"))
+        print(self.position, self.SMA, self.data[-1][1], self.SMA[0] - self.data[-1][1], self.SMA[1] - self.data[-1][1])
