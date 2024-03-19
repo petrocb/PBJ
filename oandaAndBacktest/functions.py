@@ -196,6 +196,21 @@ def updatePastPrices2(data, length, instrument, timeFrame, account):
     # print(datetime.datetime.utcnow() - datetime.timedelta(minutes=5))
     if account == "test":
         x = dh.updatePastPrices2()
+        jsonSave("update", x)
+        x = x['candles']
+        prices = []
+        for i in x:
+            prices.append([i['time'], i['mid']['o'], i['mid']['h'], i['mid']['l'], i['mid']['c'], 0, 0])
+        prices = pd.DataFrame(prices)
+        prices.columns = ['Date', 'Open', 'High', 'Low', 'Close', 'Volume', 'OpenInterest']
+        list = prices['Close'].to_list()
+        count = 0
+        for i in list:
+            list[count] = [datetime.datetime.fromisoformat(prices['Date'][count]), float(i)]
+            data.append(list[count])
+            count += 1
+        if len(data) > length:
+            data.pop(0)
     else:
         if data[-1][0] < (datetime.datetime.utcnow() - datetime.timedelta(minutes=30)).replace(
                 tzinfo=datetime.timezone.utc):

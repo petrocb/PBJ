@@ -97,9 +97,9 @@ from oandaAndBacktest.strats.SMAFollowTrend import SMAFollowTrend
 
 
 def process_condition(condition):
-    print(condition[3])
-    a = randomDirection("test", condition[0], condition[1], condition[2])
-    # a = SMAFollowTrend("test", condition)
+    # print(condition[3])
+    # a = randomDirection("test", condition[0], condition[1], condition[2])
+    a = SMAFollowTrend("test", condition)
     try:
         while True:
             a.tick()
@@ -130,14 +130,14 @@ def main():
     count = 0
     setCount = 0
 
-    for o in range(6):
-        for m in range(6):
-            for i in range(6):
-                for ii in range(10):
-                    conditions.append(
-                        [(o + 5) / 10000, (m + 5) / 10000, (i + 5) / 10000, count, setCount])
-                    count += 1
-                setCount += 1
+    # for o in range(6):
+    #     for m in range(6):
+    #         for i in range(6):
+    #             for ii in range(10):
+    #                 conditions.append(
+    #                     [(o + 5) / 10000, (m + 5) / 10000, (i + 5) / 10000, count, setCount])
+    #                 count += 1
+    #             setCount += 1
     # print(conditions)
     # for o in range(10):
     #     for m in range(10):
@@ -145,6 +145,7 @@ def main():
     #             if o < m:
     #                 conditions.append([(o + 1) * 10, (m + 1) * 10, (i + 1)/100])
     #
+    conditions = [[40, 60, 0.02]]
     for i in conditions:
         process_condition(i)
     # with Pool() as pool:
@@ -161,4 +162,4 @@ def main():
 
 if __name__ == "__main__":
     main()
-    # functions.scrapper(100, "EUR_USD", "H1")
+    # functions.scrapper(200, "EUR_USD", "M30")
