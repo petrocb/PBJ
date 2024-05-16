@@ -38,3 +38,17 @@ def removeDirection(data):
         # print(data[i][5])
         data[i].pop(5)
     print(data)
+
+
+def test(data):
+    for i in range(len(data)):
+            if float(data['open'][i]) + 0.005 < float(data['close'][i]):
+                # data['direction'][i] = 1
+                data.loc[i, 'direction'] = 2
+            elif float(data['open'][i]) - 0.005 > float(data['close'][i]):
+                data.loc[i, 'direction'] = 0
+            else:
+                data.loc[i, 'direction'] = 1
+    return data
+
+

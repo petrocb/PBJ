@@ -12,7 +12,7 @@ class dataHandler:
         # self.account = Account()
         self.line = 0
         self.id = 0
-        self.dataString = "EUR_USD_M30_2024_03_19T19_00_00_2024_03_13T15_30_00_200.csv"
+        self.dataString = "EUR_USD_H1_2024_03_22T20_00_00_2024_01_25T06_00_00_1000.csv"
         self.data = self.dataCSV()
         self.length = len(self.data)
         self.transactions = []

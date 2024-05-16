@@ -6,11 +6,11 @@ from sklearn.model_selection import train_test_split
 
 def main():
     # Read the CSV data
-    data = pd.read_csv('2021.csv')
+    data = pd.read_csv('EUR_USD_D_2024_04_02T21_00_00_2020_05_27T21_00_00_1000processed.csv')
 
     # Extract features and labels from the data
     # Features are bid, ask, and volume columns
-    features = data[['bid', 'ask', 'volume']]
+    features = data[['open', 'high', 'low', 'close', 'volume']]
 
     # Labels are the 'direction' column
     labels = data['direction']
@@ -23,13 +23,13 @@ def main():
     # Build the neural network model
     model = tf.keras.models.Sequential([
         # Input layer with 3 neurons (bid, ask, volume)
-        tf.keras.layers.Dense(64, activation='relu', input_shape=(3,)),
+        tf.keras.layers.Dense(64, activation='relu', input_shape=(5,)),
 
         # Hidden layer with 32 neurons and ReLU activation function
         tf.keras.layers.Dense(32, activation='relu'),
 
         # Output layer with 3 neurons (for multiclass classification)
-        tf.keras.layers.Dense(3, activation='softmax')
+        tf.keras.layers.Dense(5, activation='softmax')
     ])
 
     # Compile the model
