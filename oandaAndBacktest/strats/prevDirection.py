@@ -19,6 +19,7 @@ class prevDirection:
             position = float(position[0]['long']['units']) + float(position[0]['short']['units'])
         else:
             position = 0
+            self.TradeMade = False
         if self.timeFrame == "M30":
             if functions.time(self.account).minute == 00 or functions.time(self.account).minute == 30:
                 time = True
