@@ -96,77 +96,89 @@ from oandaAndBacktest.strats.randomDirection import randomDirection
 from oandaAndBacktest.strats.SMAFollowTrend import SMAFollowTrend
 from oandaAndBacktest.strats.ttytDirection import ttytDirection
 
-def process_condition(condition):
-    print(condition)
-    # a = randomDirection("test", condition[0], condition[1], condition[2])
-    # a = SMAFollowTrend("test", condition)
-    a = ttytDirection("test", condition[0], condition[1], condition[2])
-    try:
-        while True:
-            a.tick()
-    except IndexError as e:
-        with open('poolArtifacts/'+current_process().name+'transactions.json', 'r') as file:
-            data = json.load(file)
-        summary(0, data, True, condition, "")
-
+# def process_condition(condition):
+#     print(condition)
+#     # a = randomDirection("test", condition[0], condition[1], condition[2])
+#     # a = SMAFollowTrend("test", condition)
+#     a = ttytDirection("test", condition[0], condition[1], condition[2])
+#     try:
+#         while True:
+#             a.tick()
+#     except IndexError as e:
+#         with open('poolArtifacts/'+current_process().name+'transactions.json', 'r') as file:
+#             data = json.load(file)
+#         summary(0, data, True, condition, "")
+#
+# def main():
+#     shutil.rmtree('poolArtifacts')
+#     os.mkdir('poolArtifacts')
+#
+#     # conditions = []
+#     # count = 0
+#     # setCount = 0
+#     # loopCount = 0
+#     # for o in range(10):
+#     #     for m in range(10):
+#     #         for i in range(10):
+#     #         #     for ii in range(8):
+#     #                 # conditions.append([(o + 1) / 100, (m + 1) / 100, (i + 1) / 100 + 0.04, count, setCount, loopCount])
+#     #             conditions.append([0.09, 0.02, 0.06, count, setCount, loopCount])
+#     #             loopCount += 1
+#     #             count += 1
+#     #         setCount += 1
+#     #         count = 0
+#     conditions = []
+#     count = 0
+#     setCount = 0
+#
+#     # for o in range(6):
+#     #     for m in range(6):
+#     #         for i in range(6):
+#     #             for ii in range(10):
+#     #                 conditions.append(
+#     #                     [(o + 5) / 10000, (m + 5) / 10000, (i + 5) / 10000, count, setCount])
+#     #                 count += 1
+#     #             setCount += 1
+#     # # print(conditions)
+#     for o in range(1000):
+#         conditions.append([0, 0, (o + 5) / 10000, count, setCount])
+#         count += 1
+#     setCount += 1
+#     print(conditions)
+#     # for o in range(10):
+#     #     for m in range(10):
+#     #         for i in range(10):
+#     #             if o < m:
+#     #                 conditions.append([(o + 1) * 10, (m + 1) * 10, (i + 1)/100])
+#     #
+#     # for i in range(100):
+#     # conditions = [[40, 60, 0.02]]
+#     for i in conditions:
+#         process_condition(i)
+#     # with Pool() as pool:
+#     #     pool.map(process_condition, conditions)
+#     # a = SMAFollowTrend("SMAFollowTrend", [40, 60, 0.02])
+#     # while True:
+#     #     if datetime.now().minute == 0:
+#     #         a.tick()
+#     #         time.sleep(5)
+#     # functions.marketOrder(500, "", "primary", 0, 0.0001, 0)
+#
+from oandaAndBacktest.strats.prevDirection import prevDirection
 def main():
-    shutil.rmtree('poolArtifacts')
-    os.mkdir('poolArtifacts')
-
-    # conditions = []
-    # count = 0
-    # setCount = 0
-    # loopCount = 0
-    # for o in range(10):
-    #     for m in range(10):
-    #         for i in range(10):
-    #         #     for ii in range(8):
-    #                 # conditions.append([(o + 1) / 100, (m + 1) / 100, (i + 1) / 100 + 0.04, count, setCount, loopCount])
-    #             conditions.append([0.09, 0.02, 0.06, count, setCount, loopCount])
-    #             loopCount += 1
-    #             count += 1
-    #         setCount += 1
-    #         count = 0
-    conditions = []
-    count = 0
-    setCount = 0
-
-    # for o in range(6):
-    #     for m in range(6):
-    #         for i in range(6):
-    #             for ii in range(10):
-    #                 conditions.append(
-    #                     [(o + 5) / 10000, (m + 5) / 10000, (i + 5) / 10000, count, setCount])
-    #                 count += 1
-    #             setCount += 1
-    # # print(conditions)
-    for o in range(1000):
-        conditions.append([0, 0, (o + 5) / 10000, count, setCount])
-        count += 1
-    setCount += 1
-    print(conditions)
-    # for o in range(10):
-    #     for m in range(10):
-    #         for i in range(10):
-    #             if o < m:
-    #                 conditions.append([(o + 1) * 10, (m + 1) * 10, (i + 1)/100])
-    #
-    # for i in range(100):
-    # conditions = [[40, 60, 0.02]]
-    for i in conditions:
-        process_condition(i)
-    # with Pool() as pool:
-    #     pool.map(process_condition, conditions)
-    # a = SMAFollowTrend("SMAFollowTrend", [40, 60, 0.02])
-    # while True:
-    #     if datetime.now().minute == 0:
-    #         a.tick()
-    #         time.sleep(5)
-    # functions.marketOrder(500, "", "primary", 0, 0.0001, 0)
-
-
+    m30 = prevDirection('M30', 'M30')
+    h1 = prevDirection('H1', 'H1')
+    h4 = prevDirection('H4', 'H4')
+    d = prevDirection('D', 'D')
+    while True:
+        if functions.time("primary").minute == 00 or functions.time("primary").minute == 30:
+            m30.tick()
+            h1.tick()
+            h4.tick()
+            d.tick()
+            time.sleep(10)
 
 
 if __name__ == "__main__":
-    # main()
-    functions.scrapper(100000, "EUR_USD", "H1")
+    main()
+    # functions.scrapper(100000, "EUR_USD", "H1")
