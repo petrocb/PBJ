@@ -84,17 +84,17 @@
 #
 
 
-import os
-import shutil
-import time
-from datetime import datetime
-from summary import summary
-import functions
-import json
-from multiprocessing import Pool, current_process
-from oandaAndBacktest.strats.randomDirection import randomDirection
-from oandaAndBacktest.strats.SMAFollowTrend import SMAFollowTrend
-from oandaAndBacktest.strats.ttytDirection import ttytDirection
+# import os
+# import shutil
+# import time
+# from datetime import datetime
+# from summary import summary
+# import functions
+# import json
+# from multiprocessing import Pool, current_process
+# from oandaAndBacktest.strats.randomDirection import randomDirection
+# from oandaAndBacktest.strats.SMAFollowTrend import SMAFollowTrend
+# from oandaAndBacktest.strats.ttytDirection import ttytDirection
 
 # def process_condition(condition):
 #     print(condition)
@@ -165,6 +165,9 @@ from oandaAndBacktest.strats.ttytDirection import ttytDirection
 #     # functions.marketOrder(500, "", "primary", 0, 0.0001, 0)
 #
 from oandaAndBacktest.strats.prevDirection import prevDirection
+import datetime
+import functions
+import time
 def main():
     m30 = prevDirection('M30', 'M30')
     h1 = prevDirection('H1', 'H1')
@@ -176,7 +179,7 @@ def main():
             h1.tick()
             h4.tick()
             d.tick()
-            time.sleep(10)
+        time.sleep(10)
 
 
 if __name__ == "__main__":
