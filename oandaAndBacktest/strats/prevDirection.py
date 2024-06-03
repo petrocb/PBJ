@@ -3,7 +3,7 @@ class prevDirection:
     def __init__(self, account, timeFrame):
         self.account = account
         self.timeFrame = timeFrame
-        self.data = functions.startPastPricesList(1, "EUR_USD", self.timeFrame, self.account)
+        self.data = functions.startPastPricesList(2, "EUR_USD", self.timeFrame, self.account)
         if functions.getPositions(self.account)['positions']:
             self.TradeMade = True
         else:
@@ -12,11 +12,12 @@ class prevDirection:
     def tick(self):
         if self.account == "test":
             functions.update()
-        self.data = functions.updatePastPrices2(self.data, 1, "EUR_USD", self.timeFrame, self.account)
+        self.data = functions.updatePastPrices2(self.data, 2, "EUR_USD", self.timeFrame, self.account)
         position = functions.getPositions(self.account)['positions']
         time = False
         if position:
             position = float(position[0]['long']['units']) + float(position[0]['short']['units'])
+            self.TradeMade = True
         else:
             position = 0
             self.TradeMade = False
@@ -32,7 +33,6 @@ class prevDirection:
         elif self.timeFrame == "D":
             if functions.time(self.account).hour == 00:
                 time = True
-
         price = round((float(functions.getAsk(self.account)) + float(functions.getBid(self.account))) / 2, 5)
         if time and position == 0:
             if price < self.data[0][3]:

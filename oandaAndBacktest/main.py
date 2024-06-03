@@ -140,7 +140,7 @@ from oandaAndBacktest.strats.ttytDirection import ttytDirection
 #     #                 count += 1
 #     #             setCount += 1
 #     # # print(conditions)
-#     for o in range(1000):
+#     for o in range(1000k):
 #         conditions.append([0, 0, (o + 5) / 10000, count, setCount])
 #         count += 1
 #     setCount += 1
