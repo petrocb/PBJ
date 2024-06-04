@@ -22,8 +22,8 @@ def getCred(account):
     if account == 'primary':
         return ["https://api-fxpractice.oanda.com", "5abbcca9a59cc0176dda7408fa04fc4a-472c98c8a92f68c565a783881ac26ae3",
                 "101-004-25985927-001"]
-    elif account == 'SMAFollowTrendSD':
-        return ["https://api-fxpractice.oanda.com", "2a35930fb4d1eaf4b032d8822367d6ab-2563dd26343f638eb8366e58a0e8718c",
+    elif account == 'M15':
+        return ["https://api-fxpractice.oanda.com", "5abbcca9a59cc0176dda7408fa04fc4a-472c98c8a92f68c565a783881ac26ae3",
                 "101-004-25985927-005"]
     elif account == 'followTrend':
         return ["https://api-fxpractice.oanda.com", "2a35930fb4d1eaf4b032d8822367d6ab-2563dd26343f638eb8366e58a0e8718c",
