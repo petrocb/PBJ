@@ -165,23 +165,20 @@
 #     # functions.marketOrder(500, "", "primary", 0, 0.0001, 0)
 #
 from oandaAndBacktest.strats.prevDirection import prevDirection
+from oandaAndBacktest.strats.heikienAshi1bar import heikienAshi1bar
 import datetime
 import functions
 import time
 def main():
-    m30 = prevDirection('M30', 'M30')
-    h1 = prevDirection('H1', 'H1')
-    h4 = prevDirection('H4', 'H4')
-    d = prevDirection('D', 'D')
+
+    a = heikienAshi1bar("primary", "M1")
     while True:
-        if functions.time("primary").minute == 00 or functions.time("primary").minute == 30:
-            m30.tick()
-            h1.tick()
-            h4.tick()
-            d.tick()
-        time.sleep(10)
+        a.tick()
+        time.sleep(1)
 
 
 if __name__ == "__main__":
     main()
-    # functions.scrapper(100000, "EUR_USD", "H1")
+
+
+

@@ -167,7 +167,7 @@ def startPastPricesList(count, instrument, timeFrame, account):
     list = prices['Close'].to_list()
     count = 0
     for i in list:
-        list[count] = [datetime.datetime.fromisoformat(prices['Date'][count]), prices['High'][count], prices['Low'][count], float(i)]
+        list[count] = [oanda2pythonTime(prices['Date'][count]), prices['Open'][count],prices['High'][count], prices['Low'][count], prices['Close'][count]]
         count += 1
     return list
 
@@ -191,7 +191,7 @@ def updatePastPrices(data, length, instrument, timeFrame, account):
         list = prices['Close'].to_list()
         count = 0
         for i in list:
-            list[count] = [datetime.datetime.fromisoformat(prices['Date'][count]), prices['High'][count], prices['Low'][count], float(i)]
+            list[count] = [datetime.datetime.fromisoformat(prices['Date'][count]), prices['Open'][count],prices['High'][count], prices['Low'][count], prices['Close'][count]]
             data.append(list[count])
             count += 1
         if len(data) > length:
@@ -219,14 +219,13 @@ def updatePastPrices2(data, length, instrument, timeFrame, account):
         list = prices['Close'].to_list()
         count = 0
         for i in list:
-            list[count] = [datetime.datetime.fromisoformat(prices['Date'][count]), float(i)]
+            list[count] = [datetime.datetime.fromisoformat(prices['Date'][count]), prices['Open'][count],prices['High'][count], prices['Low'][count], prices['Close'][count]]
             data.append(list[count])
             count += 1
         if len(data) > length:
             data.pop(0)
     else:
-        if data[-1][0] < (datetime.datetime.utcnow() - datetime.timedelta(minutes=30)).replace(
-                tzinfo=datetime.timezone.utc):
+        if data[-1][0] < datetime.datetime.utcnow():
             x = requests.get(
                 f"{getCred(account)[0]}/v3/accounts/{getCred(account)[2]}/instruments/{instrument}/candles",
                 headers={'Authorization': f'Bearer {getCred(account)[1]}'},
@@ -243,7 +242,7 @@ def updatePastPrices2(data, length, instrument, timeFrame, account):
             list = prices['Close'].to_list()
             count = 0
             for i in list:
-                list[count] = [datetime.datetime.fromisoformat(prices['Date'][count]), prices['High'][count], prices['Low'][count], float(i)]
+                list[count] = [oanda2pythonTime(prices['Date'][count]), prices['Open'][count], prices['High'][count], prices['Low'][count], prices['Close'][count]]
                 data.append(list[count])
                 count += 1
             if len(data) > length:
@@ -254,6 +253,8 @@ def updatePastPrices2(data, length, instrument, timeFrame, account):
     #     # print("failed")
     #     pass
     return data
+
+
 
 def marketOrder(units, cid, account, sld, tpd, tsld):
     data = {
