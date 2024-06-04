@@ -18,7 +18,7 @@ class prevDirection:
             position = 0
 
         tradingAllowed = True
-        for i in functions.getTransactionsSinceDate("primary", datetime.date.today())['transactions']:
+        for i in functions.getTransactionsSinceDate(self.account, datetime.date.today())['transactions']:
             if functions.oanda2pythonTime(i['time']) > datetime.datetime.utcnow() - datetime.timedelta(minutes=5):
                 print(i)
                 try:
