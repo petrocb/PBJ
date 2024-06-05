@@ -188,9 +188,7 @@ def main():
 
 
 if __name__ == "__main__":
-    # main()
-    simulated_time = datetime.datetime(2024, 6, 5, 0, 0, 0)
-    print(simulated_time.minute)
-    print(0 == 00)
+    main()
+
 
 
