@@ -1,5 +1,6 @@
 import datetime
 from .. import functions
+import csv
 class heikienAshi1bar:
     def __init__(self, account, timeFrame):
         self.account = account
@@ -16,17 +17,17 @@ class heikienAshi1bar:
         else:
             position = 0
 
-        open = round(0.5 * (float(self.data[0][1]) + float(self.data[0][4])),5)
+        openPrice = round(0.5 * (float(self.data[0][1]) + float(self.data[0][4])),5)
         close = round(0.25 * (float(self.data[1][1]) +
                         float(self.data[1][2]) +
                         float(self.data[1][3]) +
                         float(self.data[1][4])), 5)
 
-        if close > open:
+        if close > openPrice:
             direction = 500
             sl = self.data[1][2]
 
-        elif close < open:
+        elif close < openPrice:
             direction = -500
             sl = self.data[1][2]
         else:
@@ -36,13 +37,24 @@ class heikienAshi1bar:
         if position != direction:
             functions.marketOrder(direction, self.account, self.account, 0, 0, 0)
 
-
         print("\ntime:", functions.time("primary"),
               "\ntimeFrame:", self.timeFrame,
               "\nposition:", position,
               "\ndirection:", direction,
               "\nopen:", open,
               "\nclose:", close,
-              "\ndiff:", close - open
+              "\ndiff:", close - openPrice
               )
 
+        with open('historyData/'+self.account+'.csv', 'a', newline='') as csvfile:
+            csvWriter = csv.writer(csvfile)
+            csvWriter.writerow([datetime.datetime.utcnow(),
+            "time:", functions.time("primary"),
+              "timeFrame:", self.timeFrame,
+              "position:", position,
+              "direction:", direction,
+              "open:", open,
+              "close:", close,
+              "diff:", close - openPrice
+              ])
+        csvfile.close()

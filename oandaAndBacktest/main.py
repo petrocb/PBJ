@@ -171,20 +171,20 @@ import functions
 import time
 def main():
 
-    m15 = heikienAshi1bar("M15", "M15")
-    m30 = heikienAshi1bar("M30", "M30")
-    h1 = heikienAshi1bar("H1", "H1")
-    d = heikienAshi1bar("D", "D")
+    m15 = heikienAshi1bar("primary", "M1")
+    # m30 = heikienAshi1bar("M30", "M30")
+    # h1 = heikienAshi1bar("H1", "H1")
+    # d = heikienAshi1bar("D", "D")
     while True:
-        if functions.time("primary").minute == 00 or functions.time("primary").minute == 15 or functions.time("primary").minute == 30:
+        # if functions.time("primary").minute == 00 or functions.time("primary").minute == 15 or functions.time("primary").minute == 30:
             m15.tick()
-        if functions.time("primary").minute == 00 or functions.time("primary").minute == 30:
-            m30.tick()
-        if functions.time("primary").hour == 00:
-            h1.tick()
-        if functions.time("primary").hour == 00 and functions.time("primary").minute == 00:
-            d.tick()
-        time.sleep(10)
+        # if functions.time("primary").minute == 00 or functions.time("primary").minute == 30:
+        #     m30.tick()
+        # if functions.time("primary").hour == 00:
+        #     h1.tick()
+        # if functions.time("primary").hour == 00 and functions.time("primary").minute == 00:
+        #     d.tick()
+            time.sleep(10)
 
 
 if __name__ == "__main__":
