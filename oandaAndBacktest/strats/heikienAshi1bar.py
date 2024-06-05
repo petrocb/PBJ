@@ -53,7 +53,7 @@ class heikienAshi1bar:
               "timeFrame:", self.timeFrame,
               "position:", position,
               "direction:", direction,
-              "open:", open,
+              "open:", openPrice,
               "close:", close,
               "diff:", close - openPrice
               ])
