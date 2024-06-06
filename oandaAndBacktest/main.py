@@ -176,13 +176,13 @@ def main():
     h1 = heikienAshi1bar("H1", "H1")
     d = heikienAshi1bar("D", "D")
     while True:
-        if functions.time("primary").minute == 0 or functions.time("primary").minute == 15 or functions.time("primary").minute == 30:
+        if functions.time("primary").minute == 1 or functions.time("primary").minute == 16 or functions.time("primary").minute == 31:
             m15.tick()
-        if functions.time("primary").minute == 0 or functions.time("primary").minute == 30:
+        if functions.time("primary").minute == 2 or functions.time("primary").minute == 31:
             m30.tick()
-        if functions.time("primary").hour == 0:
+        if functions.time("primary").minute == 1:
             h1.tick()
-        if functions.time("primary").hour == 0 and functions.time("primary").minute == 0:
+        if functions.time("primary").hour == 0 and functions.time("primary").minute == 1:
             d.tick()
         time.sleep(10)
 
