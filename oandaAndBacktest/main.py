@@ -166,6 +166,9 @@
 #
 from oandaAndBacktest.strats.prevDirection import prevDirection
 from oandaAndBacktest.strats.heikienAshi1bar import heikienAshi1bar
+from oandaAndBacktest.strats.heikienAshi1bar import heikinAshi
+from oandaAndBacktest.strats.heikienAshi1bar import heikinAshi2
+
 import datetime
 import functions
 import time
@@ -189,6 +192,4 @@ def main():
 
 if __name__ == "__main__":
     main()
-
-
 

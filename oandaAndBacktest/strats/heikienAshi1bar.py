@@ -17,12 +17,9 @@ class heikienAshi1bar:
         else:
             position = 0
 
-        openPrice = round(0.5 * (float(self.data[0][1]) + float(self.data[0][4])),5)
-        close = round(0.25 * (float(self.data[1][1]) +
-                        float(self.data[1][2]) +
-                        float(self.data[1][3]) +
-                        float(self.data[1][4])), 5)
-
+        list = heikinAshi2(self.data)
+        openPrice = list[0]
+        close = list[1]
         if close > openPrice:
             direction = 500
             sl = self.data[1][2]
@@ -58,3 +55,31 @@ class heikienAshi1bar:
               "diff:", close - openPrice
               ])
         csvfile.close()
+
+def heikinAshi(data):
+    open = round(0.5 * (float(data[0][1]) + float(data[0][4])), 5)
+    close = round(0.25 * (float(data[1][1]) +
+                          float(data[1][2]) +
+                          float(data[1][3]) +
+                          float(data[1][4])), 5)
+    return [open, close]
+
+def heikinAshi2(data):
+    data = data[:-1]
+    dict = []
+    for i in data:
+        dict.append({'date': i[0], 'open': float(i[1]), 'high': float(i[2]), 'low': float(i[3]), 'close': float(i[4])})
+    data = dict
+    heikien = []
+    for i in range(len(data)):
+        if i == 0:
+            heikien.append({'open': round(data[i]['open'], 5),
+                            'high': round(data[i]['high'], 5),
+                            'low': round(data[i]['low'], 5),
+                            'close': round(data[i]['close'], 5)})
+        else:
+            heikien.append({'open': round(0.5 * (heikien[i - 1]['open'] + heikien[i - 1]['close']), 5),
+                            'high': round(data[i]['high'], 5),
+                            'low': round(data[i]['low'], 5),
+                            'close': round(0.25 * (data[i]['open'] + data[i]['high'] + data[i]['low'] + data[i]['close']), 5)})
+    return [heikien[-1]['open'], heikien[-1]['close']]
