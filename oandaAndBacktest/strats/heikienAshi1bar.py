@@ -40,7 +40,7 @@ class heikienAshi1bar:
               "\ntimeFrame:", self.timeFrame,
               "\nposition:", position,
               "\ndirection:", direction,
-              "\nopen:", open,
+              "\nopen:", openPrice,
               "\nclose:", close,
               "\ndiff:", close - openPrice
               )
