@@ -181,7 +181,7 @@ def main():
     while True:
         if functions.time("primary").minute == 1 or functions.time("primary").minute == 16 or functions.time("primary").minute == 31:
             m15.tick()
-        if functions.time("primary").minute == 2 or functions.time("primary").minute == 31:
+        if functions.time("primary").minute == 1 or functions.time("primary").minute == 31:
             m30.tick()
         if functions.time("primary").minute == 1:
             h1.tick()
