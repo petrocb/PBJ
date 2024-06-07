@@ -267,9 +267,9 @@ def marketOrder(units, cid, account, sld, tpd, tsld):
     if sld != 0:
         data['order']['stopLossOnFill'] = {"price": str(sld)}
     if tpd != 0:
-        data['order']['takeProfitOnFill'] = {"distance": str(tpd)}
+        data['order']['takeProfitOnFill'] = {"price": str(tpd)}
     if tsld != 0:
-        data['order']['trailingStopLossOnFill'] = {"distance": str(tsld)}
+        data['order']['trailingStopLossOnFill'] = {"price": str(tsld)}
 
     if account == "test":
         id = dh.marketOrder(data)

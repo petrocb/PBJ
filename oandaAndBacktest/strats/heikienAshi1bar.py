@@ -18,21 +18,23 @@ class heikienAshi1bar:
             position = 0
 
         list = heikinAshi2(self.data)
-        openPrice = list[0]
-        close = list[1]
+        openPrice = list['open']
+        close = list['close']
+        high = list['high']
+        low = list['low']
         if close > openPrice:
             direction = 500
-            sl = self.data[1][2]
-
+            tsl = low
         elif close < openPrice:
             direction = -500
-            sl = self.data[1][2]
+            tsl = high
         else:
             direction = 0
-            sl = 0
+            tsl = 0
+
 
         if position != direction:
-            functions.marketOrder(direction, self.account, self.account, 0, 0, 0)
+            functions.marketOrder(direction, self.account, self.account, 0, 0, tsl)
 
         print("\ntime:", functions.time("primary"),
               "\ntimeFrame:", self.timeFrame,
@@ -82,4 +84,4 @@ def heikinAshi2(data):
                             'high': round(data[i]['high'], 5),
                             'low': round(data[i]['low'], 5),
                             'close': round(0.25 * (data[i]['open'] + data[i]['high'] + data[i]['low'] + data[i]['close']), 5)})
-    return [heikien[-1]['open'], heikien[-1]['close']]
+    return heikien[-1]
