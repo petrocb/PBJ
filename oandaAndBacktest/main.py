@@ -176,7 +176,7 @@ import time
 
 
 def main():
-    x = multiResAshi("primary")
+    x = multiResAshi("multiResAshi")
     while True:
         if functions.time("primary").minute == 1 or functions.time("primary").minute == 16 or functions.time("primary").minute == 31:
             x.tick()
