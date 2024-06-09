@@ -52,6 +52,10 @@ def getCred(account):
     elif account == 'D':
         return ["https://api-fxpractice.oanda.com", "5abbcca9a59cc0176dda7408fa04fc4a-472c98c8a92f68c565a783881ac26ae3",
                 "101-004-25985927-008"]
+    elif account == 'multiResAshi':
+        return ["https://api-fxpractice.oanda.com", "64c97c2a9acdb76bbf56501b05e3c742-2bf467c204742f14f653068a4658538d",
+                "101-004-25985927-012"]
+
 
     # elif account == 'backTest':
     #     return ["http://127.0.0.1:8000/api/", "1", "1"]
