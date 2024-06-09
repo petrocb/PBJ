@@ -168,25 +168,30 @@ from oandaAndBacktest.strats.prevDirection import prevDirection
 from oandaAndBacktest.strats.heikienAshi1bar import heikienAshi1bar
 from oandaAndBacktest.strats.heikienAshi1bar import heikinAshi
 from oandaAndBacktest.strats.heikienAshi1bar import heikinAshi2
+from oandaAndBacktest.strats.multiResAshi import multiResAshi
 
 import datetime
 import functions
 import time
 def main():
 
-    m15 = heikienAshi1bar("M15", "M15")
-    m30 = heikienAshi1bar("M30", "M30")
-    h1 = heikienAshi1bar("H1", "H1")
-    d = heikienAshi1bar("D", "D")
+    # m15 = heikienAshi1bar("M15", "M15")
+    # m30 = heikienAshi1bar("M30", "M30")
+    # h1 = heikienAshi1bar("H1", "H1")
+    # d = heikienAshi1bar("D", "D")
+    x = multiResAshi("primary")
     while True:
-        if functions.time("primary").minute == 1 or functions.time("primary").minute == 16 or functions.time("primary").minute == 31:
-            m15.tick()
-        if functions.time("primary").minute == 1 or functions.time("primary").minute == 31:
-            m30.tick()
-        if functions.time("primary").minute == 1:
-            h1.tick()
-        if functions.time("primary").hour == 0 and functions.time("primary").minute == 1:
-            d.tick()
+        # if functions.time("primary").minute == 1 or functions.time("primary").minute == 16 or functions.time("primary").minute == 31:
+        #     m15.tick()
+        # if functions.time("primary").minute == 1 or functions.time("primary").minute == 31:
+        #     m30.tick()
+        # if functions.time("primary").minute == 1:
+        #     h1.tick()
+        # if functions.time("primary").hour == 0 and functions.time("primary").minute == 1:
+        #     d.tick()
+        # time.sleep(10)
+        # if functions.time("primary").minute == 1 or functions.time("primary").minute == 16 or functions.time("primary").minute == 31:
+        x.tick()
         time.sleep(10)
 
 
