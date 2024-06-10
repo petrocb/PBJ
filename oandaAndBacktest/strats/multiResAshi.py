@@ -38,14 +38,16 @@ class multiResAshi:
                   '1min': heikinAshi2(data['1min']),
                   }
         opinion = 0
-
+        op = []
         for i in prices:
             if prices[i]['open'] < prices[i]['close']:
                 opinion += 1
                 print(i, "up")
+                op.append([i, "up"])
             elif prices[i]['open'] > prices[i]['close']:
                 opinion -= 1
                 print(i, "down")
+                op.append([i, "down"])
         if position == 0:
             if opinion > 1:
                 direction = 5000
@@ -77,7 +79,8 @@ class multiResAshi:
                                 "\ntime:", functions.time("primary"),
                                 "\nposition:", position,
                                 "\ndirection:", direction,
-                                "\nopinion:", opinion])
+                                "\nopinion:", opinion,
+                               "\n", op])
         csvfile.close()
 
 
