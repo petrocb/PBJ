@@ -38,6 +38,7 @@ class multiResAshi:
                   '1min': heikinAshi2(data['1min']),
                   }
         opinion = 0
+
         for i in prices:
             if prices[i]['open'] < prices[i]['close']:
                 opinion += 1
@@ -52,16 +53,18 @@ class multiResAshi:
                 direction = -5000
             else:
                 direction = 0
-        elif (position > 0 > opinion) or (position < 0 < opinion):
+        elif (position > 0 >= opinion) or (position < 0 <= opinion):
             direction = 0
         else:
-            direction = 0
+            direction = position
+
+        if direction == 0:
+            direction = position * -1
 
         if position != direction:
             functions.marketOrder(direction, self.account, self.account, 0, 0, 0)
 
         print("\ntime:", functions.time("primary"),
-              "\ntimeFrame:", self.timeFrame,
               "\nposition:", position,
               "\ndirection:", direction,
               "\nopinion:", opinion
@@ -72,7 +75,6 @@ class multiResAshi:
             csvWriter = csv.writer(csvfile)
             csvWriter.writerow([datetime.datetime.utcnow(),
                                 "\ntime:", functions.time("primary"),
-                                "\ntimeFrame:", self.timeFrame,
                                 "\nposition:", position,
                                 "\ndirection:", direction,
                                 "\nopinion:", opinion])

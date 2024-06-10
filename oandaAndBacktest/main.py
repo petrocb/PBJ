@@ -178,9 +178,9 @@ import time
 def main():
     x = multiResAshi("multiResAshi")
     while True:
-        if functions.time("primary").minute == 1 or functions.time("primary").minute == 16 or functions.time("primary").minute == 31:
-            x.tick()
-        time.sleep(10)
+        #if functions.time("primary").minute == 1 or functions.time("primary").minute == 16 or functions.time("primary").minute == 31:
+        x.tick()
+        time.sleep(60)
 
 
 if __name__ == "__main__":
